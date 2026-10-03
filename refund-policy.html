@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script data-tmly-media-guard="1">(function(){"use strict";
+var T=window.__tmly||(window.__tmly=(function(){
+var o={},n=String(window.name||"");
+if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
+var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
+return o})());
+if(T.presentation!=="preview"){return}
+var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
+var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
+var gestured=false;
+["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
+document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
+function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
+function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
+function harden(el){
+el.autoplay=false;el.removeAttribute("autoplay");
+if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
+if(muted){el.muted=true}
+if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
+var play=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+if(!gestured){announcePaused(this);
+return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false);this.muted=false}
+return play.apply(this,arguments)};
+var acProtos=[];
+function guardAC(n){
+var N=window[n];if(!N||!N.prototype){return}
+if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
+var res=N.prototype.resume;
+if(typeof res==="function"){N.prototype.resume=function(){
+if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false)}
+return res.apply(this,arguments)}}}
+var W=function(o){var c=arguments.length?new N(o):new N();
+if(!gestured){try{c.suspend()}catch(e){}}return c};
+W.prototype=N.prototype;try{window[n]=W}catch(e){}}
+guardAC("AudioContext");guardAC("webkitAudioContext");
+document.addEventListener("play",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
+document.addEventListener("pause",function(e){
+if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
+document.addEventListener("volumechange",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
+function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
+for(var i=0;i<l.length;i++){harden(l[i])}}}
+new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
+for(var j=0;j<a.length;j++){var n=a[j];
+if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
+.observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener("DOMContentLoaded",function(){sweep(document)});
+sweep(document)})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refund Policy — CodeCrafix</title>
+<meta name="description" content="CodeCrafix Refund Policy — eligibility, timelines and the refund process for payments made through Razorpay on codecrafix.shop.">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+</head>
+<body>
+<header id="cf-header"></header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <span class="eyebrow">Legal</span>
+        <h1 class="mt-2" style="font-size:clamp(1.8rem,3.6vw,2.6rem)">Refund Policy</h1>
+        <p class="updated mt-2">Last updated: 2 October 2026 &middot; Applies to all payments processed through Razorpay on codecrafix.shop.</p>
+
+        <p>We want you to be confident when you buy from CodeCrafix. Because our catalogue is digital, the rules differ from physical goods &mdash; this policy explains exactly when a refund is available, how it is processed, and how long it takes.</p>
+
+        <h2>1. General principle</h2>
+        <p>Digital products are delivered instantly and cannot be returned, so purchases are generally <strong>non-refundable</strong>. However, we stand behind what we sell: if something is genuinely wrong on our side, you will be made whole. This policy is written to comply with the requirements applicable to merchants using the Razorpay payment gateway.</p>
+
+        <h2>2. Refunds we will approve</h2>
+        <p>You are eligible for a <strong>full refund</strong> where:</p>
+        <ul>
+          <li><strong>Duplicate or double charge</strong> &mdash; the same order was charged more than once.</li>
+          <li><strong>Erroneous amount</strong> &mdash; you were charged an amount different from the price shown at checkout.</li>
+          <li><strong>Failed delivery</strong> &mdash; payment succeeded but the Product was not delivered within <strong>24 hours</strong>, despite us being unable to resolve it after you contact us.</li>
+          <li><strong>Not as described / materially defective</strong> &mdash; the Product does not match its description, is corrupt, or does not function as documented, and we cannot fix or replace it within a reasonable time.</li>
+          <li><strong>Service not delivered</strong> &mdash; a custom development or publishing service that was paid for but never started, and which you choose to cancel before work begins.</li>
+        </ul>
+
+        <h2>3. Refunds we cannot approve</h2>
+        <ul>
+          <li>Change of mind after a Product has been downloaded or accessed.</li>
+          <li>The Product works as described but you no longer need it, or lack the skills/tools to use it.</li>
+          <li>Incompatibility caused by your device, tools or platform that was disclosed in the Product requirements.</li>
+          <li>Requests made more than <strong>7 days</strong> after purchase for a defect that could reasonably have been found earlier.</li>
+          <li>Free products (no payment was made).</li>
+          <li>Work already completed and delivered for a service engagement.</li>
+        </ul>
+
+        <h2>4. Refund method and timelines</h2>
+        <ul>
+          <li>Approved refunds are processed to the <strong>original payment method</strong> through Razorpay. We cannot refund to a different card, UPI ID or account.</li>
+          <li>Once approved, we initiate the refund within <strong>2 business days</strong>.</li>
+          <li>Razorpay and your bank then take <strong>5&ndash;7 business days</strong> (sometimes up to 10 for certain banks or card networks) to credit the amount. This banking timeline is outside our control.</li>
+          <li>For UPI and wallet payments, the credit is usually faster than for cards.</li>
+          <li>You will receive a refund reference/ARN from Razorpay or your bank that you can use to track the credit.</li>
+        </ul>
+
+        <h2>5. Failed payments and auto-reversals</h2>
+        <p>If a payment fails but an amount is debited by mistake, banks normally auto-reverse it within 5&ndash;7 business days. If it is not reversed automatically, contact us with your transaction ID and we will coordinate with Razorpay to have it reconciled and refunded.</p>
+
+        <h2>6. Chargebacks</h2>
+        <p>Please contact us before raising a chargeback with your bank &mdash; almost every issue is resolved faster this way. Raising a chargeback without contacting us first may delay resolution. We provide full cooperation with Razorpay and the acquiring bank in any dispute.</p>
+
+        <h2>7. How to request a refund</h2>
+        <ol>
+          <li>Email <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a> or message us on <a href="https://wa.me/916262262913" target="_blank" rel="noopener">WhatsApp</a>.</li>
+          <li>Include your Razorpay transaction/order ID, the purchased product or service, the date of payment, and the reason with any screenshots.</li>
+          <li>We acknowledge within 48 hours and confirm the outcome within <strong>7 business days</strong>.</li>
+        </ol>
+
+        <h2>8. Governing terms</h2>
+        <p>This policy is governed by the laws of India. Any dispute is subject to the exclusive jurisdiction of the courts of Satna, Madhya Pradesh.</p>
+
+        <h2>9. Contact us</h2>
+        <p>CodeCrafix &middot; Satna, Madhya Pradesh, India<br>
+        Email: <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a> &middot; WhatsApp: <a href="https://wa.me/916262262913" target="_blank" rel="noopener">+91 62622 62913</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="cf-footer"></footer>
+
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
+</body>
+</html>

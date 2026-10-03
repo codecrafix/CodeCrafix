@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script data-tmly-media-guard="1">(function(){"use strict";
+var T=window.__tmly||(window.__tmly=(function(){
+var o={},n=String(window.name||"");
+if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
+var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
+return o})());
+if(T.presentation!=="preview"){return}
+var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
+var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
+var gestured=false;
+["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
+document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
+function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
+function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
+function harden(el){
+el.autoplay=false;el.removeAttribute("autoplay");
+if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
+if(muted){el.muted=true}
+if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
+var play=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+if(!gestured){announcePaused(this);
+return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false);this.muted=false}
+return play.apply(this,arguments)};
+var acProtos=[];
+function guardAC(n){
+var N=window[n];if(!N||!N.prototype){return}
+if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
+var res=N.prototype.resume;
+if(typeof res==="function"){N.prototype.resume=function(){
+if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false)}
+return res.apply(this,arguments)}}}
+var W=function(o){var c=arguments.length?new N(o):new N();
+if(!gestured){try{c.suspend()}catch(e){}}return c};
+W.prototype=N.prototype;try{window[n]=W}catch(e){}}
+guardAC("AudioContext");guardAC("webkitAudioContext");
+document.addEventListener("play",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
+document.addEventListener("pause",function(e){
+if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
+document.addEventListener("volumechange",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
+function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
+for(var i=0;i<l.length;i++){harden(l[i])}}}
+new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
+for(var j=0;j<a.length;j++){var n=a[j];
+if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
+.observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener("DOMContentLoaded",function(){sweep(document)});
+sweep(document)})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorials &amp; Blog — Learn App &amp; Game Development | CodeCrafix</title>
+<meta name="description" content="Free tutorials on Android app development, Unity game development, Play Store publishing and AdMob monetisation from the CodeCrafix YouTube channel.">
+<meta property="og:title" content="Tutorials &amp; Blog — CodeCrafix">
+<meta property="og:description" content="Learn app and game development with free CodeCrafix tutorials.">
+<meta property="og:image" content="assets/img/og-cover.png">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+</head>
+<body>
+<header id="cf-header"></header>
+
+<main>
+  <section class="section" style="padding-bottom:26px">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">&#127909; Tutorials &amp; Blog</span>
+        <h1 class="mt-2" style="font-size:clamp(1.9rem,4vw,2.9rem)">Learn to <span class="grad-text">build &amp; ship</span></h1>
+        <p>Practical, no-fluff videos on app development, game development, publishing and monetisation — straight from the CodeCrafix studio.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="grid grid-3" id="cf-videos"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card card-flat channel-cta" style="padding:34px">
+        <div>
+          <span class="eyebrow">&#9654; YouTube Channel</span>
+          <h2 class="mt-2" style="font-size:1.6rem">New tutorials every week</h2>
+          <p class="mt-1">Subscribe and turn on notifications so you catch the next build-along when it drops.</p>
+        </div>
+        <a class="btn btn-primary" href="https://youtube.com/@codecrafix" target="_blank" rel="noopener">Subscribe on YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:linear-gradient(180deg,transparent,rgba(16,185,129,.035),transparent)">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">From the Blog</span><h2 class="mt-2">Notes, guides &amp; lessons learned</h2></div>
+      <div class="grid grid-3" id="cf-blog"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card card-flat form-card" style="padding:36px;text-align:center">
+        <h3>Get new tutorials in your inbox</h3>
+        <p class="mt-1">One email a month — new videos, free resources and store discounts. No spam, ever.</p>
+        <form id="cf-newsletter" class="row wrap" style="justify-content:center;margin-top:22px;gap:10px">
+          <input class="input" type="email" placeholder="you@example.com" aria-label="Email address" style="max-width:300px">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="cf-footer"></footer>
+
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
+</body>
+</html>

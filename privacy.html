@@ -53,391 +53,115 @@ if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
 document.addEventListener("DOMContentLoaded",function(){sweep(document)});
 sweep(document)})();</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy — Codecrafix</title>
-<meta name="description" content="How Codecrafix, a technology studio based in Satna, Madhya Pradesh, India, collects, uses, stores and protects personal information across its website, mobile applications and games.">
-<meta name="theme-color" content="#0a0f1d">
-<meta name="robots" content="index,follow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0f1d'/%3E%3Cpath d='M13 9l-5 7 5 7M19 9l5 7-5 7' stroke='%2322d3ee' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — CodeCrafix</title>
+<meta name="description" content="How CodeCrafix collects, uses and protects your personal information across codecrafix.shop, our payment gateway (Razorpay) and our products.">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0a0f1d; --bg-2:#0d1424; --panel:#0f1729; --panel-2:#111c33;
-    --line:rgba(96,165,250,.14); --line-strong:rgba(56,189,248,.32);
-    --blue:#2f81f7; --cyan:#22d3ee; --sky:#38bdf8;
-    --text:#eef4ff; --muted:#93a4c3; --muted-2:#6f819f;
-    --radius:18px; --maxw:1120px; --ease:cubic-bezier(.22,.61,.36,1);
-  }
-  *,*::before,*::after{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;background:var(--bg);color:var(--text);
-    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased;overflow-x:hidden;
-  }
-  img{max-width:100%;display:block}
-  a{color:var(--cyan);text-decoration:none}
-  a:hover{text-decoration:underline}
-  h1,h2,h3,.brand-name{font-family:'Poppins','Inter',system-ui,sans-serif;line-height:1.2;letter-spacing:-.02em;margin:0}
-  p{margin:0}
-  ul{margin:0;padding:0;list-style:none}
-  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--cyan);color:#04121c;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600}
-  .skip-link:focus{left:0}
-  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  .content-z{position:relative;z-index:2}
-
-  /* header */
-  .site-header{position:sticky;top:0;z-index:100;background:rgba(10,15,29,.82);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line)}
-  .header-inner{display:flex;align-items:center;justify-content:space-between;height:74px;gap:16px}
-  .brand{display:flex;align-items:center;gap:11px;color:var(--text)}
-  .brand:hover{text-decoration:none}
-  .brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:linear-gradient(150deg,rgba(47,129,247,.28),rgba(34,211,238,.16));border:1px solid rgba(56,189,248,.34);box-shadow:0 0 22px -6px rgba(34,211,238,.6),inset 0 0 14px -6px rgba(34,211,238,.5)}
-  .brand-mark svg{width:21px;height:21px}
-  .brand-name{font-size:19.5px;font-weight:700;letter-spacing:-.03em}
-  .brand-name span{color:var(--cyan)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:14.5px;font-weight:600;padding:11px 20px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),border-color .25s var(--ease);white-space:nowrap}
-  .btn:hover{text-decoration:none}
-  .btn-ghost{color:var(--text);background:rgba(255,255,255,.03);border-color:rgba(148,180,225,.22)}
-  .btn-ghost:hover{transform:translateY(-2px);border-color:var(--line-strong);background:rgba(56,189,248,.08)}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:12px}
-
-  /* hero */
-  .legal-hero{position:relative;padding:66px 0 42px;overflow:hidden}
-  .glow-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-  .orb{position:absolute;border-radius:50%;filter:blur(90px)}
-  .orb-a{width:480px;height:480px;background:rgba(47,129,247,.30);top:-220px;right:-140px;opacity:.6}
-  .orb-b{width:360px;height:360px;background:rgba(34,211,238,.18);bottom:-200px;left:-120px;opacity:.5}
-  .grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.055) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%)}
-  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);background:linear-gradient(180deg,rgba(34,211,238,.10),rgba(47,129,247,.06));border:1px solid rgba(34,211,238,.24);padding:7px 14px;border-radius:999px}
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-  .legal-hero h1{font-size:clamp(32px,4.6vw,50px);font-weight:800;margin:20px 0 16px}
-  .grad{background:linear-gradient(96deg,var(--sky) 0%,var(--cyan) 55%,#7dd3fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{color:var(--muted);font-size:17px;max-width:760px}
-  .meta-row{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:28px;font-size:14px;color:var(--muted)}
-  .meta-row span{display:inline-flex;align-items:center;gap:8px}
-  .meta-row svg{width:15px;height:15px;color:var(--cyan);flex:none}
-
-  /* body */
-  .legal-body{padding:14px 0 90px}
-  .legal-grid{display:grid;grid-template-columns:250px 1fr;gap:48px;align-items:start}
-  .toc{position:sticky;top:98px;border:1px solid var(--line);border-radius:16px;padding:22px 20px;background:linear-gradient(180deg,rgba(15,23,41,.9),rgba(13,20,36,.6))}
-  .toc h2{font-size:11.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);font-family:'Inter',sans-serif;margin-bottom:14px}
-  .toc ol{margin:0;padding:0;list-style:none;display:grid;gap:9px;counter-reset:t}
-  .toc li{counter-increment:t}
-  .toc a{font-size:13.6px;color:var(--muted);display:flex;gap:8px;line-height:1.45;transition:color .2s var(--ease)}
-  .toc a::before{content:counter(t) ".";color:var(--muted-2);font-weight:600;flex:none}
-  .toc a:hover{color:var(--cyan);text-decoration:none}
-
-  .legal-doc{max-width:760px}
-  .legal-doc section{margin-bottom:42px;scroll-margin-top:98px}
-  .legal-doc h2{font-size:21px;font-weight:700;margin-bottom:14px;display:flex;gap:12px;align-items:baseline}
-  .legal-doc h2 .num{color:var(--cyan);font-size:15px;font-weight:700;font-family:'Inter',sans-serif;flex:none;letter-spacing:0}
-  .legal-doc h3{font-size:16px;font-weight:600;margin:24px 0 10px;color:var(--text)}
-  .legal-doc p{color:var(--muted);margin-bottom:14px}
-  .legal-doc p:last-child{margin-bottom:0}
-  .legal-doc strong{color:var(--text);font-weight:600}
-  .legal-doc ul{display:grid;gap:11px;margin:0 0 16px}
-  .legal-doc ul li{position:relative;padding-left:24px;color:var(--muted)}
-  .legal-doc ul li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:2px;background:linear-gradient(120deg,var(--sky),var(--cyan));box-shadow:0 0 10px -1px rgba(34,211,238,.8)}
-  .callout{border:1px solid var(--line-strong);border-radius:15px;padding:20px 22px;background:linear-gradient(160deg,rgba(47,129,247,.13),rgba(13,20,36,.7));margin:22px 0}
-  .callout p{margin:0;color:var(--text)}
-  .callout a{font-weight:600}
-
-  /* footer */
-  .site-footer{border-top:1px solid var(--line);padding:48px 0 30px;background:linear-gradient(180deg,rgba(13,20,36,.4),rgba(10,15,29,1))}
-  .foot-inner{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:flex-start}
-  .foot-brand p{color:var(--muted);font-size:14.6px;margin-top:16px;max-width:320px}
-  .tagline{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;margin-top:14px;background:linear-gradient(96deg,var(--sky),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .foot-links{display:flex;flex-wrap:wrap;gap:10px 24px;font-size:14.4px;max-width:420px}
-  .foot-links a{color:var(--muted)}
-  .foot-links a:hover{color:var(--cyan)}
-  .foot-bottom{margin-top:38px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:13.6px;color:var(--muted-2)}
-
-  @media (max-width:900px){
-    .legal-grid{grid-template-columns:1fr;gap:30px}
-    .toc{position:static}
-  }
-  @media (max-width:560px){
-    .header-inner{height:66px}
-    .legal-hero{padding:46px 0 34px}
-    .btn{padding:10px 15px;font-size:13.6px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<header id="cf-header"></header>
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="index.html" aria-label="Codecrafix — home">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGradP)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <defs><linearGradient id="brandGradP" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
-          <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-        </svg>
-      </span>
-      <span class="brand-name">Code<span>crafix</span></span>
-    </a>
-    <a class="btn btn-ghost" href="index.html">&larr; Back to Home</a>
-  </div>
-</header>
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <span class="eyebrow">Legal</span>
+        <h1 class="mt-2" style="font-size:clamp(1.8rem,3.6vw,2.6rem)">Privacy Policy</h1>
+        <p class="updated mt-2">Last updated: 2 October 2026 &middot; Applies to codecrafix.shop and all CodeCrafix products and services.</p>
 
-<main id="main">
-  <section class="legal-hero" aria-labelledby="pageTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="grid-lines"></div>
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-    </div>
-    <div class="wrap content-z">
-      <span class="eyebrow"><span class="dot"></span>Legal</span>
-      <h1 id="pageTitle">Privacy <span class="grad">Policy</span></h1>
-      <p class="lede">This Privacy Policy explains how Codecrafix collects, uses, stores, shares and protects information when you visit our website, use our mobile applications and games, or contact us directly.</p>
-      <div class="meta-row">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
-          Effective date: 28 September 2026
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2"/></svg>
-          Last updated: 28 September 2026
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.6 7l8.4 6 8.4-6"/></svg>
-          <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a>
-        </span>
+        <p>CodeCrafix (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an independent software studio operated by Vivek Barman, based in Satna, Madhya Pradesh, India. This policy explains what information we collect, why we collect it, how payments are handled, and the choices you have. It is written to meet the requirements applicable to merchants using the Razorpay payment gateway.</p>
+
+        <h2>1. Information we collect</h2>
+        <ul>
+          <li><strong>Contact details</strong> &mdash; your name, email address and (if you provide it) your WhatsApp number, submitted through our inquiry, publishing, newsletter or review forms.</li>
+          <li><strong>Project information</strong> &mdash; descriptions, budgets, package names and build links you send us when requesting custom development or app publishing.</li>
+          <li><strong>Order information</strong> &mdash; the products you order, the amount, the transaction/reference ID returned by our payment gateway, and the contact details used to deliver the product.</li>
+          <li><strong>Review information</strong> &mdash; the display name, optional role, rating and text you submit with a review. Your email address is collected only to contact you about the review and is never shown publicly.</li>
+          <li><strong>Technical data</strong> &mdash; anonymised page views and browser type, used purely to keep the site working and understand what content is useful.</li>
+        </ul>
+        <p>We do <strong>not</strong> collect or store your full card number, card expiry, CVV, UPI PIN, or net-banking credentials on our servers. Those are entered only on our payment gateway&rsquo;s secure checkout (see section 4).</p>
+
+        <h2>2. How we use your information</h2>
+        <ul>
+          <li>To process your order, deliver the digital product and issue a payment receipt.</li>
+          <li>To reply to your inquiry and prepare a quote or proposal.</li>
+          <li>To review, moderate and (where approved) publish customer reviews.</li>
+          <li>To publish or maintain an app you have submitted to us, where you have asked us to do so.</li>
+          <li>To send the newsletter you explicitly opted in to (you can unsubscribe at any time).</li>
+          <li>To meet legal, tax, accounting and app-store compliance obligations.</li>
+        </ul>
+
+        <h2>3. What we never do</h2>
+        <ul>
+          <li>We never sell, rent or trade your personal information.</li>
+          <li>We never share your details with third parties for their own marketing.</li>
+          <li>We never publish a customer&rsquo;s email address alongside their review.</li>
+          <li>We never publish your app under our organisation account without your written consent.</li>
+        </ul>
+
+        <h2>4. Payments and Razorpay</h2>
+        <p>Online payments on codecrafix.shop are processed by our payment gateway partner, <strong>Razorpay Software Private Limited</strong> (&ldquo;Razorpay&rdquo;), a PCI-DSS compliant payment aggregator. When you pay:</p>
+        <ul>
+          <li>Your card / UPI / net-banking details are entered directly on Razorpay&rsquo;s secure, hosted checkout and are handled by Razorpay, not by us.</li>
+          <li>We receive only a payment confirmation, a transaction/reference ID, the amount paid, and limited contact details needed to deliver your product and provide support.</li>
+          <li>Razorpay processes your personal data under its own privacy policy, available at razorpay.com/privacy.</li>
+          <li>We retain transaction records for accounting, tax and dispute-resolution purposes, as required by law.</li>
+        </ul>
+
+        <h2>5. Cookies and local storage</h2>
+        <p>We do not use advertising or tracking cookies. We use browser local storage only to cache the product catalogue and any reviews you submit so the site loads quickly. You can clear this at any time in your browser settings.</p>
+
+        <h2>6. Data sharing and third-party services</h2>
+        <p>We share personal data only with service providers who help us run the business, and only to the extent necessary:</p>
+        <ul>
+          <li><strong>Razorpay</strong> &mdash; to process payments.</li>
+          <li><strong>Supabase</strong> &mdash; our database and authentication provider, which stores form submissions and approved reviews.</li>
+          <li><strong>Email / cloud-drive providers</strong> &mdash; to communicate with you and store project files.</li>
+        </ul>
+        <p>All such providers are bound by their own privacy commitments and process data only on our instructions. We may also disclose information where required by law or a valid legal request.</p>
+
+        <h2>7. Data security</h2>
+        <p>We protect your information with industry-standard measures, including TLS/HTTPS encryption in transit, access-controlled databases with row-level security, and two-factor authentication on our business accounts. No method of transmission or storage is completely secure, but we take reasonable steps to protect your data and to limit what we hold.</p>
+
+        <h2>8. Data retention</h2>
+        <p>We keep order and payment records for as long as required by tax and accounting law. Inquiry and project records are kept for up to three years after our last interaction, so we can support you. Review submissions are kept until you ask us to remove them or they are deleted after moderation. Newsletter subscriptions are kept until you unsubscribe.</p>
+
+        <h2>9. Your rights</h2>
+        <p>You may request a copy of the personal data we hold about you, ask us to correct it, or ask us to delete it. Write to <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a> and we will respond within 30 days.</p>
+
+        <h2>10. Children&rsquo;s privacy</h2>
+        <p>Our services are intended for developers aged 13 and above. We do not knowingly collect personal information from children under 13. If you believe a child has submitted information, contact us and we will delete it.</p>
+
+        <h2>11. Grievance Officer</h2>
+        <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, the name and contact details of our Grievance Officer are:</p>
+        <ul>
+          <li><strong>Name:</strong> Vivek Barman</li>
+          <li><strong>Email:</strong> <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a></li>
+          <li><strong>Address:</strong> Satna, Madhya Pradesh, India</li>
+          <li><strong>Response time:</strong> acknowledgement within 48 hours; resolution within 15 days.</li>
+        </ul>
+
+        <h2>12. Changes to this policy</h2>
+        <p>If we make material changes we will update the date at the top of this page and, for significant changes, notify newsletter subscribers by email.</p>
+
+        <h2>13. Contact</h2>
+        <p>Questions about this policy? Email <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a>, message us on <a href="https://wa.me/916262262913" target="_blank" rel="noopener">WhatsApp</a>, or find us on Instagram at <a href="https://instagram.com/codecrafix" target="_blank" rel="noopener">@codecrafix</a>.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="legal-body">
-    <div class="wrap legal-grid">
-      <nav class="toc" aria-label="On this page">
-        <h2>On This Page</h2>
-        <ol>
-          <li><a href="#s1">Overview &amp; Scope</a></li>
-          <li><a href="#s2">Who We Are</a></li>
-          <li><a href="#s3">Information We Collect</a></li>
-          <li><a href="#s4">How We Use Information</a></li>
-          <li><a href="#s5">Legal Bases for Processing</a></li>
-          <li><a href="#s6">Cookies &amp; Similar Technologies</a></li>
-          <li><a href="#s7">Third-Party Services</a></li>
-          <li><a href="#s8">Data Sharing &amp; Disclosure</a></li>
-          <li><a href="#s9">International Transfers</a></li>
-          <li><a href="#s10">Data Retention</a></li>
-          <li><a href="#s11">Data Security</a></li>
-          <li><a href="#s12">Children's Privacy</a></li>
-          <li><a href="#s13">Your Privacy Rights</a></li>
-          <li><a href="#s14">Changes to This Policy</a></li>
-          <li><a href="#s15">Contact Us</a></li>
-        </ol>
-      </nav>
-
-      <article class="legal-doc">
-        <section id="s1">
-          <h2><span class="num">01</span>Overview &amp; Scope</h2>
-          <p>Codecrafix (“Codecrafix”, “we”, “us” or “our”) is a technology studio that designs, develops, publishes and markets mobile applications, interactive games and digital products. This Privacy Policy applies to:</p>
-          <ul>
-            <li>our website and any landing pages we operate;</li>
-            <li>the mobile applications and games we publish, together with any related support services;</li>
-            <li>our official YouTube channel and other community channels we operate; and</li>
-            <li>any enquiry, quotation, project or support communication you exchange with us.</li>
-          </ul>
-          <p>By accessing or using any of the above, you acknowledge that you have read and understood this policy. If you do not agree with it, please discontinue use of our services.</p>
-        </section>
-
-        <section id="s2">
-          <h2><span class="num">02</span>Who We Are</h2>
-          <p>Codecrafix is an independent technology studio founded by <strong>Vivek Barman</strong> and based in <strong>Satna, Madhya Pradesh, India</strong>. We are the data controller responsible for the personal information described in this policy.</p>
-          <p>For any privacy-related question, request or complaint, you can reach us at <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a>. We aim to respond to all privacy enquiries within 30 days.</p>
-        </section>
-
-        <section id="s3">
-          <h2><span class="num">03</span>Information We Collect</h2>
-          <h3>3.1 Information you give us</h3>
-          <ul>
-            <li><strong>Contact details</strong> — your name, email address and any other details you include when you email us or submit an enquiry about a project.</li>
-            <li><strong>Project information</strong> — requirements, specifications, references, assets and feedback you share while we scope or deliver work.</li>
-            <li><strong>Support correspondence</strong> — the content of messages you send us about a product, bug or feature request.</li>
-          </ul>
-          <h3>3.2 Information collected automatically</h3>
-          <ul>
-            <li><strong>Device and technical data</strong> — device model, operating system version, application version, language, screen characteristics and general region.</li>
-            <li><strong>Usage data</strong> — features accessed, session duration, interaction events, crash reports and diagnostic logs.</li>
-            <li><strong>Network data</strong> — IP address and approximate location derived from it, used for security, fraud prevention and aggregate analytics.</li>
-          </ul>
-          <h3>3.3 Information we do not seek</h3>
-          <p>We do not ask for and do not knowingly collect sensitive categories of data such as health information, biometric identifiers, precise continuous location, or government identification numbers. Please do not send us such information.</p>
-        </section>
-
-        <section id="s4">
-          <h2><span class="num">04</span>How We Use Information</h2>
-          <p>We use the information we collect only for legitimate business purposes, including to:</p>
-          <ul>
-            <li>respond to your enquiries, prepare quotations and deliver the services you request;</li>
-            <li>operate, maintain and improve our website, applications and games;</li>
-            <li>diagnose technical problems, fix defects and improve performance and stability;</li>
-            <li>understand in aggregate how our products are used so we can prioritise development;</li>
-            <li>protect our services against abuse, fraud, security incidents and unlawful activity;</li>
-            <li>produce transparency and build content for our developer community channels; and</li>
-            <li>comply with applicable legal, tax and accounting obligations.</li>
-          </ul>
-          <p>We do not use your personal information for automated decision-making that produces legal or similarly significant effects.</p>
-        </section>
-
-        <section id="s5">
-          <h2><span class="num">05</span>Legal Bases for Processing</h2>
-          <p>Where applicable law requires a legal basis for processing, we rely on the following:</p>
-          <ul>
-            <li><strong>Consent</strong> — where you have given us clear permission, for example by emailing us an enquiry or opting in to communication.</li>
-            <li><strong>Contract</strong> — where processing is necessary to take steps at your request before entering into, or to perform, an agreement with you.</li>
-            <li><strong>Legitimate interests</strong> — where processing is necessary for our legitimate interests in operating, securing and improving our products, balanced against your rights and freedoms.</li>
-            <li><strong>Legal obligation</strong> — where we must process information to comply with a legal or regulatory duty.</li>
-          </ul>
-          <p>For users in India, we process personal data in accordance with the Digital Personal Data Protection Act, 2023 and the rules made under it. Where you are located in the European Economic Area or the United Kingdom, we additionally process data in accordance with the GDPR (EU) 2016/679 and the UK GDPR.</p>
-        </section>
-
-        <section id="s6">
-          <h2><span class="num">06</span>Cookies &amp; Similar Technologies</h2>
-          <p>Our website uses a minimal set of cookies and local storage keys. We do not deploy advertising cookies or sell behavioural data to data brokers.</p>
-          <ul>
-            <li><strong>Strictly necessary</strong> — required for the site to load, for security and for remembering interface preferences such as reduced-motion or playback settings.</li>
-            <li><strong>Preference</strong> — used to remember choices you make so the experience stays consistent on your next visit.</li>
-            <li><strong>Aggregate analytics</strong> — where enabled, used only to understand overall traffic patterns in a form that does not identify you personally.</li>
-          </ul>
-          <p>You can control or delete cookies through your browser settings. Blocking strictly necessary cookies may affect how parts of the site function.</p>
-        </section>
-
-        <section id="s7">
-          <h2><span class="num">07</span>Third-Party Services</h2>
-          <p>Our products rely on a limited number of third-party providers. These providers process limited data on our behalf or independently, under their own privacy policies:</p>
-          <ul>
-            <li><strong>Application marketplaces</strong> — such as the Amazon Appstore, where our published titles are distributed, reviewed and downloaded.</li>
-            <li><strong>Video and community platforms</strong> — such as YouTube, which hosts our official developer channel.</li>
-            <li><strong>Hosting, content delivery and font services</strong> — used to serve this website reliably and render its typography.</li>
-            <li><strong>Analytics and crash diagnostics</strong> — used in aggregate to monitor stability and performance.</li>
-          </ul>
-          <p>When you follow a link from our website to a third-party platform, that platform’s own terms and privacy policy apply to what you do there. We encourage you to read them.</p>
-        </section>
-
-        <section id="s8">
-          <h2><span class="num">08</span>Data Sharing &amp; Disclosure</h2>
-          <p><strong>We do not sell, rent or trade your personal information.</strong> We disclose information only in the following limited circumstances:</p>
-          <ul>
-            <li><strong>Service providers</strong> — to vendors who help us host, operate, secure and analyse our services, under confidentiality obligations and only for the purposes we specify.</li>
-            <li><strong>Legal requirements</strong> — where we are required to disclose information by law, regulation, court order or a lawful request from a competent public authority.</li>
-            <li><strong>Protection of rights</strong> — where disclosure is necessary to investigate or prevent fraud, abuse, security threats or violations of our Terms of Service.</li>
-            <li><strong>Business transfers</strong> — if our studio is involved in a merger, acquisition or transfer of assets, information may be transferred as part of that transaction, subject to this policy.</li>
-          </ul>
-        </section>
-
-        <section id="s9">
-          <h2><span class="num">09</span>International Data Transfers</h2>
-          <p>Codecrafix operates from India. Some of the third-party providers we rely on may store or process data on servers located in other countries. Where information is transferred internationally, we take reasonable steps to ensure it continues to receive an appropriate level of protection, including contractual safeguards with the providers we use.</p>
-        </section>
-
-        <section id="s10">
-          <h2><span class="num">10</span>Data Retention</h2>
-          <p>We keep personal information only for as long as it is needed for the purpose it was collected, or for as long as we are required to keep it by law.</p>
-          <ul>
-            <li><strong>Enquiries and correspondence</strong> — retained while the conversation is active and for a reasonable period afterwards so we can follow up meaningfully.</li>
-            <li><strong>Project records</strong> — retained for the duration of the engagement and for any statutory record-keeping period that follows.</li>
-            <li><strong>Technical and diagnostic logs</strong> — retained for a limited period sufficient to investigate and resolve issues.</li>
-          </ul>
-          <p>When information is no longer needed, we delete it or irreversibly anonymise it.</p>
-        </section>
-
-        <section id="s11">
-          <h2><span class="num">11</span>Data Security</h2>
-          <p>We apply technical and organisational measures appropriate to the risk, including encrypted transport for data in transit, restricted access on a need-to-know basis, credential hygiene across development environments, and regular review of the dependencies we ship.</p>
-          <p>No method of transmission or storage is completely secure. While we work to protect your information, we cannot guarantee absolute security. If we become aware of a breach affecting your personal information, we will notify you and the relevant authorities as required by applicable law.</p>
-        </section>
-
-        <section id="s12">
-          <h2><span class="num">12</span>Children's Privacy</h2>
-          <p>Our websites and community channels are not directed at children under the age of 13 (or the equivalent minimum age in your jurisdiction). We do not knowingly collect personal information from children.</p>
-          <p>Some of our games may be suitable for younger players. Those titles are designed to function without requiring personal information, and we do not knowingly collect personal data from child players. If you are a parent or guardian and believe a child has provided us with personal information, please contact us at <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a> and we will delete it promptly.</p>
-        </section>
-
-        <section id="s13">
-          <h2><span class="num">13</span>Your Privacy Rights</h2>
-          <p>Subject to applicable law, you may have the right to:</p>
-          <ul>
-            <li><strong>Access</strong> the personal information we hold about you;</li>
-            <li><strong>Correct</strong> information that is inaccurate, incomplete or out of date;</li>
-            <li><strong>Erase</strong> information we no longer have a lawful reason to keep;</li>
-            <li><strong>Restrict or object</strong> to certain processing, including processing based on legitimate interests;</li>
-            <li><strong>Withdraw consent</strong> at any time where processing is based on consent, without affecting processing already carried out;</li>
-            <li><strong>Data portability</strong> — receive certain information in a structured, commonly used and machine-readable format;</li>
-            <li><strong>Nominate</strong> a representative to exercise your rights in the event of death or incapacity, where the law provides for it; and</li>
-            <li><strong>Complain</strong> to us, and to your local supervisory authority, about how we handle your information.</li>
-          </ul>
-          <div class="callout">
-            <p>To exercise any of these rights, email <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a> with the subject line “Privacy Request”. We may ask you to verify your identity before we act, and we will respond within the timeframe required by applicable law.</p>
-          </div>
-        </section>
-
-        <section id="s14">
-          <h2><span class="num">14</span>Changes to This Policy</h2>
-          <p>We may update this Privacy Policy from time to time to reflect changes in our products, our practices or the law. When we make material changes, we will update the “Last updated” date at the top of this page and, where appropriate, provide a more prominent notice.</p>
-          <p>We encourage you to review this page periodically so you always know how we handle your information.</p>
-        </section>
-
-        <section id="s15">
-          <h2><span class="num">15</span>Contact Us</h2>
-          <p>If you have any questions, concerns or requests relating to this Privacy Policy or the way Codecrafix handles personal information, please contact us:</p>
-          <ul>
-            <li><strong>Email</strong> — <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a></li>
-            <li><strong>Studio</strong> — Codecrafix, Satna, Madhya Pradesh, India</li>
-            <li><strong>Founder</strong> — Vivek Barman</li>
-          </ul>
-          <div class="callout">
-            <p>We take privacy seriously and treat every request as a priority. Most enquiries receive a response within 48 hours, and all privacy requests are answered within the period required by law.</p>
-          </div>
-        </section>
-      </article>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-inner">
-      <div class="foot-brand">
-        <a class="brand" href="index.html" aria-label="Codecrafix — home">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGradPF)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <defs><linearGradient id="brandGradPF" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
-              <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-            </svg>
-          </span>
-          <span class="brand-name">Code<span>crafix</span></span>
-        </a>
-        <p>A technology studio building mobile apps, immersive games and the publishing pipelines behind them.</p>
-        <p class="tagline">Code. Create. Scale.</p>
-      </div>
-      <nav class="foot-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="index.html#expertise">Expertise</a>
-        <a href="index.html#projects">Featured Projects</a>
-        <a href="index.html#about">About</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
-        <a href="mailto:mrvivekbarmansom@gmail.com">Email Us</a>
-        <a href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
-      </nav>
-    </div>
-    <div class="foot-bottom">
-      <span>&copy; 2026 Codecrafix. All rights reserved.</span>
-      <span>Satna, Madhya Pradesh, India &middot; <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a></span>
-    </div>
-  </div>
-</footer>
+<footer id="cf-footer"></footer>
+
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
 </body>
 </html>

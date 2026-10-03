@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script data-tmly-media-guard="1">(function(){"use strict";
+var T=window.__tmly||(window.__tmly=(function(){
+var o={},n=String(window.name||"");
+if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
+var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
+return o})());
+if(T.presentation!=="preview"){return}
+var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
+var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
+var gestured=false;
+["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
+document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
+function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
+function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
+function harden(el){
+el.autoplay=false;el.removeAttribute("autoplay");
+if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
+if(muted){el.muted=true}
+if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
+var play=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+if(!gestured){announcePaused(this);
+return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false);this.muted=false}
+return play.apply(this,arguments)};
+var acProtos=[];
+function guardAC(n){
+var N=window[n];if(!N||!N.prototype){return}
+if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
+var res=N.prototype.resume;
+if(typeof res==="function"){N.prototype.resume=function(){
+if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false)}
+return res.apply(this,arguments)}}}
+var W=function(o){var c=arguments.length?new N(o):new N();
+if(!gestured){try{c.suspend()}catch(e){}}return c};
+W.prototype=N.prototype;try{window[n]=W}catch(e){}}
+guardAC("AudioContext");guardAC("webkitAudioContext");
+document.addEventListener("play",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
+document.addEventListener("pause",function(e){
+if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
+document.addEventListener("volumechange",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
+function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
+for(var i=0;i<l.length;i++){harden(l[i])}}}
+new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
+for(var j=0;j<a.length;j++){var n=a[j];
+if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
+.observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener("DOMContentLoaded",function(){sweep(document)});
+sweep(document)})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deployment Guide — CodeCrafix on codecrafix.shop</title>
+<meta name="description" content="Complete step-by-step deployment guide for the CodeCrafix platform — custom domain on GitHub Pages, Hostasia DNS records, and secure Supabase wiring with Row Level Security.">
+<meta name="author" content="Vivek Barman">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<style>
+/* ---------- Deployment guide — page-scoped additions ---------------- */
+.gd-hero { padding: 64px 0 34px; }
+.gd-hero h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.12; letter-spacing: -.02em; }
+.gd-hero .lead { max-width: 760px; }
+.gd-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.gd-meta span {
+  font-size: .78rem; font-weight: 600; letter-spacing: .02em;
+  padding: 7px 13px; border-radius: 999px;
+  background: rgba(16,185,129,.09); border: 1px solid var(--border-strong);
+  color: var(--green-3); text-transform: uppercase;
+}
+
+.gd-layout { display: grid; grid-template-columns: 246px minmax(0, 1fr); gap: 40px; align-items: start; padding-bottom: 70px; }
+
+/* TOC */
+.gd-toc { position: sticky; top: 92px; }
+.gd-toc h4 { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-2); margin-bottom: 12px; }
+.gd-toc ol { counter-reset: gd; display: flex; flex-direction: column; gap: 2px; }
+.gd-toc a {
+  display: block; padding: 8px 12px; border-radius: 9px; font-size: .87rem;
+  color: var(--muted); border-left: 2px solid transparent; transition: .18s;
+}
+.gd-toc a:hover { color: #fff; background: rgba(16,185,129,.07); border-left-color: var(--green-2); }
+
+/* Content blocks */
+.gd-block { scroll-margin-top: 96px; margin-bottom: 52px; }
+.gd-block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); letter-spacing: -.01em; margin-bottom: 8px; }
+.gd-block > h2 .gd-n {
+  display: inline-grid; place-items: center; width: 34px; height: 34px; margin-right: 12px;
+  border-radius: 10px; font-size: .95rem; font-weight: 800; color: var(--on-green);
+  background: var(--grad); vertical-align: middle; box-shadow: 0 6px 22px rgba(16,185,129,.28);
+}
+.gd-block h3 { font-size: 1.08rem; margin: 26px 0 10px; color: #fff; }
+.gd-block h4 { font-size: .95rem; margin: 20px 0 8px; color: var(--green-3); }
+.gd-block p { color: var(--muted); margin-bottom: 12px; }
+.gd-block ul, .gd-block ol { color: var(--muted); margin: 0 0 14px 20px; }
+.gd-block li { margin-bottom: 7px; }
+.gd-block strong { color: #fff; }
+.gd-block a { color: var(--green-3); text-decoration: underline; text-underline-offset: 3px; }
+.gd-block code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .86em;
+  background: rgba(16,185,129,.10); border: 1px solid var(--border);
+  padding: 2px 6px; border-radius: 6px; color: var(--green-3);
+}
+.gd-code { position: relative; margin: 14px 0 18px; }
+.gd-code pre {
+  background: #060906; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 16px 18px; overflow-x: auto; line-height: 1.6;
+}
+.gd-code pre code {
+  background: none; border: 0; padding: 0; color: #cff3e0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .845rem;
+}
+.gd-copy {
+  position: absolute; top: 9px; right: 9px; z-index: 2;
+  font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 7px; cursor: pointer;
+  background: rgba(16,185,129,.14); border: 1px solid var(--border-strong); color: var(--green-3);
+  transition: .18s;
+}
+.gd-copy:hover { background: rgba(16,185,129,.26); color: #fff; }
+
+/* Tables */
+.gd-tbl { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: .875rem; }
+.gd-tbl th, .gd-tbl td { padding: 10px 13px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+.gd-tbl th { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--green-3); background: rgba(16,185,129,.06); }
+.gd-tbl td { color: var(--muted); }
+.gd-tbl td strong { color: #fff; }
+.gd-tbl code { white-space: nowrap; }
+.gd-scroll { overflow-x: auto; }
+
+/* Callouts */
+.gd-note {
+  border-radius: var(--radius-sm); padding: 14px 18px; margin: 16px 0;
+  border: 1px solid var(--border-strong); border-left-width: 3px;
+  background: rgba(16,185,129,.06); color: #d6e7dd; font-size: .905rem;
+}
+.gd-note b { color: #fff; }
+.gd-note.warn { border-color: rgba(245,158,11,.42); border-left-color: var(--amber); background: var(--amber-soft); color: #f3e4c6; }
+.gd-note.warn b { color: var(--amber-text); }
+.gd-note.danger { border-color: var(--danger-border); border-left-color: var(--danger); background: var(--danger-bg); color: #f6d6d6; }
+.gd-note.danger b { color: var(--danger-text); }
+.gd-note.ok { border-left-color: var(--green-2); }
+
+/* Pros / cons */
+.gd-pc { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0 20px; }
+.gd-pc > div { border-radius: var(--radius-sm); padding: 15px 18px; font-size: .885rem; }
+.gd-pc .pro { background: rgba(16,185,129,.07); border: 1px solid var(--border-strong); }
+.gd-pc .con { background: var(--danger-bg); border: 1px solid var(--danger-border); }
+.gd-pc h5 { font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 9px; }
+.gd-pc .pro h5 { color: var(--green-3); }
+.gd-pc .con h5 { color: var(--danger-text); }
+.gd-pc ul { margin: 0 0 0 17px; color: var(--muted); }
+.gd-pc li { margin-bottom: 6px; }
+
+/* Checklist */
+.gd-progress { margin: 18px 0 24px; }
+.gd-progress-track { height: 9px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+.gd-progress-bar { height: 100%; width: 0%; background: var(--grad); border-radius: 999px; transition: width .35s ease; }
+.gd-progress-text { display: block; margin-top: 9px; font-size: .84rem; color: var(--green-3); font-weight: 600; }
+.gd-phase { margin-bottom: 26px; }
+.gd-phase > h4 { color: #fff; font-size: .95rem; margin-bottom: 10px; }
+.gd-check {
+  display: flex; gap: 11px; align-items: flex-start;
+  padding: 10px 14px; border-radius: 10px; margin-bottom: 6px;
+  background: var(--card); border: 1px solid var(--border); transition: .18s; cursor: pointer;
+}
+.gd-check:hover { border-color: var(--border-strong); }
+.gd-check input { margin-top: 3px; accent-color: var(--green-2); width: 16px; height: 16px; flex: none; cursor: pointer; }
+.gd-check span { font-size: .89rem; color: var(--muted); }
+.gd-check input:checked + span { color: var(--muted-2); text-decoration: line-through; }
+.gd-check code { font-size: .84em; }
+.gd-reset {
+  font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  padding: 8px 15px; border-radius: 9px; cursor: pointer;
+  background: transparent; border: 1px solid var(--border-strong); color: var(--muted); transition: .18s;
+}
+.gd-reset:hover { color: #fff; border-color: var(--green-2); }
+
+@media (max-width: 940px) {
+  .gd-layout { grid-template-columns: 1fr; }
+  .gd-toc { position: static; order: -1; }
+  .gd-toc ol { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .gd-toc a { border-left: 0; border: 1px solid var(--border); font-size: .8rem; padding: 7px 11px; }
+  .gd-pc { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header id="cf-header"></header>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <section class="gd-hero">
+    <div class="container">
+      <span class="eyebrow">&#128640; Deployment Guide</span>
+      <h1 class="mt-2">Ship <span class="grad-text">codecrafix.shop</span> &mdash; domain, data &amp; database</h1>
+      <p class="lead">Aapke actual project <code>codecrafix-platform_v5</code> ke hisaab se &mdash; exact commands, exact DNS values, exact file paths aur copy-paste ready code. Har step ke saath ek tick-able checklist bhi hai.</p>
+      <div class="gd-meta">
+        <span>&#127760; codecrafix.shop</span>
+        <span>&#128736; GitHub Pages</span>
+        <span>&#128274; Supabase RLS</span>
+        <span>&#128230; Hostasia DNS</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="gd-layout">
+
+      <!-- ---------- Sticky TOC ---------- -->
+      <aside class="gd-toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#model">0 &middot; Mental model</a></li>
+          <li><a href="#q1">1 &middot; Custom domain deploy</a></li>
+          <li><a href="#q2">2 &middot; Managing your data</a></li>
+          <li><a href="#q3">3 &middot; Supabase wiring</a></li>
+          <li><a href="#security">4 &middot; Security rules</a></li>
+          <li><a href="#checklist">5 &middot; Master checklist</a></li>
+          <li><a href="#troubleshoot">6 &middot; Troubleshooting</a></li>
+          <li><a href="#commands">7 &middot; Commands</a></li>
+        </ol>
+      </aside>
+
+      <div>
+
+      <!-- ============================================================
+           0. MENTAL MODEL
+           ============================================================ -->
+      <section class="gd-block" id="model">
+        <h2><span class="gd-n">0</span>Pehle yeh samajh lo (mental model)</h2>
+        <p>Deploy karte waqt <strong>3 alag cheezein</strong> hoti hain &mdash; inhe mix na karo:</p>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Layer</th><th>Kya hai</th><th>Kahan control hota hai</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Hosting</strong></td><td>Files kahan se serve hongi</td><td>GitHub Pages (repo)</td></tr>
+            <tr><td><strong>DNS</strong></td><td><code>codecrafix.shop</code> ka traffic kahan jaayega</td><td>Hostasia ka DNS manager</td></tr>
+            <tr><td><strong>TLS / HTTPS</strong></td><td>Padlock &#128274;</td><td>GitHub Pages (Let&rsquo;s Encrypt, free)</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="gd-note ok">
+          <b>&#128221; Important &mdash; ab woh sawaal khatam:</b> pehle is project me ek alag
+          <code>/admin/</code> panel tha. Ab <strong>woh poora hata diya gaya hai</strong>. Website ka data
+          <strong>directly Supabase dashboard (Table Editor)</strong> se manage hota hai &mdash; koi second site
+          host nahi karni, koi password file nahi, aur public site par admin ka koi nishaan nahi.
+        </div>
+
+        <h3>Ab kaun kya hai</h3>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Cheez</th><th>Kya hai</th><th>Kahan rehti hai</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Public site</strong></td><td>7 pages &mdash; Home, Store, Custom Dev, Publish App, Tutorials, Privacy, Terms</td><td>Repo ke <strong>root</strong> me</td></tr>
+            <tr><td><strong>Store catalogue</strong></td><td>Products (title, category, price, download link)</td><td>Supabase table <code>products</code></td></tr>
+            <tr><td><strong>Custom dev inquiries</strong></td><td>Form submissions</td><td>Supabase table <code>custom_orders</code></td></tr>
+            <tr><td><strong>Publishing requests</strong></td><td>Form submissions + subscription status</td><td>Supabase table <code>app_submissions</code></td></tr>
+            <tr><td><strong>Aapka control panel</strong></td><td>Supabase ka apna dashboard (Table Editor)</td><td><code>supabase.com</code> &rarr; aapka project</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <p>Ek line me: website <strong>sirf padhti hai</strong> (products) aur <strong>sirf likhti hai</strong> (forms).
+        Aap sab kuch Supabase dashboard se chalate ho. Isi wajah se alag admin panel ki zarurat hi nahi rehti &mdash;
+        aur website ka attack surface sabse kam rehta hai.</p>
+      </section>
+
+      <!-- ============================================================
+           1. Q1 — CUSTOM DOMAIN
+           ============================================================ -->
+      <section class="gd-block" id="q1">
+        <h2><span class="gd-n">1</span>Custom domain (codecrafix.shop) par website deploy karna</h2>
+        <p>Aapke paas already <strong>Hostasia</strong> se liya gaya domain hai. Bas GitHub Pages ko usse jodna hai &mdash;
+        5 steps, 15 minute.</p>
+
+        <h3>Step 1 &mdash; GitHub repo banao</h3>
+        <ol>
+          <li><a href="https://github.com" target="_blank" rel="noopener">github.com</a> par login &rarr; <strong>New repository</strong>.</li>
+          <li><strong>Repository name:</strong> <code>codecrafix-website</code> (jo bhi naam, par yaad rakhna).</li>
+          <li><strong>Public</strong> select karo. &#9888;&#65039; <strong>Private repo par GitHub Pages free me nahi milta.</strong></li>
+          <li><strong>Create repository</strong> dabao. README/gitignore add mat karo &mdash; khaali repo chahiye.</li>
+        </ol>
+
+        <h3>Step 2 &mdash; Files upload karo (root me!)</h3>
+        <div class="gd-note warn"><b>&#9888;&#65039; Sabse badi galti yahin hoti hai.</b> <code>index.html</code>
+        <strong>repo ke root me</strong> hona chahiye, kisi folder ke andar nahi.</div>
+        <ol>
+          <li>Repo me <strong>Add file &rarr; Upload files</strong> dabao.</li>
+          <li><code>codecrafix-platform</code> folder ke <strong>andar ka saara content</strong> select karo &mdash;
+              folder khud nahi. (Windows: folder kholo &rarr; <code>Ctrl+A</code> &rarr; drag karo.)</li>
+          <li><strong>Commit changes</strong> dabao.</li>
+        </ol>
+        <p>Upload ke baad repo me aisa dikhna chahiye:</p>
+        <div class="gd-code"><pre><code>codecrafix-website/          &larr; repo ka root
+&#9500;&#9472;&#9472; index.html               &larr; ROOT me, kisi folder me nahi
+&#9500;&#9472;&#9472; store.html
+&#9500;&#9472;&#9472; custom-dev.html
+&#9500;&#9472;&#9472; publish-app.html
+&#9500;&#9472;&#9472; tutorials.html
+&#9500;&#9472;&#9472; privacy.html
+&#9500;&#9472;&#9472; terms.html
+&#9500;&#9472;&#9472; CNAME                    &larr; content: codecrafix.shop
+&#9500;&#9472;&#9472; .nojekyll                &larr; dot file, Upload me chhup jaati hai
+&#9500;&#9472;&#9472; README.md
+&#9500;&#9472;&#9472; DEPLOYMENT-GUIDE.md
+&#9500;&#9472;&#9472; deploy-guide.html
+&#9500;&#9472;&#9472; supabase/
+&#9500;&#9472;&#9472; assets/
+&#9492;&#9472;&#9472; images/</code></pre></div>
+        <div class="gd-note warn"><b>&#9888;&#65039; <code>.nojekyll</code> miss ho gaya?</b> <code>.</code> se shuru hone wali files
+        GitHub ke web upload me dikhti hi nahi. <strong>Add file &rarr; Create new file</strong> &rarr; naam likho
+        <code>.nojekyll</code> &rarr; content <strong>khaali chhodo</strong> &rarr; Commit. Iske bina kuch assets 404 de sakte hain.</div>
+
+        <h3>Step 3 &mdash; GitHub Pages on karo</h3>
+        <ol>
+          <li>Repo &rarr; <strong>Settings</strong> &rarr; left sidebar me <strong>Pages</strong>.</li>
+          <li><strong>Source</strong> = <code>Deploy from a branch</code>.</li>
+          <li><strong>Branch</strong> = <code>main</code>, <strong>Folder</strong> = <code>/ (root)</code> &rarr; <strong>Save</strong>.</li>
+          <li>1&ndash;2 minute ruko. Page refresh karo &mdash; upar green box me URL aa jayegi:<br>
+              <code>https://&lt;username&gt;.github.io/codecrafix-website/</code></li>
+        </ol>
+
+        <h3>Step 4 &mdash; CNAME file (repo side)</h3>
+        <p><code>CNAME</code> file already project me hai aur usme <code>codecrafix.shop</code> likha hai. Verify kar lo:</p>
+        <div class="gd-code"><pre><code>CNAME file ka content:   codecrafix.shop</code></pre></div>
+        <p>&#9888; Bas itna hi &mdash; <code>https://</code> nahi, trailing slash nahi, newline ke alawa kuch nahi.</p>
+
+        <h3>Step 5 &mdash; Hostasia DNS records (registrar side)</h3>
+        <ol>
+          <li><strong>Hostasia</strong> par login &rarr; apna domain <code>codecrafix.shop</code> &rarr;
+              <strong>DNS Management</strong> / <strong>Manage DNS</strong> / <strong>DNS Zone Editor</strong>
+              (naam thoda alag ho sakta hai).</li>
+          <li><strong>Pehle purane parking records delete karo</strong> &mdash; jo bhi <code>A</code> ya <code>CNAME</code>
+              record <code>@</code> / blank / <code>www</code> par pehle se hai (Hostasia ka default parking IP,
+              <code>parking</code> wala CNAME) usse <strong>Delete</strong> karo. Yeh step skip karna = domain kabhi
+              GitHub par point nahi karega, chahe kitni bhi der wait karo.</li>
+          <li>Ab ye 5 records add karo:</li>
+        </ol>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>#</th><th>Type</th><th>Name / Host</th><th>Value / Points to</th><th>TTL</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>A</strong></td><td><code>@</code></td><td><code>185.199.108.153</code></td><td>Auto / 3600</td></tr>
+            <tr><td>2</td><td><strong>A</strong></td><td><code>@</code></td><td><code>185.199.109.153</code></td><td>Auto / 3600</td></tr>
+            <tr><td>3</td><td><strong>A</strong></td><td><code>@</code></td><td><code>185.199.110.153</code></td><td>Auto / 3600</td></tr>
+            <tr><td>4</td><td><strong>A</strong></td><td><code>@</code></td><td><code>185.199.111.153</code></td><td>Auto / 3600</td></tr>
+            <tr><td>5</td><td><strong>CNAME</strong></td><td><code>www</code></td><td><code>barmanvivek0786.github.io</code></td><td>Auto / 3600</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="gd-note"><b>&#128260; Naam dhyan se:</b> <code>barmanvivek0786</code> ki jagah <strong>apna GitHub
+        username</strong> daalo. Har case me <strong>chhota (lowercase)</strong> likho. End me dot (<code>.</code>)
+        <strong>mat</strong> lagao.</div>
+        <ol start="4">
+          <li><strong>Save</strong> / <strong>Update</strong> dabao har record ke baad.</li>
+          <li><strong>Optional but recommended &mdash; IPv6 (AAAA) records bhi add karo:</strong></li>
+        </ol>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>AAAA</td><td><code>@</code></td><td><code>2606:50c0:8000::153</code></td></tr>
+            <tr><td>AAAA</td><td><code>@</code></td><td><code>2606:50c0:8001::153</code></td></tr>
+            <tr><td>AAAA</td><td><code>@</code></td><td><code>2606:50c0:8002::153</code></td></tr>
+            <tr><td>AAAA</td><td><code>@</code></td><td><code>2606:50c0:8003::153</code></td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <h3>Hostasia-specific 3 gotchas</h3>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Gotcha</th><th>Sahi tareeka</th></tr></thead>
+          <tbody>
+            <tr><td>Hostasia ke field me <code>@</code> accept nahi hota</td><td>Name field <strong>khaali</strong> chhod do, ya <code>codecrafix.shop</code> poora likho. Dono ka matlab root hai.</td></tr>
+            <tr><td>Value ke aage/peeche space ya dot</td><td><code>185.199.108.153</code> &mdash; bas. <code>185.199.108.153 .</code> ya <code>185.199.108.153.</code> galat hai.</td></tr>
+            <tr><td>Purane parking records</td><td>Delete karna <strong>zaroori</strong> hai. Do conflicting <code>A</code> records = domain randomly kahin bhi ja sakta hai.</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <h3>Step 6 &mdash; Custom domain verify + HTTPS</h3>
+        <ol>
+          <li>GitHub &rarr; repo &rarr; <strong>Settings &rarr; Pages &rarr; Custom domain</strong> me
+              <code>codecrafix.shop</code> likho &rarr; <strong>Save</strong>. (Yeh <code>CNAME</code> file se auto-fill ho jayega.)</li>
+          <li>GitHub apna DNS check chalayega. <strong>Green tick</strong> aane ka matlab records sahi hain.</li>
+          <li><strong>Check karo</strong> &mdash; terminal me:</li>
+        </ol>
+        <div class="gd-code"><pre><code>dig +short codecrafix.shop
+# Expected: 185.199.108.153 / .109.153 / .110.153 / .111.153
+
+dig +short www.codecrafix.shop
+# Expected: barmanvivek0786.github.io. aur ek IP
+
+dig +short codecrafix.shop NS
+# Hostasia ke nameservers dikhne chahiye</code></pre></div>
+        <p><code>dig</code> nahi hai? Online tool use karo: <code>dnschecker.org</code> &rarr; <code>A</code> record
+        &rarr; <code>codecrafix.shop</code>.</p>
+        <ol start="4">
+          <li>DNS propagate hone me <strong>10 minute se 24 ghante</strong> tak lag sakta hai. Jaldi karne ke liye
+              apne router/machine ka DNS cache flush karo:
+              <ul>
+                <li><strong>Windows:</strong> <code>ipconfig /flushdns</code></li>
+                <li><strong>macOS:</strong> <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></li>
+              </ul>
+          </li>
+          <li><strong>Enforce HTTPS</strong> tick karo. Yeh <strong>DNS green tick + certificate issue hone ke baad hi</strong>
+              enable hota hai &mdash; agar grey hai toh 15&ndash;30 min aur ruko, phir refresh karo.</li>
+          <li><strong>Domain verification (security):</strong> GitHub &rarr; apna profile &rarr;
+              <strong>Settings &rarr; Pages &rarr; Verified domains &rarr; Add a domain</strong> &rarr; <code>codecrafix.shop</code>.
+              GitHub ek TXT record dega, usse Hostasia me add karo, phir <strong>Verify</strong> dabao. Isse koi aur
+              aapka domain aapke repo par claim nahi kar sakta.</li>
+        </ol>
+
+        <div class="gd-note ok"><b>&#9989; Q1 ho gaya jab:</b> <code>https://codecrafix.shop</code> browser me khule,
+        <code>https://www.codecrafix.shop</code> bhi khule, aur address bar me <strong>lock icon</strong> dikhe.</div>
+      </section>
+
+      <!-- ============================================================
+           2. Q2 — MANAGING YOUR DATA
+           ============================================================ -->
+      <section class="gd-block" id="q2">
+        <h2><span class="gd-n">2</span>Products aur data kaise manage karenge</h2>
+        <p>Pehle yeh sawaal tha: &ldquo;admin panel same repo me rakhna ya alag subdomain par?&rdquo;
+        <strong>Ab woh sawaal hi khatam ho gaya</strong> &mdash; kyunki alag admin panel hai hi nahi.</p>
+
+        <h3>Aapka control panel = Supabase Table Editor</h3>
+        <p>Yeh kisi bhi browser se khulta hai, kisi bhi device se &mdash; laptop, phone, cyber cafe.
+        Koi deployment nahi, koi git push nahi, koi password file nahi.</p>
+        <div class="gd-code"><pre><code>supabase.com  &rarr;  apna project  &rarr;  Table Editor  &rarr;  table chuno  &rarr;  row edit karo</code></pre></div>
+
+        <h3>Naya product add karna &mdash; 3 steps</h3>
+        <ol>
+          <li><strong>Table Editor &rarr; <code>products</code> &rarr; Insert row</strong> dabao.</li>
+          <li>Column bharo (neeche table dekho).</li>
+          <li><strong>Save</strong> dabao. Website turant update &mdash; refresh karo, product dikhega.</li>
+        </ol>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Column</th><th>Example value</th><th>Dhyan rakho</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td><code>p-601</code></td><td>Unique ho. Text hai, number nahi.</td></tr>
+            <tr><td><code>title</code></td><td>Neon Puzzle &mdash; Unity Kit</td><td>Card par yahi dikhta hai</td></tr>
+            <tr><td><code>category</code></td><td><code>games</code></td><td>Currently only <code>games</code> &mdash; aur kuch nahi</td></tr>
+            <tr><td><code>price</code></td><td><code>29</code></td><td><code>0</code> daala toh <strong>Free</strong> dikhega. Baaki number = &#8377;</td></tr>
+            <tr><td><code>icon</code></td><td>&#127918;</td><td>Ek emoji</td></tr>
+            <tr><td><code>format</code></td><td>Unity Package</td><td>Card par chhota text</td></tr>
+            <tr><td><code>version</code></td><td><code>1.0</code></td><td>Card par chhota text</td></tr>
+            <tr><td><code>description</code></td><td>Ek line me kya hai&hellip;</td><td>~160 characters me rakho</td></tr>
+            <tr><td><code>download_url</code></td><td><code>https://&hellip;</code> ya <code>#</code></td><td>Free item ka link</td></tr>
+            <tr><td><code>kind</code></td><td><code>download</code></td><td><code>download</code> = Download Now button, <code>buy</code> = Buy Now (WhatsApp)</td></tr>
+            <tr><td><code>featured</code></td><td><code>true</code></td><td>Homepage ke Featured grid me aayega</td></tr>
+            <tr><td><code>created_at</code></td><td><em>(khaali chhodo)</em></td><td>Auto set hota hai</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="gd-note"><b>&#128161; &#8377; kaise dikhega?</b> <code>price</code> me sirf number daalo
+        (<code>29</code>) &mdash; rupee ka symbol site khud lagati hai. <code>&#8377;29</code> likh diya toh
+        value text ban jaayegi aur card par galat dikhega.</div>
+        <p><strong>Edit:</strong> cell par double-click &rarr; value badlo &rarr; Enter.
+        <strong>Delete:</strong> row ke left checkbox &rarr; Delete.
+        <strong>Filter:</strong> column header ke funnel icon par click (<code>status = new</code> etc.).
+        <strong>Export:</strong> grid ke upar <strong>Export</strong> button &rarr; CSV/JSON download.</p>
+
+        <h3>Inquiries dekhna &mdash; <code>custom_orders</code></h3>
+        <p>Custom Dev page ke form ki har submission yahan aati hai. <code>status</code> column se pipeline chalao:</p>
+        <div class="gd-code"><pre><code>new  &rarr;  in-progress  &rarr;  done  &rarr;  archived</code></pre></div>
+        <p>Columns: <code>name</code>, <code>email</code>, <code>project_type</code>, <code>budget</code>,
+        <code>description</code>, <code>status</code>, <code>created_at</code>.</p>
+
+        <h3>Publishing requests + subscription status &mdash; <code>app_submissions</code></h3>
+        <p>Publish App form ki submissions. Do columns khaas hain:</p>
+        <ul>
+          <li><code>plan</code> &mdash; <code>standard</code> ya <code>admob</code> (client ne kaunsa tier chuna)</li>
+          <li><code>status</code> &mdash; <code>pending</code> &rarr; <code>review</code> &rarr; <code>active</code>
+              &rarr; <code>done</code> &rarr; <code>archived</code></li>
+        </ul>
+        <p><code>active</code> ka matlab &ldquo;subscription chal rahi hai&rdquo; &mdash; isse yeh table aapka
+        <strong>subscription tracker</strong> ban jaata hai. Monthly billing date track karni ho toh Table Editor me
+        ek naya column add kar sakte ho: <strong>+ New column</strong> &rarr; naam <code>renewal_date</code> &rarr; type <code>date</code>.</p>
+
+        <h3>Kyun yeh purane admin panel se behtar hai</h3>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Admin panel (hataya gaya)</th><th>Supabase dashboard (ab)</th></tr></thead>
+          <tbody>
+            <tr><td>Password static file me &mdash; View Source se dikhta tha</td><td>Supabase login &mdash; server-side verify hota hai</td></tr>
+            <tr><td>Koi bhi URL jaanke HTML khol sakta tha</td><td>Public site par koi admin URL hi nahi</td></tr>
+            <tr><td>Alag codebase maintain karna padta</td><td>Kuch maintain nahi karna</td></tr>
+            <tr><td>Sirf usi browser me data dikhta (localStorage)</td><td>Kisi bhi device se, real-time data</td></tr>
+            <tr><td>Har change ke liye deploy</td><td>Turant save, turant live</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <h3>Public site par koi admin kaam nahi</h3>
+        <p>Confirm karke rakh lo: public site par <strong>sirf 7 pages</strong> hain. <code>admin</code> naam ki koi
+        file, folder, link ya button maujood nahi. Yeh khud verify kar sakte ho:</p>
+        <div class="gd-code"><pre><code>grep -ri "admin" . --include="*.html" --include="*.js" --include="*.css"
+# Sirf documentation wali lines milni chahiye &mdash; koi link ya route nahi.</code></pre></div>
+      </section>
+
+      <!-- ============================================================
+           3. Q3 — SUPABASE WIRING
+           ============================================================ -->
+      <section class="gd-block" id="q3">
+        <h2><span class="gd-n">3</span>Website, data aur database securely connect karna</h2>
+
+        <h3>Architecture</h3>
+        <div class="gd-code"><pre><code>   Browser (visitor)                     Aap (Vivek)
+          &#9474;                                   &#9474;
+          &#9660;                                   &#9660;
+   codecrafix.shop                     supabase.com dashboard
+   (GitHub Pages, static)              (login required)
+          &#9474;                                   &#9474;
+          &#9474; anon key                          &#9474; apna account
+          &#9660;                                   &#9660;
+   &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+   &#9474;            SUPABASE (Postgres + RLS)              &#9474;
+   &#9474;  products          &rarr; anon: READ only               &#9474;
+   &#9474;  custom_orders     &rarr; anon: INSERT only             &#9474;
+   &#9474;  app_submissions   &rarr; anon: INSERT only             &#9474;
+   &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</code></pre></div>
+        <p><strong>Do raste, do levels:</strong> visitor ka <code>anon</code> key sirf do kaam kar sakta hai.
+        Aapka dashboard login sab kuch kar sakta hai. Yeh farq <strong>RLS policies</strong> banati hain &mdash;
+        database ke andar, server par. Isliye website me koi password rakhne ki zarurat nahi.</p>
+
+        <h3>Step 1 &mdash; Supabase project banao</h3>
+        <ol>
+          <li><a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> par sign up &rarr; <strong>New project</strong>.</li>
+          <li><strong>Name:</strong> <code>codecrafix</code> &middot; <strong>Database password:</strong> strong password
+              rakho aur <strong>safe jagah save karo</strong> (yeh dobara nahi dikhega).</li>
+          <li><strong>Region:</strong> <code>South Asia (Mumbai)</code> &mdash; India ke users ke liye fastest.</li>
+          <li><strong>Create new project</strong>. 2 minute provisioning me lagte hain.</li>
+        </ol>
+
+        <h3>Step 2 &mdash; schema.sql run karo</h3>
+        <ol>
+          <li>Dashboard &rarr; <strong>SQL Editor</strong> &rarr; <strong>New query</strong>.</li>
+          <li>Is project ki <code>supabase/schema.sql</code> file kholo, <strong>poora content copy</strong> karo, editor me paste karo.</li>
+          <li><strong>Run</strong> dabao. Green &ldquo;Success. No rows returned&rdquo; aana chahiye.</li>
+        </ol>
+        <p>Yeh script: 3 tables banata hai, indexes lagata hai, <strong>RLS enable</strong> karta hai, aur
+        <strong>secure-by-default policies</strong> set karti hai &mdash; plus 12 sample products seed karti hai.</p>
+        <div class="gd-note ok"><b>&#9989; Purana schema.sql already run kar rakha hai?</b> Toh bhi
+        <strong>yeh naya file dobara run kar do</strong>. Yeh purani permissive policies ko <code>drop</code> karke
+        sahi wali banata hai, aur aapka data safely rehta hai.</div>
+
+        <h3>Step 3 &mdash; Keys nikalo (aur galat key se bacho!)</h3>
+        <p><strong>Project Settings &rarr; API</strong> kholo. Wahan <strong>teen</strong> cheezein dikhengi &mdash; dhyan se padho:</p>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Field</th><th>Kaisa dikhta hai</th><th>Kahan jaayega</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Project URL</strong></td><td><code>https://abcdefghijkl.supabase.co</code></td><td>&#9989; <code>assets/js/config.js</code></td></tr>
+            <tr><td><strong>anon / public</strong></td><td><code>eyJ&hellip;</code> (long JWT)</td><td>&#9989; <code>assets/js/config.js</code></td></tr>
+            <tr><td><strong>service_role</strong></td><td><code>eyJ&hellip;</code> (long JWT, alag)</td><td>&#10060; <strong>KAHIN NAHI</strong></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="gd-note danger"><b>&#128680; <code>service_role</code> key kabhi na daalo</b> &mdash;
+        na <code>config.js</code> me, na kisi HTML/JS me, na kisi GitHub file me. Yeh key <strong>saari RLS policies
+        bypass</strong> kar deti hai. Static site me jo file hoti hai, woh poora internet padh sakta hai
+        (View Source &rarr; Ctrl+F &rarr; <code>service_role</code>). Agar galti se push ho gayi ho: Supabase me us
+        key ko <strong>rotate</strong> karo, aur GitHub history se hatao.</div>
+
+        <h3>Step 4 &mdash; config.js me daalo</h3>
+        <p><code>assets/js/config.js</code> kholo aur sirf ye 3 lines badlo:</p>
+        <div class="gd-code"><pre><code>  USE_SUPABASE: true,
+  SUPABASE_URL: 'https://abcdefghijkl.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'</code></pre></div>
+        <p>Commit + push karo. Bas. Store ab Supabase se products padhega, aur forms Supabase me likhenge.</p>
+        <div class="gd-note ok"><b>&#128161; Ek hi config file hai</b> &mdash; <code>assets/js/config.js</code>.
+        Alag admin panel hatne ke baad keys replicate karne ka koi risk nahi bacha.</div>
+
+        <h3>Step 5 &mdash; RLS policies (public read-only, aap full access)</h3>
+        <p><code>schema.sql</code> yeh <strong>already</strong> kar deta hai. Samajhne aur khud verify karne ke liye:</p>
+
+        <h4>5a. <code>products</code> &mdash; public sirf padh sakta hai</h4>
+        <div class="gd-code"><pre><code>-- Purani permissive policy hatao (agar hai)
+drop policy if exists "products_public_write" on public.products;
+
+-- Public: sirf SELECT
+create policy "products_public_read" on public.products
+  for select to anon, authenticated using (true);
+
+-- Aap (logged in): poora access
+create policy "products_auth_write" on public.products
+  for all to authenticated using (true) with check (true);</code></pre></div>
+        <p><strong>Result:</strong> visitor product <strong>dekh</strong> sakta hai &#9989;, par
+        <strong>add/edit/delete nahi</strong> kar sakta &#128274;.</p>
+        <div class="gd-note danger"><b>&#9888;&#65039; Yeh sabse zaroori fix tha.</b> Project ke purane
+        <code>schema.sql</code> me <code>for all to anon</code> likha tha &mdash; matlab <strong>koi bhi visitor</strong>
+        ek request bhej kar aapke store ka product <strong>delete</strong> kar sakta tha. Naye file me woh permission
+        hata di gayi hai.</div>
+
+        <h4>5b. <code>custom_orders</code> &mdash; sab submit kar sakein, padhe sirf aap</h4>
+        <div class="gd-code"><pre><code>-- Public: sirf INSERT (form submit karne ke liye)
+create policy "orders_insert_public" on public.custom_orders
+  for insert to anon, authenticated with check (true);
+
+-- Aap: read / update / delete
+create policy "orders_read_auth" on public.custom_orders
+  for select to authenticated using (true);
+
+create policy "orders_update_auth" on public.custom_orders
+  for update to authenticated using (true) with check (true);
+
+create policy "orders_delete_auth" on public.custom_orders
+  for delete to authenticated using (true);</code></pre></div>
+        <p><strong>Result:</strong> visitor inquiry <strong>bhej</strong> sakta hai &#9989;, par kisi ki inquiry
+        <strong>padh nahi</strong> sakta &#128274;. (Isi wajah se customer email aur budget private rehta hai.)</p>
+
+        <h4>5c. <code>app_submissions</code> &mdash; same model</h4>
+        <div class="gd-code"><pre><code>create policy "subs_insert_public" on public.app_submissions
+  for insert to anon, authenticated with check (true);
+
+create policy "subs_read_auth" on public.app_submissions
+  for select to authenticated using (true);
+
+create policy "subs_update_auth" on public.app_submissions
+  for update to authenticated using (true) with check (true);
+
+create policy "subs_delete_auth" on public.app_submissions
+  for delete to authenticated using (true);</code></pre></div>
+
+        <div class="gd-note"><b>&#128270; Verify karo dashboard me:</b> <strong>Authentication &rarr; Policies</strong>
+        kholo. Har table ke saamne green &ldquo;RLS enabled&rdquo; dikhna chahiye, aur <code>products</code> par
+        <code>anon</code> ke liye sirf ek <strong>SELECT</strong> policy honi chahiye &mdash; koi
+        <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> nahi.</div>
+
+        <h3>Step 6 &mdash; Supabase Auth (optional)</h3>
+        <p>Aapko <strong>zarurat nahi</strong> hai &mdash; Table Editor se sab ho jaata hai. Par agar kabhi koi chhota
+        internal tool banana ho jo <code>authenticated</code> role use kare:</p>
+        <ol>
+          <li><strong>Authentication &rarr; Users &rarr; Add user</strong> &rarr; apna email + strong password.</li>
+          <li>Login karne ka code:</li>
+        </ol>
+        <div class="gd-code"><pre><code>/* Supabase Auth login */
+fetch(CFG.SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+  method: 'POST',
+  headers: { 'apikey': CFG.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email: email, password: password })
+})
+  .then(r => r.json())
+  .then(d => { /* d.access_token ko Authorization header me bhejo */ });</code></pre></div>
+        <p>Us <code>access_token</code> ko <code>Authorization: Bearer &lt;token&gt;</code> me bhejo &mdash; tab RLS
+        automatically <code>authenticated</code> wali policies apply karegi. Yeh optional hai.</p>
+
+        <h3>Step 7 &mdash; Supabase ko domain ke liye allow karo</h3>
+        <ol>
+          <li><strong>Authentication &rarr; URL Configuration</strong> &rarr; <strong>Site URL</strong> = <code>https://codecrafix.shop</code>.</li>
+          <li><strong>Redirect URLs</strong> me add karo: <code>https://codecrafix.shop/**</code> aur
+              <code>https://www.codecrafix.shop/**</code>.</li>
+          <li>REST API (jo site use karti hai) ke liye CORS me kuch add karne ki zarurat <strong>nahi</strong> &mdash;
+              Supabase har origin se public read/insert allow karta hai; asli control RLS ka hai.</li>
+        </ol>
+
+        <h3>Step 8 &mdash; Teeno cheezein connect hain &mdash; test karo</h3>
+        <ol>
+          <li><code>https://codecrafix.shop</code> kholo &rarr; store me products dikhne chahiye.</li>
+          <li><strong>Custom Dev</strong> page &rarr; form bharo (test email se) &rarr; Submit.</li>
+          <li>Supabase &rarr; <strong>Table Editor &rarr; <code>custom_orders</code></strong> &rarr; aapki row wahan honi chahiye &#9989;</li>
+          <li><strong>Publish App</strong> page &rarr; form bharo &rarr; <code>app_submissions</code> me check karo &#9989;</li>
+        </ol>
+        <p>Ab <strong>security test</strong> &mdash; browser console me daalo:</p>
+        <div class="gd-code"><pre><code>const U = CFG.SUPABASE_URL, K = CFG.SUPABASE_ANON_KEY;
+const H = { 'apikey': K, 'Authorization': 'Bearer ' + K };
+
+// 1) READ products &mdash; allowed hona chahiye (200)
+fetch(U + '/rest/v1/products?select=id&amp;limit=1', { headers: H })
+  .then(r =&gt; console.log('READ        :', r.status, '(200 = ok)'));
+
+// 2) INSERT product &mdash; FAIL hona chahiye (401/403)
+fetch(U + '/rest/v1/products', {
+  method: 'POST',
+  headers: { ...H, 'Content-Type': 'application/json' },
+  body: JSON.stringify({ id: 'hack-test', title: 'HACK', category: 'apps', price: 0 })
+}).then(r =&gt; console.log('INSERT      :', r.status, '(401/403 = safe)'));
+
+// 3) READ dusron ki inquiries &mdash; FAIL hona chahiye (401/403)
+fetch(U + '/rest/v1/custom_orders?select=email', { headers: H })
+  .then(r =&gt; console.log('READ ORDERS :', r.status, '(401/403 = safe)'));</code></pre></div>
+        <p><strong>Kaise padho:</strong> <code>401</code>/<code>403</code> = RLS kaam kar rahi hai &#9989;.
+        Agar <code>201</code> ya <code>200</code> aaye &rarr; policies galat hain &rarr; <code>schema.sql</code> ka
+        RLS section dobara run karo.</p>
+      </section>
+
+      <!-- ============================================================
+           4. SECURITY
+           ============================================================ -->
+      <section class="gd-block" id="security">
+        <h2><span class="gd-n">4</span>Security rules &mdash; kya public, kya bilkul nahi</h2>
+
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Cheez</th><th>Public site me rakh sakte ho?</th><th>Kyun</th></tr></thead>
+          <tbody>
+            <tr><td><code>SUPABASE_URL</code></td><td>&#9989; Haan</td><td>Public project address hai.</td></tr>
+            <tr><td><code>SUPABASE_ANON_KEY</code></td><td>&#9989; Haan</td><td>Browser ke liye hi bani hai. RLS decide karta hai kya kar sakti hai.</td></tr>
+            <tr><td><code>service_role</code> key</td><td>&#10060; <strong>Kabhi nahi</strong></td><td>Saari RLS bypass karti hai. Static site me = poora internet dekh sakta hai.</td></tr>
+            <tr><td>Database password</td><td>&#10060; <strong>Kabhi nahi</strong></td><td>Sirf server-side secret.</td></tr>
+            <tr><td>Supabase account password</td><td>&#10060; <strong>Kabhi nahi</strong></td><td>Sirf aapke login ke liye.</td></tr>
+            <tr><td>AdMob / API secret keys</td><td>&#10060; <strong>Kabhi nahi</strong></td><td>Server function ke through bhejo.</td></tr>
+            <tr><td>GitHub PAT / token</td><td>&#10060; <strong>Kabhi nahi</strong></td><td>Repo me commit ho gaya = leak.</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <h3>Deploy se pehle khud check karo</h3>
+        <div class="gd-code"><pre><code># 1) service_role kahin leak hua?
+grep -ri "service_role" . --include="*.html" --include="*.js" --include="*.json"
+
+# 2) koi JWT key file me hai?
+grep -rnE "eyJ[A-Za-z0-9_-]{20,}" . --include="*.html" --include="*.js"
+
+# 3) koi admin route/link bacha hai?
+grep -ri "admin" . --include="*.html" --include="*.js" --include="*.css"</code></pre></div>
+        <ul>
+          <li><strong>Test 1:</strong> kuch nahi milna chahiye.</li>
+          <li><strong>Test 2:</strong> sirf <strong>anon</strong> key mil sakti hai (aapke <code>config.js</code> me).
+              <code>service_role</code> dikhe toh galti hai.</li>
+          <li><strong>Test 3:</strong> sirf documentation lines. Koi <code>&lt;a&gt;</code>, <code>href</code> ya
+              <code>fetch</code> admin ko point nahi karna chahiye.</li>
+        </ul>
+
+        <h3>8 golden rules</h3>
+        <ol>
+          <li><strong><code>service_role</code> sirf server par.</strong> Static site me kabhi nahi.</li>
+          <li><strong>RLS har table par ON.</strong> Policy ke bina table = band darwaza.</li>
+          <li><strong>Public site ko sirf wahi permission do jo usse chahiye</strong> &mdash; products: SELECT, forms: INSERT.</li>
+          <li><strong>Kabhi <code>for all to anon</code> mat likho</strong> &mdash; usse visitor aapka data delete kar sakta hai.</li>
+          <li><strong>Likhne ka kaam dashboard se</strong> &mdash; browser se nahi.</li>
+          <li><strong>HTTPS on rakho</strong> (GitHub Pages &rarr; Enforce HTTPS).</li>
+          <li><strong>Supabase account par 2FA lagao</strong> &mdash; yeh ab aapka control panel hai.</li>
+          <li><strong>Purane client-side admin panels theek se band karo.</strong> Humne <code>/admin/</code> poora
+              hata diya &mdash; agar pehle wala version kisi subdomain/repo par deploy kiya tha, use bhi
+              <strong>delete</strong> karo, warna woh purana password gate abhi bhi live hoga.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================
+           5. CHECKLIST
+           ============================================================ -->
+      <section class="gd-block" id="checklist">
+        <h2><span class="gd-n">5</span>Master checklist &mdash; tick karke aage badho</h2>
+        <p>Progress aapke browser me save hoti hai &mdash; page band karke wapas aao, ticks bani rahengi.</p>
+
+        <div class="gd-progress">
+          <div class="gd-progress-track"><div class="gd-progress-bar" id="gd-progress-bar"></div></div>
+          <span class="gd-progress-text" id="gd-progress-text">0 / 0 steps done</span>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 1 &mdash; GitHub Pages</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p1-1"><span>Public repo banaya (<code>codecrafix-website</code>)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p1-2"><span>Saari files <strong>root</strong> me upload ki (<code>index.html</code> root me hai &mdash; verify kiya)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p1-3"><span><code>.nojekyll</code> file maujood hai (naam typo nahi)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p1-4"><span><code>CNAME</code> file me sirf <code>codecrafix.shop</code> likha hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p1-5"><span>Settings &rarr; Pages &rarr; <code>main</code> + <code>/ (root)</code> set kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p1-6"><span><code>github.io</code> URL par site khul gayi</span></label>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 2 &mdash; Hostasia DNS + HTTPS</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p2-1"><span>Purane parking <code>A</code> / <code>CNAME</code> records <strong>delete</strong> kiye</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-2"><span>4 A records (<code>185.199.108.153</code> &hellip; <code>.111.153</code>) add kiye</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-3"><span><code>www</code> CNAME &rarr; <code>&lt;username&gt;.github.io</code> add kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-4"><span>(Optional) 4 AAAA IPv6 records add kiye</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-5"><span><code>dig +short codecrafix.shop</code> sahi 4 IP de raha hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-6"><span>GitHub par custom domain green tick aa gaya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-7"><span><strong>Enforce HTTPS</strong> tick ho gaya (lock icon dikh raha hai)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-8"><span>GitHub profile &rarr; Pages &rarr; <strong>Verified domains</strong> me <code>codecrafix.shop</code> add kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p2-9"><span><code>https://www.codecrafix.shop</code> bhi khul raha hai</span></label>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 3 &mdash; Supabase</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p3-1"><span>Supabase account bana + project create kiya (Mumbai region)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-2"><span>Database password safe jagah save kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-3"><span><code>supabase/schema.sql</code> SQL Editor me run kiya (&ldquo;Success&rdquo;)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-4"><span><strong>Table Editor</strong> me teeno tables dikh rahi hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-5"><span><code>assets/js/config.js</code> me <code>USE_SUPABASE: true</code> kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-6"><span><code>SUPABASE_URL</code> + <code>SUPABASE_ANON_KEY</code> daale</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-7"><span>Commit + push kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p3-8"><span>Store me products Supabase se aa rahe hain (seed rows dikh rahi hain)</span></label>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 4 &mdash; RLS security</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p4-1"><span><code>products</code> par <code>anon</code> ke liye sirf <strong>SELECT</strong> policy hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-2"><span><code>products</code> par koi <code>for all to anon</code> policy <strong>nahi</strong> hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-3"><span><code>custom_orders</code> par <code>anon</code> ke paas sirf <strong>INSERT</strong> hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-4"><span><code>app_submissions</code> par <code>anon</code> ke paas sirf <strong>INSERT</strong> hai</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-5"><span>Console test: product INSERT attempt ne <strong>401/403</strong> diya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-6"><span>Console test: <code>custom_orders</code> SELECT attempt ne <strong>401/403</strong> diya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p4-7"><span>Authentication &rarr; Policies me teeno tables par &ldquo;RLS enabled&rdquo; dikh raha hai</span></label>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 5 &mdash; Website functionality</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p5-1"><span>Home page khul rahi hai, hero + featured products dikh rahe hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-2"><span>Store page: 12 products, 6 filter tabs kaam kar rahe hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-3"><span>Custom Dev form submit hua aur <code>custom_orders</code> me row aayi</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-4"><span>Publish App form submit hua aur <code>app_submissions</code> me row aayi</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-5"><span>Tutorials page: videos + blog cards render ho rahe hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-6"><span>Privacy + Terms pages khul rahe hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-7"><span>Footer links sahi jagah ja rahe hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p5-8"><span>WhatsApp button kaam kar raha hai (asli number daala?)</span></label>
+        </div>
+
+        <div class="gd-phase">
+          <h4>Phase 6 &mdash; Cleanup &amp; final security</h4>
+          <label class="gd-check"><input type="checkbox" data-id="p6-1"><span>Public pages me <strong>koi admin link/route nahi</strong> (grep test pass)</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-2"><span><code>grep -ri "service_role" .</code> &rarr; kuch nahi mila</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-3"><span>Purana <code>/admin/</code> (agar kahin deploy hua tha) <strong>delete</strong> kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-4"><span>AdMob / API secrets repo me nahi hain</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-5"><span>Supabase account par <strong>2FA</strong> on kiya</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-6"><span><code>config.js</code> me asli WhatsApp number + Instagram handle + official email daale</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-7"><span><code>app.js</code> me asli YouTube video IDs daale</span></label>
+          <label class="gd-check"><input type="checkbox" data-id="p6-8"><span>Supabase me purane test rows (inquiry/submission) delete kiye</span></label>
+        </div>
+
+        <button class="gd-reset" id="gd-reset" type="button">Reset checklist</button>
+      </section>
+
+      <!-- ============================================================
+           6. TROUBLESHOOTING
+           ============================================================ -->
+      <section class="gd-block" id="troubleshoot">
+        <h2><span class="gd-n">6</span>Troubleshooting</h2>
+        <div class="gd-scroll">
+        <table class="gd-tbl">
+          <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td><code>codecrafix.shop</code> par 404, <code>github.io</code> par chalta hai</td><td><code>index.html</code> root me nahi hai &mdash; file structure theek karo</td></tr>
+            <tr><td>&ldquo;Domain&rsquo;s DNS record could not be retrieved&rdquo;</td><td>DNS propagate nahi hua &mdash; 1&ndash;24 ghante wait, <code>dig</code> se verify karo</td></tr>
+            <tr><td>&ldquo;Enforce HTTPS&rdquo; grey/disabled</td><td>Repo public hai? DNS check pass hua? Certificate 15&ndash;30 min me aa jaata hai &mdash; thoda wait karo</td></tr>
+            <tr><td>Site <code>http</code> par khulti hai, <code>https</code> par warning</td><td>Certificate issue ho raha hai &mdash; 24 ghante tak wait karo</td></tr>
+            <tr><td>CSS/JS load nahi ho raha</td><td>Case-sensitive: exact <code>assets/css/style.css</code> hona chahiye</td></tr>
+            <tr><td>Images broken</td><td><code>images/</code> aur <code>assets/img/</code> upload hui? <code>.nojekyll</code> maujood hai?</td></tr>
+            <tr><td>Store khaali dikh raha hai</td><td>Console me error check karo; Supabase me <code>products</code> table me rows hain? <code>USE_SUPABASE</code> true hai?</td></tr>
+            <tr><td>Product add kiya, site par nahi aaya</td><td>Hard-reload (<code>Ctrl+Shift+R</code>); <code>category</code> spelling exactly sahi hai?</td></tr>
+            <tr><td>Form submit hota hai par data nahi aata</td><td><code>USE_SUPABASE: true</code> hai? Network tab me request fail ho rahi hai? RLS INSERT policy hai?</td></tr>
+            <tr><td>Supabase <code>401</code> / <code>403</code> de raha hai</td><td>Writes ke liye <strong>yeh expected hai</strong> &mdash; RLS kaam kar rahi hai. Product changes dashboard se karo.</td></tr>
+            <tr><td>Purana password screen dikh raha hai</td><td>Browser cache me purana <code>/admin/</code> page hai &mdash; cache clear karo, ya purana deployment delete karo</td></tr>
+            <tr><td><code>permission denied for table products</code></td><td>Tables banane ke baad RLS policies run nahi hui &mdash; <code>schema.sql</code> dobara run karo</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           7. COMMANDS
+           ============================================================ -->
+      <section class="gd-block" id="commands">
+        <h2><span class="gd-n">7</span>Useful commands (copy-paste ready)</h2>
+        <div class="gd-code"><pre><code># --- Deploy ---
+cd codecrafix-platform_v5
+git add . &amp;&amp; git commit -m "update" &amp;&amp; git push origin main
+
+# --- DNS verify ---
+dig +short codecrafix.shop
+dig +short www.codecrafix.shop
+dig +short codecrafix.shop AAAA
+nslookup codecrafix.shop 8.8.8.8
+
+# --- Site health ---
+curl -I https://codecrafix.shop
+curl -I http://codecrafix.shop          # 301 &rarr; https aana chahiye
+
+# --- Local preview ---
+cd codecrafix-platform_v5
+python3 -m http.server 8000
+# &rarr; http://localhost:8000
+
+# --- Security audit (deploy se pehle) ---
+grep -ri "service_role" . --include="*.html" --include="*.js"
+grep -rnE "eyJ[A-Za-z0-9_-]{20,}" . --include="*.html" --include="*.js"
+grep -ri "admin" . --include="*.html" --include="*.js" --include="*.css"
+
+# --- Supabase REST checks (anon key se) ---
+# read products (200 expected)
+curl -s -o /dev/null -w "%{http_code}\n" \
+  "https://&lt;PROJECT&gt;.supabase.co/rest/v1/products?select=id" \
+  -H "apikey: &lt;ANON_KEY&gt;"
+
+# read orders (401/403 expected — RLS working)
+curl -s -o /dev/null -w "%{http_code}\n" \
+  "https://&lt;PROJECT&gt;.supabase.co/rest/v1/custom_orders?select=*" \
+  -H "apikey: &lt;ANON_KEY&gt;"
+
+# write product (401/403 expected — RLS working)
+curl -s -o /dev/null -w "%{http_code}\n" -X POST \
+  "https://&lt;PROJECT&gt;.supabase.co/rest/v1/products" \
+  -H "apikey: &lt;ANON_KEY&gt;" -H "Content-Type: application/json" \
+  -d '{"id":"test","title":"x","category":"apps","price":0}'</code></pre></div>
+
+        <h3>Final notes</h3>
+        <ul>
+          <li><strong>Ek hi config file</strong> poore public site ke liye: <code>assets/js/config.js</code></li>
+          <li><strong>Data ka control panel:</strong> Supabase dashboard &rarr; Table Editor (koi admin panel nahi)</li>
+          <li><strong>Supabase keys:</strong> sirf <code>anon</code> &mdash; <code>service_role</code> kabhi nahi</li>
+          <li><strong>RLS:</strong> products = public READ, forms = public INSERT. Baaki sab dashboard se.</li>
+          <li><strong>HTTPS</strong> GitHub se free milta hai &mdash; Enforce HTTPS zaroor tick karo</li>
+          <li><strong>Project folder:</strong> <code>codecrafix-platform_v5</code> (7 public pages, koi admin folder nahi)</li>
+        </ul>
+        <div class="gd-note ok"><b>Atak gaye?</b> Browser ka <strong>F12 &rarr; Console</strong> aur <strong>Network</strong> tab sabse pehle dekho &mdash; 90% problems wahi bata deta hai.</div>
+      </section>
+
+      </div><!-- /content -->
+    </div>
+  </div>
+</main>
+
+<footer id="cf-footer"></footer>
+
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
+<script>
+/* ---------- Guide page: copy buttons + persisted checklist ---------- */
+(function () {
+  'use strict';
+
+  /* 1. Copy-to-clipboard on every code block */
+  Array.prototype.forEach.call(document.querySelectorAll('.gd-code'), function (wrap) {
+    var pre = wrap.querySelector('pre');
+    if (!pre) { return; }
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gd-copy';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function () {
+      var code = pre.querySelector('code');
+      var text = (code ? code.innerText : pre.innerText) || '';
+      var done = function () {
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done)['catch'](function () { done(); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+    wrap.appendChild(btn);
+  });
+
+  /* 2. Interactive checklist with localStorage progress */
+  var KEY = 'codecrafix_guide_checklist_v5';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+
+  var boxes = document.querySelectorAll('.gd-check input[type="checkbox"]');
+  var bar = document.getElementById('gd-progress-bar');
+  var label = document.getElementById('gd-progress-text');
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function paint() {
+    var total = boxes.length, done = 0;
+    Array.prototype.forEach.call(boxes, function (b) { if (b.checked) { done++; } });
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    if (bar) { bar.style.width = pct + '%'; }
+    if (label) { label.textContent = done + ' / ' + total + ' steps done (' + pct + '%)'; }
+  }
+
+  Array.prototype.forEach.call(boxes, function (b) {
+    var id = b.getAttribute('data-id') || '';
+    if (state[id]) { b.checked = true; }
+    b.addEventListener('change', function () {
+      state[id] = b.checked;
+      save();
+      paint();
+    });
+  });
+  paint();
+
+  var reset = document.getElementById('gd-reset');
+  if (reset) {
+    reset.addEventListener('click', function () {
+      state = {};
+      save();
+      Array.prototype.forEach.call(boxes, function (b) { b.checked = false; });
+      paint();
+    });
+  }
+})();
+</script>
+</body>
+</html>

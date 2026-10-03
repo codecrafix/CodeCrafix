@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="google-site-verification" content="sSq4qnNZvcqH-ZNH9AsxP7VHN1CuNwXYglHr4zIIzF0" />
-  <script data-tmly-media-guard="1">(function(){"use strict";
+<head><script data-tmly-media-guard="1">(function(){"use strict";
 var T=window.__tmly||(window.__tmly=(function(){
 var o={},n=String(window.name||"");
 if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
@@ -55,852 +53,246 @@ if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
 document.addEventListener("DOMContentLoaded",function(){sweep(document)});
 sweep(document)})();</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Codecrafix — Innovative Apps &amp; Games, Crafted to Perfection</title>
-<meta name="description" content="Codecrafix is a technology studio building high-performance mobile apps, immersive 2D/3D games and end-to-end publishing solutions. Code. Create. Scale.">
-<meta name="theme-color" content="#0a0f1d">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeCrafix — Build, Code &amp; Scale | Games, Apps &amp; Source Codes</title>
+<meta name="description" content="CodeCrafix is an independent tech studio in India. Buy game templates, app source codes and AI prompt packs, or hire us for custom mobile apps, 2D games and utility tools. Publish your app with us too.">
+<meta name="author" content="Vivek Barman">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Codecrafix — Innovative Apps &amp; Games, Crafted to Perfection">
-<meta property="og:description" content="Cutting-edge mobile apps, immersive games and expert publishing solutions. Built by developers, for the future of tech.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0f1d'/%3E%3Cpath d='M13 9l-5 7 5 7M19 9l5 7-5 7' stroke='%2322d3ee' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:title" content="CodeCrafix — Build, Code &amp; Scale">
+<meta property="og:description" content="Game templates, app source codes, AI prompts and professional development services.">
+<meta property="og:image" content="assets/img/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --bg:#0a0f1d;
-    --bg-2:#0d1424;
-    --panel:#0f1729;
-    --panel-2:#111c33;
-    --line:rgba(96,165,250,.14);
-    --line-strong:rgba(56,189,248,.32);
-    --blue:#2f81f7;
-    --cyan:#22d3ee;
-    --sky:#38bdf8;
-    --text:#eef4ff;
-    --muted:#93a4c3;
-    --muted-2:#6f819f;
-    --radius:18px;
-    --maxw:1180px;
-    --ease:cubic-bezier(.22,.61,.36,1);
-  }
-
-  *,*::before,*::after{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px;
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  h1,h2,h3,h4, .brand-name{
-    font-family:'Poppins','Inter',system-ui,sans-serif;
-    line-height:1.15;
-    letter-spacing:-.02em;
-    margin:0;
-  }
-  p{margin:0}
-  ul{margin:0;padding:0;list-style:none}
-  section{scroll-margin-top:92px;position:relative}
-  .anchor-alias{display:block;position:relative;top:-92px;visibility:hidden}
-  .skip-link{
-    position:absolute;left:-9999px;top:0;z-index:200;
-    background:var(--cyan);color:#04121c;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600;
-  }
-  .skip-link:focus{left:0}
-
-  /* ---------- layout helpers ---------- */
-  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:9px;
-    font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--cyan);
-    background:linear-gradient(180deg,rgba(34,211,238,.10),rgba(47,129,247,.06));
-    border:1px solid rgba(34,211,238,.24);
-    padding:7px 14px;border-radius:999px;
-  }
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-  .sec-head{max-width:660px;margin:0 auto 56px;text-align:center}
-  .sec-title{font-size:clamp(28px,4vw,42px);font-weight:700;margin:20px 0 14px}
-  .sec-sub{color:var(--muted);font-size:16.5px}
-  .grad{
-    background:linear-gradient(96deg,var(--sky) 0%,var(--cyan) 55%,#7dd3fc 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .section-pad{padding:86px 0}
-
-  /* ---------- glow background ---------- */
-  .glow-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
-  .orb-a{width:520px;height:520px;background:rgba(47,129,247,.30);top:-180px;right:-120px}
-  .orb-b{width:420px;height:420px;background:rgba(34,211,238,.20);bottom:-160px;left:-140px}
-  .grid-lines{
-    position:absolute;inset:0;
-    background-image:linear-gradient(rgba(56,189,248,.055) 1px,transparent 1px),
-                     linear-gradient(90deg,rgba(56,189,248,.055) 1px,transparent 1px);
-    background-size:64px 64px;
-    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%);
-    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%);
-  }
-  .content-z{position:relative;z-index:2}
-
-  /* ---------- buttons ---------- */
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    font-family:'Inter',sans-serif;font-size:15px;font-weight:600;
-    padding:14px 26px;border-radius:12px;border:1px solid transparent;
-    cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),border-color .25s var(--ease);
-    white-space:nowrap;
-  }
-  .btn-primary{
-    color:#04121c;
-    background:linear-gradient(120deg,var(--cyan),var(--sky));
-    box-shadow:0 10px 30px -10px rgba(34,211,238,.75),inset 0 1px 0 rgba(255,255,255,.35);
-  }
-  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px -12px rgba(34,211,238,.9),inset 0 1px 0 rgba(255,255,255,.45)}
-  .btn-ghost{
-    color:var(--text);background:rgba(255,255,255,.03);
-    border-color:rgba(148,180,225,.22);
-  }
-  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--line-strong);background:rgba(56,189,248,.08);box-shadow:0 14px 34px -18px rgba(56,189,248,.8)}
-  .btn-sm{padding:11px 20px;font-size:14px}
-  .btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:12px}
-
-  /* ---------- header ---------- */
-  .site-header{
-    position:fixed;top:0;left:0;right:0;z-index:100;
-    transition:background .3s var(--ease),border-color .3s var(--ease),backdrop-filter .3s var(--ease);
-    border-bottom:1px solid transparent;
-  }
-  .site-header.is-stuck{
-    background:rgba(10,15,29,.78);
-    backdrop-filter:blur(16px) saturate(160%);
-    -webkit-backdrop-filter:blur(16px) saturate(160%);
-    border-bottom-color:var(--line);
-  }
-  .header-inner{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .brand{display:flex;align-items:center;gap:11px}
-  .brand-mark{
-    width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;
-    background:linear-gradient(150deg,rgba(47,129,247,.28),rgba(34,211,238,.16));
-    border:1px solid rgba(56,189,248,.34);
-    box-shadow:0 0 22px -6px rgba(34,211,238,.6),inset 0 0 14px -6px rgba(34,211,238,.5);
-  }
-  .brand-mark svg{width:21px;height:21px}
-  .brand-name{font-size:19.5px;font-weight:700;letter-spacing:-.03em}
-  .brand-name span{color:var(--cyan)}
-  .nav{display:flex;align-items:center;gap:6px}
-  .nav a.nav-link{
-    padding:9px 14px;border-radius:9px;font-size:14.5px;font-weight:500;color:var(--muted);
-    transition:color .2s var(--ease),background .2s var(--ease);
-  }
-  .nav a.nav-link:hover{color:var(--text);background:rgba(56,189,248,.08)}
-  .nav .btn{margin-left:10px}
-  .nav-toggle{
-    display:none;width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.03);
-    border:1px solid var(--line);color:var(--text);cursor:pointer;place-items:center;
-  }
-  .nav-toggle span{display:block;width:18px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:.25s var(--ease)}
-  .nav-toggle span::before,.nav-toggle span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:currentColor;border-radius:2px;transition:.25s var(--ease)}
-  .nav-toggle span::before{top:-6px}
-  .nav-toggle span::after{top:6px}
-  .nav-toggle[aria-expanded="true"] span{background:transparent}
-  .nav-toggle[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
-  .nav-toggle[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
-
-  /* ---------- hero ---------- */
-  .hero{padding:150px 0 96px;overflow:hidden}
-  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center}
-  .hero h1{font-size:clamp(34px,5.1vw,58px);font-weight:800;margin:24px 0 22px}
-  .hero-sub{font-size:17.5px;color:var(--muted);max-width:560px}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
-  .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-  .chip{
-    display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--muted);
-    background:rgba(255,255,255,.028);border:1px solid rgba(148,180,225,.14);
-    padding:8px 14px;border-radius:999px;
-  }
-  .chip svg{width:14px;height:14px;color:var(--cyan);flex:none}
-  .mockup-shell{position:relative}
-  .mockup-glow{
-    position:absolute;inset:-12% -8% -6% -8%;
-    background:radial-gradient(ellipse at 50% 42%,rgba(47,129,247,.55) 0%,rgba(34,211,238,.20) 38%,transparent 72%);
-    filter:blur(46px);z-index:0;
-  }
-  .mockup-frame{
-    position:relative;z-index:1;border-radius:22px;overflow:hidden;
-    border:1px solid var(--line-strong);
-    background:var(--panel);
-    box-shadow:0 40px 90px -40px rgba(6,12,26,.95),0 0 60px -28px rgba(34,211,238,.42),inset 0 1px 0 rgba(255,255,255,.05);
-  }
-  .mockup-frame img{width:100%;height:auto}
-  .mockup-frame::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(180deg,rgba(10,15,29,0) 58%,rgba(10,15,29,.55) 100%);
-  }
-  .float-badge{
-    position:absolute;z-index:3;display:flex;align-items:center;gap:10px;
-    background:rgba(13,20,36,.88);backdrop-filter:blur(10px);
-    border:1px solid var(--line-strong);border-radius:13px;padding:11px 15px;
-    box-shadow:0 18px 40px -22px rgba(0,0,0,.9),0 0 26px -14px rgba(34,211,238,.7);
-    font-size:13px;font-weight:600;
-  }
-  .float-badge .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(34,211,238,.13);border:1px solid rgba(34,211,238,.28);flex:none}
-  .float-badge .ico svg{width:16px;height:16px;color:var(--cyan)}
-  .float-badge small{display:block;font-size:11px;font-weight:500;color:var(--muted-2);letter-spacing:.04em;text-transform:uppercase}
-  .badge-tl{top:16px;left:-22px;animation:floaty 6s ease-in-out infinite}
-  .badge-br{bottom:22px;right:-18px;animation:floaty 7.5s ease-in-out infinite .8s}
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-
-  /* ---------- expertise ---------- */
-  .cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-  .card{
-    position:relative;border-radius:var(--radius);padding:34px 30px 32px;
-    background:linear-gradient(168deg,var(--panel) 0%,var(--bg-2) 100%);
-    border:1px solid var(--line);
-    transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
-    overflow:hidden;
-  }
-  .card::before{
-    content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
-    background:linear-gradient(150deg,rgba(56,189,248,.55),rgba(34,211,238,.10) 45%,transparent 70%);
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;
-    opacity:0;transition:opacity .35s var(--ease);pointer-events:none;
-  }
-  .card:hover{transform:translateY(-7px);box-shadow:0 34px 70px -40px rgba(0,0,0,.95),0 0 46px -22px rgba(34,211,238,.55)}
-  .card:hover::before{opacity:1}
-  .card-icon{
-    width:54px;height:54px;border-radius:15px;display:grid;place-items:center;margin-bottom:22px;
-    background:linear-gradient(150deg,rgba(47,129,247,.20),rgba(34,211,238,.10));
-    border:1px solid rgba(56,189,248,.28);
-    box-shadow:inset 0 0 18px -8px rgba(34,211,238,.7);
-  }
-  .card-icon svg{width:26px;height:26px;color:var(--cyan)}
-  .card h3{font-size:19.5px;font-weight:600;margin-bottom:11px}
-  .card p{color:var(--muted);font-size:15.2px}
-  .card-index{
-    position:absolute;top:24px;right:26px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;
-    color:rgba(148,180,225,.22);letter-spacing:.1em;
-  }
-
-  /* ---------- projects ---------- */
-  .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
-  .proj{
-    display:flex;flex-direction:column;border-radius:var(--radius);overflow:hidden;
-    background:linear-gradient(170deg,var(--panel) 0%,var(--bg-2) 100%);
-    border:1px solid var(--line);
-    transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
-  }
-  .proj:hover{transform:translateY(-8px);border-color:var(--line-strong);box-shadow:0 40px 80px -40px rgba(0,0,0,.95),0 0 54px -24px rgba(34,211,238,.55)}
-  .proj-media{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--panel-2)}
-  .proj-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
-  .proj:hover .proj-media img{transform:scale(1.06)}
-  .proj-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,15,29,.05) 40%,rgba(10,15,29,.82) 100%)}
-  .proj-tag{
-    position:absolute;top:14px;left:14px;z-index:2;font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
-    color:var(--cyan);background:rgba(6,14,26,.82);border:1px solid rgba(34,211,238,.32);
-    padding:6px 12px;border-radius:999px;backdrop-filter:blur(6px);
-  }
-  .proj-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
-  .proj-body h3{font-size:19px;font-weight:600;margin-bottom:10px}
-  .proj-body p{color:var(--muted);font-size:14.8px;flex:1}
-  .proj-link{
-    display:inline-flex;align-items:center;gap:9px;margin-top:22px;
-    font-size:14.5px;font-weight:600;color:var(--sky);
-    transition:gap .25s var(--ease),color .25s var(--ease);
-  }
-  .proj-link svg{width:16px;height:16px}
-  .proj:hover .proj-link{gap:14px;color:var(--cyan)}
-  .proj-actions{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
-  .proj-actions .btn{margin-top:22px}
-
-  /* ---------- about / youtube ---------- */
-  .about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-  .about-grid h2{font-size:clamp(28px,3.9vw,42px);font-weight:700;margin:20px 0 20px}
-  .about-grid p{color:var(--muted);font-size:16.5px}
-  .about-list{margin-top:30px;display:grid;gap:14px}
-  .about-list li{display:flex;gap:13px;align-items:flex-start;font-size:15.2px;color:var(--muted)}
-  .about-list .tick{
-    width:22px;height:22px;border-radius:7px;flex:none;display:grid;place-items:center;margin-top:2px;
-    background:rgba(34,211,238,.13);border:1px solid rgba(34,211,238,.3);
-  }
-  .about-list .tick svg{width:12px;height:12px;color:var(--cyan)}
-  .yt-card{
-    position:relative;border-radius:22px;padding:34px;overflow:hidden;
-    background:linear-gradient(165deg,rgba(47,129,247,.15) 0%,rgba(15,23,41,.95) 55%,rgba(13,20,36,1) 100%);
-    border:1px solid var(--line-strong);
-    box-shadow:0 40px 90px -46px rgba(0,0,0,.95),0 0 60px -30px rgba(47,129,247,.6);
-  }
-  .yt-card .ring{
-    position:absolute;width:340px;height:340px;border-radius:50%;top:-150px;right:-120px;
-    background:radial-gradient(circle,rgba(34,211,238,.30),transparent 68%);filter:blur(24px);
-  }
-  .yt-top{position:relative;display:flex;align-items:center;gap:16px;margin-bottom:22px}
-  .yt-play{
-    width:62px;height:62px;border-radius:19px;display:grid;place-items:center;flex:none;
-    background:linear-gradient(140deg,#ef4444,#b91c1c);
-    box-shadow:0 16px 40px -16px rgba(239,68,68,.85),inset 0 1px 0 rgba(255,255,255,.3);
-  }
-  .yt-play svg{width:26px;height:26px;color:#fff}
-  .yt-top h3{font-size:19px;font-weight:600}
-  .yt-top small{display:block;font-size:13px;color:var(--muted-2);font-weight:500;letter-spacing:.05em}
-  .yt-card p{position:relative;color:var(--muted);font-size:15.4px}
-  .yt-stats{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 26px}
-  .yt-card .btn{position:relative;width:100%}
-
-  /* ---------- contact / footer ---------- */
-  .contact-panel{
-    position:relative;border-radius:26px;padding:56px 48px;overflow:hidden;
-    background:linear-gradient(160deg,rgba(47,129,247,.16),rgba(13,20,36,.96) 52%,rgba(10,15,29,1));
-    border:1px solid var(--line-strong);
-    box-shadow:0 50px 110px -50px rgba(0,0,0,.95);
-  }
-  .contact-panel .ring{
-    position:absolute;width:460px;height:460px;border-radius:50%;bottom:-260px;left:-140px;
-    background:radial-gradient(circle,rgba(34,211,238,.24),transparent 66%);filter:blur(30px);
-  }
-  .contact-inner{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
-  .contact-inner h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;margin:18px 0 16px}
-  .contact-inner p{color:var(--muted);font-size:16.3px}
-  .contact-cta{display:flex;flex-direction:column;gap:14px}
-  .contact-cta .btn{width:100%}
-  .meta-row{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;font-size:14.5px;color:var(--muted)}
-  .meta-row span{display:inline-flex;align-items:center;gap:9px}
-  .meta-row svg{width:15px;height:15px;color:var(--cyan);flex:none}
-  .meta-row a{color:var(--cyan)}
-  .meta-row a:hover{text-decoration:underline}
-
-  .site-footer{border-top:1px solid var(--line);margin-top:96px;padding:56px 0 30px;background:linear-gradient(180deg,rgba(13,20,36,.4),rgba(10,15,29,1))}
-  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
-  .foot-brand p{color:var(--muted);font-size:14.6px;margin-top:16px;max-width:290px}
-  .tagline{
-    font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;letter-spacing:.02em;margin-top:20px;
-    background:linear-gradient(96deg,var(--sky),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .foot-col h4{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin:0 0 18px}
-  .foot-col ul{display:grid;gap:11px}
-  .foot-col a{font-size:14.6px;color:var(--muted);transition:color .2s var(--ease)}
-  .foot-col a:hover{color:var(--cyan)}
-  .socials{display:flex;gap:11px;margin-top:22px}
-  .socials a{
-    width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-    background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--muted);
-    transition:.25s var(--ease);
-  }
-  .socials a:hover{color:var(--cyan);border-color:var(--line-strong);background:rgba(34,211,238,.1);transform:translateY(-3px)}
-  .socials svg{width:18px;height:18px}
-  .foot-bottom{
-    margin-top:48px;padding-top:24px;border-top:1px solid var(--line);
-    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
-    font-size:13.8px;color:var(--muted-2);
-  }
-  .foot-bottom .legal{display:flex;gap:20px;flex-wrap:wrap}
-  .foot-bottom a:hover{color:var(--cyan)}
-
-  /* ---------- reveal ---------- */
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease);animation:reveal-safety 1ms 2s forwards}
-  .reveal.is-in{opacity:1;transform:none}
-  /* Safety net: if IntersectionObserver never fires (embedded card / preview / headless capture),
-     content still becomes fully visible instead of staying at opacity:0. */
-  @keyframes reveal-safety{to{opacity:1;transform:none}}
-
-  /* ---------- responsive ---------- */
-  @media (max-width:1000px){
-    .hero-grid,.about-grid,.contact-inner{grid-template-columns:1fr;gap:44px}
-    .cards-3,.proj-grid{grid-template-columns:1fr 1fr}
-    .foot-grid{grid-template-columns:1fr 1fr}
-    .hero{padding:132px 0 80px}
-    .badge-tl{left:-8px}
-    .badge-br{right:-6px}
-  }
-  @media (max-width:760px){
-    .nav{
-      position:fixed;top:74px;left:16px;right:16px;
-      flex-direction:column;align-items:stretch;gap:4px;
-      background:rgba(11,17,31,.97);backdrop-filter:blur(18px);
-      border:1px solid var(--line-strong);border-radius:16px;padding:14px;
-      box-shadow:0 30px 70px -30px rgba(0,0,0,.9);
-      opacity:0;visibility:hidden;transform:translateY(-12px);
-      transition:opacity .28s var(--ease),transform .28s var(--ease),visibility .28s;
-    }
-    .nav.is-open{opacity:1;visibility:visible;transform:none}
-    .nav a.nav-link{padding:12px 14px;font-size:15.5px}
-    .nav .btn{margin:8px 0 0}
-    .nav-toggle{display:grid}
-    .cards-3,.proj-grid,.foot-grid{grid-template-columns:1fr}
-    .section-pad{padding:78px 0}
-    .hero-cta .btn{width:100%}
-    .contact-panel{padding:40px 26px}
-    .sec-head{margin-bottom:44px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-    .reveal{opacity:1;transform:none;animation:none}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<style>#cf-featured-grid,#cf-store-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;margin:0 auto}@media(max-width:620px){#cf-featured-grid,#cf-store-grid{grid-template-columns:1fr;max-width:420px}}</style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<header id="cf-header"></header>
 
-<!-- ============ HEADER ============ -->
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top" aria-label="Codecrafix — back to top">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <defs>
-            <linearGradient id="brandGrad" x1="0" y1="0" x2="24" y2="24">
-              <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/>
-            </linearGradient>
-          </defs>
-          <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-        </svg>
-      </span>
-      <span class="brand-name">Code<span>crafix</span></span>
-    </a>
-
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation menu">
-      <span></span>
-    </button>
-
-    <nav class="nav" id="primaryNav" aria-label="Primary">
-      <a class="nav-link" href="#services">Services</a>
-      <a class="nav-link" href="#expertise">Expertise</a>
-      <a class="nav-link" href="#projects">Featured Projects</a>
-      <a class="nav-link" href="#about">About</a>
-      <a class="btn btn-primary btn-sm" href="mailto:mrvivekbarmansom@gmail.com">Contact Us</a>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-  <span id="top"></span>
-
-  <!-- ============ HERO ============ -->
-  <section class="hero" aria-labelledby="heroTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="grid-lines"></div>
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-    </div>
-
-    <div class="wrap content-z">
+<main>
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container">
       <div class="hero-grid">
-        <div>
-          <span class="eyebrow"><span class="dot"></span>Digital Product Studio</span>
-          <h1 id="heroTitle">Innovative Apps &amp; Games, <span class="grad">Crafted to Perfection</span></h1>
-          <p class="hero-sub">We bring your ideas to life with cutting-edge mobile apps, immersive games, and expert publishing solutions. Built by developers, for the future of tech.</p>
-
-          <div class="hero-cta">
-            <a class="btn btn-primary" href="#projects">
-              Explore Our Work
-              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a class="btn btn-ghost" href="#about">Meet the Studio</a>
-          </div>
-
-          <div class="hero-chips">
-            <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M11 18.5h2"/></svg>
-              Android &amp; Cross-Platform
-            </span>
-            <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 9.5h11a2 2 0 012 2v5.5a2 2 0 01-2 2h-11a2 2 0 01-2-2V11.5a2 2 0 012-2z"/><path d="M8.5 6.2L10 9.5M15.5 6.2L14 9.5M8 13.5v2M7 14.5h2M15.6 13.6h.01M17.4 15.2h.01"/></svg>
-              2D / 3D Game Engineering
-            </span>
-            <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 14.5c0-4 3.2-7.2 7.2-7.2 1.6 0 3 .5 4.2 1.4l3.6-1.2-1.2 3.6c.9 1.2 1.4 2.6 1.4 4.2 0 4-3.2 7.2-7.2 7.2"/><path d="M4.5 14.5c0 2.6 1.4 4.9 3.6 6.2l2-3.4"/></svg>
-              Publishing &amp; Optimization
-            </span>
-          </div>
-        </div>
-
-        <div class="mockup-shell reveal">
-          <div class="mockup-glow" aria-hidden="true"></div>
-
-          <div class="float-badge badge-tl" aria-hidden="true">
-            <span class="ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/></svg>
-            </span>
-            <span>Clean Code<small>Scalable Architecture</small></span>
-          </div>
-
-          <div class="mockup-frame">
-            <img src="images/hero-mockup.webp" alt="Laptop and smartphone displaying dark-mode code interfaces built by Codecrafix" width="1376" height="768" loading="eager" fetchpriority="high">
-          </div>
-
-          <div class="float-badge badge-br" aria-hidden="true">
-            <span class="ico">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5"/><circle cx="12" cy="12" r="3.2"/></svg>
-            </span>
-            <span>Smooth Performance<small>Optimized &amp; Tested</small></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ EXPERTISE / SERVICES ============ -->
-  <section class="section-pad" id="expertise" aria-labelledby="expertiseTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="orb orb-a" style="opacity:.28;top:-120px;right:-200px"></div>
-    </div>
-    <span id="services" class="anchor-alias" aria-hidden="true"></span>
-
-    <div class="wrap content-z">
-      <div class="sec-head reveal">
-        <span class="eyebrow"><span class="dot"></span>What We Do</span>
-        <h2 class="sec-title" id="expertiseTitle">Our <span class="grad">Expertise</span></h2>
-        <p class="sec-sub">From the first line of code to the live release — full-stack product engineering under one roof.</p>
-      </div>
-
-      <div class="cards-3">
-        <article class="card reveal">
-          <span class="card-index">01</span>
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 5.5h3M11 18.5h2"/><path d="M9 9.5l1.8 1.8L9 13.1M15 9.5l-1.8 1.8L15 13.1"/></svg>
-          </span>
-          <h3>Mobile App Development</h3>
-          <p>Crafting high-performance, scalable Android &amp; cross-platform mobile apps with clean UI/UX.</p>
-        </article>
-
-        <article class="card reveal">
-          <span class="card-index">02</span>
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.8 9h10.4a2.3 2.3 0 012.3 2.4l-.4 5.1a2.3 2.3 0 01-4.1 1.3l-1-1.3H9.9l-1 1.3a2.3 2.3 0 01-4.1-1.3l-.4-5.1A2.3 2.3 0 016.8 9z"/><path d="M8.7 5.6L9.8 9M15.3 5.6L14.2 9M7.6 12v2.2M6.5 13.1h2.2M15.6 12.4h.01M17.4 14h.01"/></svg>
-          </span>
-          <h3>Game Development</h3>
-          <p>Building interactive 2D/3D games with engaging mechanics and smooth performance.</p>
-        </article>
-
-        <article class="card reveal">
-          <span class="card-index">03</span>
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c3 3 5.6 5 8.5 5.7.6 6.2-2.6 11-8.5 13.3C6.1 19.2 2.9 14.4 3.5 8.2 6.4 7.5 9 5.5 12 2.5z"/><path d="M8.7 12.2l2.3 2.3 4.3-4.3"/></svg>
-          </span>
-          <h3>Publishing &amp; Marketing</h3>
-          <p>Guiding digital products from concept to live deployment with professional optimization strategies.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FEATURED PROJECTS ============ -->
-  <section class="section-pad" id="projects" aria-labelledby="projectsTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="orb orb-b" style="opacity:.32;bottom:-100px;left:-220px"></div>
-    </div>
-
-    <div class="wrap content-z">
-      <div class="sec-head reveal">
-        <span class="eyebrow"><span class="dot"></span>Portfolio</span>
-        <h2 class="sec-title" id="projectsTitle">Featured <span class="grad">Projects</span></h2>
-        <p class="sec-sub">Live products, shipped and supported — explore the work our team has taken from concept to release.</p>
-      </div>
-
-      <div class="proj-grid">
-        <article class="proj reveal">
-          <div class="proj-media">
-            <span class="proj-tag">Game &middot; Web &amp; Mobile</span>
-            <img src="images/project-game-1.webp" alt="Interactive game artwork — glowing neon geometric puzzle grid on a dark background" width="900" height="502" loading="eager" decoding="async">
-          </div>
-          <div class="proj-body">
-            <h3>Interactive Web/Mobile Game</h3>
-            <p>A cross-platform interactive game built for instant play — responsive controls, lightweight runtime and a polished dark-mode visual identity that scales from browser to phone.</p>
-            <div class="proj-actions">
-              <a class="proj-link" href="https://www.amazon.com/gp/product/B0FFGW6GQB" target="_blank" rel="noopener noreferrer">
-                View Listing
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="proj reveal">
-          <div class="proj-media">
-            <span class="proj-tag">Game &middot; Action / Puzzle</span>
-            <img src="images/project-game-2.webp" alt="Action puzzle game artwork — neon cyan energy orbs and holographic geometry in a dark arena" width="900" height="502" loading="eager" decoding="async">
-          </div>
-          <div class="proj-body">
-            <h3>Action / Puzzle Game</h3>
-            <p>Fast, tactile gameplay with escalating puzzle mechanics, tuned frame stability and a progression curve designed to keep players coming back for one more run.</p>
-            <div class="proj-actions">
-              <a class="proj-link" href="https://www.amazon.com/dp/B0DXLCH91F/ref=apps_sf_sta" target="_blank" rel="noopener noreferrer">
-                View Listing
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="proj reveal">
-          <div class="proj-media">
-            <span class="proj-tag">Platform &middot; Apps &amp; Ecosystem</span>
-            <img src="images/project-platform.webp" alt="Codecrafix platform hub — connected phone, tablet and laptop screens on a dark navy background" width="900" height="502" loading="eager" decoding="async">
-          </div>
-          <div class="proj-body">
-            <h3>Codecrafix Platform</h3>
-            <p>Our mobile apps &amp; ecosystem hub — a growing suite of live tech solutions sharing one design language, one architecture standard and one release pipeline.</p>
-            <div class="proj-actions">
-              <a class="proj-link" href="mailto:mrvivekbarmansom@gmail.com?subject=Codecrafix%20Ecosystem%20Enquiry">
-                Explore the Ecosystem
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ABOUT & COMMUNITY ============ -->
-  <section class="section-pad" id="about" aria-labelledby="aboutTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="orb orb-a" style="opacity:.26;top:-80px;right:-260px"></div>
-    </div>
-
-    <div class="wrap content-z">
-      <div class="about-grid">
         <div class="reveal">
-          <span class="eyebrow"><span class="dot"></span>About Codecrafix</span>
-          <h2 id="aboutTitle">Driven by Code, <span class="grad">Powered by Community</span></h2>
-          <p>Founded by Vivek Barman, Codecrafix is a progressive technology studio based in Satna, MP, specializing in electrical-to-digital transformations, real-world app architectures, and interactive game engineering. We document our entire build process transparently.</p>
-
-          <ul class="about-list">
-            <li>
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
-              <span><strong style="color:var(--text);font-weight:600">Electrical-to-digital transformations</strong> — turning physical, real-world problems into reliable software products.</span>
-            </li>
-            <li>
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
-              <span><strong style="color:var(--text);font-weight:600">Real-world app architectures</strong> — engineered to scale, maintain and ship without breaking.</span>
-            </li>
-            <li>
-              <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
-              <span><strong style="color:var(--text);font-weight:600">Transparent build process</strong> — every decision, commit and release documented in public.</span>
-            </li>
-          </ul>
-        </div>
-
-        <aside class="yt-card reveal" aria-label="Codecrafix YouTube community">
-          <span class="ring" aria-hidden="true"></span>
-          <div class="yt-top">
-            <span class="yt-play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 7.8v8.4l7-4.2-7-4.2z"/></svg>
-            </span>
-            <div>
-              <h3>Codecrafix on YouTube</h3>
-              <small>Official Build Channel</small>
+          <span class="eyebrow">&#9889; Independent Tech Studio &middot; India</span>
+          <h1>Build, Code, &amp; <span class="grad-text">Scale</span> with CodeCrafix</h1>
+          <p class="lead">Game templates, app source codes, AI prompt packs and professional development services &mdash; everything you need to turn an idea into a shipped product, under one roof.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="store.html">Browse Store &rarr;</a>
+            <a class="btn btn-outline" href="custom-dev.html#hire">Hire Us</a>
+          </div>
+          <div class="hero-achievements">
+            <div class="ach">
+              <span class="ach-ic" aria-hidden="true">&#11088;</span>
+              <b>4.9/5</b>
+              <span>Verified client rating</span>
+            </div>
+            <div class="ach">
+              <span class="ach-ic" aria-hidden="true">&#9889;</span>
+              <b>24h</b>
+              <span>Average inquiry response</span>
+            </div>
+            <div class="ach">
+              <span class="ach-ic" aria-hidden="true">&#128737;&#65039;</span>
+              <b>100%</b>
+              <span>Secure Razorpay checkout</span>
+            </div>
+            <div class="ach">
+              <span class="ach-ic" aria-hidden="true">&#127919;</span>
+              <b>End-to-end</b>
+              <span>From idea to live app</span>
             </div>
           </div>
-          <p>Step-by-step development content — app builds, game mechanics, publishing walkthroughs and the lessons behind every release, shared openly as we build.</p>
-
-          <div class="yt-stats">
-            <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="M10 10l4 2-4 2z"/></svg>
-              Build Walkthroughs
-            </span>
-            <span class="chip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></svg>
-              Dev Tutorials
-            </span>
-          </div>
-
-          <a class="btn btn-ghost" href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer">
-            Visit YouTube Channel
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-          </a>
-        </aside>
+        </div>
+        <div class="hero-visual reveal">
+          <img src="images/hero.jpg" alt="CodeCrafix — mobile apps, games and source code in one studio" width="1400" height="788">
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CONTACT ============ -->
-  <section class="section-pad" id="contact" style="padding-bottom:0" aria-labelledby="contactTitle">
-    <div class="wrap">
-      <div class="contact-panel reveal">
-        <span class="ring" aria-hidden="true"></span>
-        <div class="contact-inner">
+  <!-- ================= EXPERTISE ================= -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Our Expertise</span>
+        <h2 class="mt-2">Three ways we help you ship</h2>
+        <p>Whether you are starting from zero or scaling something live, CodeCrafix covers the whole build-and-launch path.</p>
+      </div>
+      <div class="grid grid-3 feature-grid">
+        <div class="card feature-card reveal">
+          <div class="feature-icon">&#128241;</div>
+          <h3>Mobile App Development</h3>
+          <p>Native Android and cross-platform Flutter/React Native apps &mdash; offline-first, fast and Play Store ready from day one.</p>
+          <div class="tag-list"><span class="tag">Kotlin</span><span class="tag">Flutter</span><span class="tag">React Native</span></div>
+        </div>
+        <div class="card feature-card reveal">
+          <div class="feature-icon">&#127918;</div>
+          <h3>Game Development</h3>
+          <p>2D and lightweight 3D mobile games built in Unity &mdash; endless runners, puzzles, arcade shooters and hyper-casual hits.</p>
+          <div class="tag-list"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Mobile</span></div>
+        </div>
+        <div class="card feature-card reveal">
+          <div class="feature-icon">&#128640;</div>
+          <h3>Publishing &amp; Monetisation</h3>
+          <p>We handle Play Console publishing, ASO and AdMob setup so your product actually reaches people and earns from it.</p>
+          <div class="tag-list"><span class="tag">Play Store</span><span class="tag">AdMob</span><span class="tag">ASO</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED PRODUCTS ================= -->
+  <section class="section" id="store" style="background:linear-gradient(180deg,transparent,rgba(16,185,129,.035),transparent)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Digital Store</span>
+        <h2 class="mt-2">Play our free games</h2>
+        <p>Two free games from CodeCrafix &mdash; download them instantly on the Amazon Appstore. No cost, no sign-up.</p>
+      </div>
+      <div class="product-grid" id="cf-featured-grid"></div>
+      <div class="center mt-3">
+        <a class="btn btn-primary" href="store.html">Explore the full store &rarr;</a>
+      </div>
+      <div class="pay-note">
+        <div class="pay-badges">
+          <span class="pay-badge"><span class="dot"></span>UPI</span>
+          <span class="pay-badge"><span class="dot"></span>Credit &amp; Debit Cards</span>
+          <span class="pay-badge"><span class="dot"></span>Net Banking</span>
+          <span class="pay-badge"><span class="dot"></span>Wallets</span>
+        </div>
+        <span class="pay-secure">&#128274; Secure payments powered by <b>Razorpay</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CUSTOM DEV CTA ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="card card-flat" style="padding:46px">
+        <div class="grid grid-2" style="align-items:center;gap:40px">
           <div>
-            <span class="eyebrow"><span class="dot"></span>Let's Build</span>
-            <h2 id="contactTitle">Have an app or game<br>idea worth shipping?</h2>
-            <p>Tell us what you want to build. We'll take it from concept, architecture and interface design all the way through to a live, optimized release.</p>
-            <div class="meta-row">
-              <span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
-                Satna, Madhya Pradesh, India
-              </span>
-              <span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.6 7l8.4 6 8.4-6"/></svg>
-                <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a>
-              </span>
-              <span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2"/></svg>
-                Replies within 48 hours
-              </span>
+            <span class="eyebrow">Hire Me</span>
+            <h2 class="mt-2">Have an idea? Let&rsquo;s build it properly.</h2>
+            <p class="mt-2">Custom mobile apps, 2D games and utility tools &mdash; scoped, quoted and delivered with clean code and real communication. Tell us what you need and get a reply within 24 hours.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="custom-dev.html#hire">Start a project</a>
+              <a class="btn btn-outline" href="custom-dev.html">See how it works</a>
             </div>
           </div>
-
-          <div class="contact-cta">
-            <a class="btn btn-primary" href="mailto:mrvivekbarmansom@gmail.com?subject=New%20Project%20Enquiry%20%E2%80%94%20Codecrafix">
-              Email Us Directly
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.6 7l8.4 6 8.4-6"/></svg>
-            </a>
-            <a class="btn btn-ghost" href="#projects">
-              Start With Our Work
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a class="btn btn-ghost" href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer">
-              Visit YouTube Channel
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-            </a>
+          <div class="stack">
+            <div class="step"><span class="num">1</span><h3>Tell us the idea</h3><p>Fill the short inquiry form &mdash; scope, budget and timeline.</p></div>
+            <div class="step"><span class="num">2</span><h3>Get a plan &amp; quote</h3><p>A clear fixed-scope proposal with milestones, no surprises.</p></div>
+            <div class="step"><span class="num">3</span><h3>Build, test, ship</h3><p>Regular builds you can install, then a polished release.</p></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="foot-grid">
-        <div class="foot-brand">
-          <a class="brand" href="#top" aria-label="Codecrafix — back to top">
-            <span class="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGradFoot)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <defs>
-                  <linearGradient id="brandGradFoot" x1="0" y1="0" x2="24" y2="24">
-                    <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/>
-                  </linearGradient>
-                </defs>
-                <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-              </svg>
-            </span>
-            <span class="brand-name">Code<span>crafix</span></span>
-          </a>
-          <p>A technology studio building mobile apps, immersive games and the publishing pipelines behind them.</p>
-          <p class="tagline">Code. Create. Scale.</p>
-          <div class="socials">
-            <a href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer" aria-label="Codecrafix on YouTube">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 00-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 00-1.8 1.8A26 26 0 002 12c0 1.7.1 3.4.4 4.8a2.5 2.5 0 001.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 001.8-1.8c.3-1.4.4-3.1.4-4.8s-.1-3.4-.4-4.8zM10 15.1V8.9l5.2 3.1-5.2 3.1z"/></svg>
-            </a>
+  <!-- ================= PUBLISH TEASER ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="align-items:center;gap:48px">
+        <div class="hero-visual reveal">
+          <img src="images/publish.jpg" alt="Publish and monetise your app with CodeCrafix" width="1400" height="788">
+        </div>
+        <div class="reveal">
+          <span class="eyebrow">For Indie Developers</span>
+          <h2 class="mt-2">Publish your app &mdash; <span class="grad-text">without</span> a Play Console account</h2>
+          <p class="mt-2">No developer account? No problem. We host, publish and maintain your app under our organisation console, and can set up AdMob monetisation so your work starts earning.</p>
+          <div class="tag-list" style="margin-top:20px">
+            <span class="tag">Hosting &amp; publishing</span>
+            <span class="tag">Org console upload</span>
+            <span class="tag">AdMob setup</span>
+            <span class="tag">Store listing &amp; ASO</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="publish-app.html">See plans &amp; submit</a>
           </div>
         </div>
-
-        <div class="foot-col">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#expertise">Expertise</a></li>
-            <li><a href="#projects">Featured Projects</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-          </ul>
-        </div>
-
-        <div class="foot-col">
-          <h4>Capabilities</h4>
-          <ul>
-            <li><a href="#expertise">Mobile App Development</a></li>
-            <li><a href="#expertise">Game Development</a></li>
-            <li><a href="#expertise">Publishing &amp; Marketing</a></li>
-            <li><a href="#projects">Ecosystem Hub</a></li>
-          </ul>
-        </div>
-
-        <div class="foot-col">
-          <h4>Legal &amp; Connect</h4>
-          <ul>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="mailto:mrvivekbarmansom@gmail.com">Email Us</a></li>
-            <li><a href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer">YouTube Channel</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="foot-bottom">
-        <span>&copy; 2026 Codecrafix. All rights reserved.</span>
-        <span>Satna, Madhya Pradesh, India &middot; <a href="mailto:mrvivekbarmansom@gmail.com" style="color:var(--muted)">mrvivekbarmansom@gmail.com</a></span>
-        <span class="legal">
-          <a href="privacy.html">Privacy Policy</a>
-          <a href="terms.html">Terms of Service</a>
-          <a href="mailto:mrvivekbarmansom@gmail.com">Contact</a>
-        </span>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <!-- ================= VERIFIED REVIEWS ================= -->
+  <section class="section" id="reviews" style="background:linear-gradient(180deg,transparent,rgba(16,185,129,.035),transparent)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">&#11088; Verified Reviews</span>
+        <h2 class="mt-2">Loved by developers &amp; founders</h2>
+        <p>Real feedback from people who bought a template, hired us for a build, or published an app with us. Every review below is checked by our team before it appears publicly.</p>
+      </div>
+
+      <div class="reviews-summary" id="cf-review-summary"></div>
+      <div class="review-grid" id="cf-reviews-grid">
+        <div class="empty-state">Loading reviews&hellip;</div>
+      </div>
+
+      <div class="section-head" style="margin:74px auto 30px">
+        <h2 class="mt-2" style="font-size:1.7rem">Share your experience</h2>
+        <p>Bought from the store or worked with us on a project? Tell others how it went. Reviews are moderated by our team before they go live.</p>
+      </div>
+
+      <div class="card card-flat form-card review-form-card">
+        <form id="cf-review-form" novalidate>
+          <div class="form-row">
+            <div class="field"><label for="rv-name">Your name <span class="req">*</span></label>
+              <input class="input" id="rv-name" name="name" placeholder="e.g. Aarav Mehta" autocomplete="name"></div>
+            <div class="field"><label for="rv-email">Email <span class="muted">(never shown publicly)</span></label>
+              <input class="input" id="rv-email" name="email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+          </div>
+          <div class="field"><label for="rv-role">What do you do? <span class="muted">(optional)</span></label>
+            <input class="input" id="rv-role" name="role" placeholder="e.g. Indie Android Developer"></div>
+          <div class="field"><label>Your rating</label>
+            <div class="rating-picker" id="cf-rating-picker">
+              <button type="button" class="star sel" data-v="1" aria-label="1 star">&#9733;</button>
+              <button type="button" class="star sel" data-v="2" aria-label="2 stars">&#9733;</button>
+              <button type="button" class="star sel" data-v="3" aria-label="3 stars">&#9733;</button>
+              <button type="button" class="star sel" data-v="4" aria-label="4 stars">&#9733;</button>
+              <button type="button" class="star sel" data-v="5" aria-label="5 stars">&#9733;</button>
+              <span class="rating-val">5 / 5</span>
+            </div>
+            <input type="hidden" id="rv-rating" value="5">
+          </div>
+          <div class="field"><label for="rv-message">Your review <span class="req">*</span></label>
+            <textarea class="textarea" id="rv-message" name="message" placeholder="What did you build or buy, and how was your experience?"></textarea></div>
+          <button class="btn btn-primary btn-block" type="submit">Submit Review</button>
+          <div class="form-msg" id="cf-review-msg" hidden></div>
+          <p class="review-note"><span class="ic">&#128737;&#65039;</span><span>Every review is moderated. Your submission is saved with a <strong>pending</strong> status and only appears on the site once our team approves it. We never publish your email address.</span></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">About CodeCrafix</span>
+        <h2 class="mt-2">Driven by Code, Powered by Community</h2>
+        <p>CodeCrafix is a small independent studio founded by Vivek Barman, focused on building useful software and sharing everything we learn with the developer community along the way.</p>
+      </div>
+      <div class="center">
+        <a class="btn btn-primary" href="https://youtube.com/@codecrafix?si=KeDuYrbW3m0BBHal" target="_blank" rel="noopener">&#9654; Subscribe on YouTube</a>
+        <a class="btn btn-outline" href="tutorials.html" style="margin-left:10px">Browse tutorials</a>
+      </div>
+    </div>
+  </section>
 </main>
 
-<script>
-(function () {
-  "use strict";
+<footer id="cf-footer"></footer>
 
-  /* ---------- sticky header state ---------- */
-  var header = document.getElementById("siteHeader");
-  function onScroll() {
-    if (window.scrollY > 12) { header.classList.add("is-stuck"); }
-    else { header.classList.remove("is-stuck"); }
-  }
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  /* ---------- mobile navigation ---------- */
-  var toggle = document.getElementById("navToggle");
-  var nav = document.getElementById("primaryNav");
-
-  function closeNav() {
-    nav.classList.remove("is-open");
-    toggle.setAttribute("aria-expanded", "false");
-  }
-
-  toggle.addEventListener("click", function () {
-    var open = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-
-  nav.addEventListener("click", function (e) {
-    var target = e.target.closest("a");
-    if (target) { closeNav(); }
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!nav.classList.contains("is-open")) { return; }
-    if (nav.contains(e.target) || toggle.contains(e.target)) { return; }
-    closeNav();
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeNav(); }
-  });
-
-  /* ---------- scroll reveal ---------- */
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var items = document.querySelectorAll(".reveal");
-
-  if (reduce || !("IntersectionObserver" in window)) {
-    Array.prototype.forEach.call(items, function (el) { el.classList.add("is-in"); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14, rootMargin: "0px 0px -60px 0px" });
-    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
-  }
-})();
-</script>
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/reviews-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
 </body>
 </html>

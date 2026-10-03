@@ -53,394 +53,123 @@ if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
 document.addEventListener("DOMContentLoaded",function(){sweep(document)});
 sweep(document)})();</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms of Service — Codecrafix</title>
-<meta name="description" content="The terms governing your use of the Codecrafix website, mobile applications and games, published by a technology studio based in Satna, Madhya Pradesh, India.">
-<meta name="theme-color" content="#0a0f1d">
-<meta name="robots" content="index,follow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0f1d'/%3E%3Cpath d='M13 9l-5 7 5 7M19 9l5 7-5 7' stroke='%2322d3ee' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms &amp; Conditions — CodeCrafix</title>
+<meta name="description" content="Terms and conditions for purchasing CodeCrafix digital products, custom development services and app publishing plans, including payment and refund terms.">
+<meta name="theme-color" content="#0b0f0c">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0a0f1d; --bg-2:#0d1424; --panel:#0f1729; --panel-2:#111c33;
-    --line:rgba(96,165,250,.14); --line-strong:rgba(56,189,248,.32);
-    --blue:#2f81f7; --cyan:#22d3ee; --sky:#38bdf8;
-    --text:#eef4ff; --muted:#93a4c3; --muted-2:#6f819f;
-    --radius:18px; --maxw:1120px; --ease:cubic-bezier(.22,.61,.36,1);
-  }
-  *,*::before,*::after{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;background:var(--bg);color:var(--text);
-    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased;overflow-x:hidden;
-  }
-  img{max-width:100%;display:block}
-  a{color:var(--cyan);text-decoration:none}
-  a:hover{text-decoration:underline}
-  h1,h2,h3,.brand-name{font-family:'Poppins','Inter',system-ui,sans-serif;line-height:1.2;letter-spacing:-.02em;margin:0}
-  p{margin:0}
-  ul{margin:0;padding:0;list-style:none}
-  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--cyan);color:#04121c;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600}
-  .skip-link:focus{left:0}
-  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  .content-z{position:relative;z-index:2}
-
-  /* header */
-  .site-header{position:sticky;top:0;z-index:100;background:rgba(10,15,29,.82);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--line)}
-  .header-inner{display:flex;align-items:center;justify-content:space-between;height:74px;gap:16px}
-  .brand{display:flex;align-items:center;gap:11px;color:var(--text)}
-  .brand:hover{text-decoration:none}
-  .brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:linear-gradient(150deg,rgba(47,129,247,.28),rgba(34,211,238,.16));border:1px solid rgba(56,189,248,.34);box-shadow:0 0 22px -6px rgba(34,211,238,.6),inset 0 0 14px -6px rgba(34,211,238,.5)}
-  .brand-mark svg{width:21px;height:21px}
-  .brand-name{font-size:19.5px;font-weight:700;letter-spacing:-.03em}
-  .brand-name span{color:var(--cyan)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:14.5px;font-weight:600;padding:11px 20px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),border-color .25s var(--ease);white-space:nowrap}
-  .btn:hover{text-decoration:none}
-  .btn-ghost{color:var(--text);background:rgba(255,255,255,.03);border-color:rgba(148,180,225,.22)}
-  .btn-ghost:hover{transform:translateY(-2px);border-color:var(--line-strong);background:rgba(56,189,248,.08)}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:12px}
-
-  /* hero */
-  .legal-hero{position:relative;padding:66px 0 42px;overflow:hidden}
-  .glow-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-  .orb{position:absolute;border-radius:50%;filter:blur(90px)}
-  .orb-a{width:480px;height:480px;background:rgba(47,129,247,.30);top:-220px;right:-140px;opacity:.6}
-  .orb-b{width:360px;height:360px;background:rgba(34,211,238,.18);bottom:-200px;left:-120px;opacity:.5}
-  .grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.055) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 78%)}
-  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);background:linear-gradient(180deg,rgba(34,211,238,.10),rgba(47,129,247,.06));border:1px solid rgba(34,211,238,.24);padding:7px 14px;border-radius:999px}
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-  .legal-hero h1{font-size:clamp(32px,4.6vw,50px);font-weight:800;margin:20px 0 16px}
-  .grad{background:linear-gradient(96deg,var(--sky) 0%,var(--cyan) 55%,#7dd3fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{color:var(--muted);font-size:17px;max-width:760px}
-  .meta-row{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:28px;font-size:14px;color:var(--muted)}
-  .meta-row span{display:inline-flex;align-items:center;gap:8px}
-  .meta-row svg{width:15px;height:15px;color:var(--cyan);flex:none}
-
-  /* body */
-  .legal-body{padding:14px 0 90px}
-  .legal-grid{display:grid;grid-template-columns:250px 1fr;gap:48px;align-items:start}
-  .toc{position:sticky;top:98px;border:1px solid var(--line);border-radius:16px;padding:22px 20px;background:linear-gradient(180deg,rgba(15,23,41,.9),rgba(13,20,36,.6))}
-  .toc h2{font-size:11.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);font-family:'Inter',sans-serif;margin-bottom:14px}
-  .toc ol{margin:0;padding:0;list-style:none;display:grid;gap:9px;counter-reset:t}
-  .toc li{counter-increment:t}
-  .toc a{font-size:13.6px;color:var(--muted);display:flex;gap:8px;line-height:1.45;transition:color .2s var(--ease)}
-  .toc a::before{content:counter(t) ".";color:var(--muted-2);font-weight:600;flex:none}
-  .toc a:hover{color:var(--cyan);text-decoration:none}
-
-  .legal-doc{max-width:760px}
-  .legal-doc section{margin-bottom:42px;scroll-margin-top:98px}
-  .legal-doc h2{font-size:21px;font-weight:700;margin-bottom:14px;display:flex;gap:12px;align-items:baseline}
-  .legal-doc h2 .num{color:var(--cyan);font-size:15px;font-weight:700;font-family:'Inter',sans-serif;flex:none;letter-spacing:0}
-  .legal-doc h3{font-size:16px;font-weight:600;margin:24px 0 10px;color:var(--text)}
-  .legal-doc p{color:var(--muted);margin-bottom:14px}
-  .legal-doc p:last-child{margin-bottom:0}
-  .legal-doc strong{color:var(--text);font-weight:600}
-  .legal-doc ul{display:grid;gap:11px;margin:0 0 16px}
-  .legal-doc ul li{position:relative;padding-left:24px;color:var(--muted)}
-  .legal-doc ul li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:2px;background:linear-gradient(120deg,var(--sky),var(--cyan));box-shadow:0 0 10px -1px rgba(34,211,238,.8)}
-  .callout{border:1px solid var(--line-strong);border-radius:15px;padding:20px 22px;background:linear-gradient(160deg,rgba(47,129,247,.13),rgba(13,20,36,.7));margin:22px 0}
-  .callout p{margin:0;color:var(--text)}
-  .callout a{font-weight:600}
-
-  /* footer */
-  .site-footer{border-top:1px solid var(--line);padding:48px 0 30px;background:linear-gradient(180deg,rgba(13,20,36,.4),rgba(10,15,29,1))}
-  .foot-inner{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:flex-start}
-  .foot-brand p{color:var(--muted);font-size:14.6px;margin-top:16px;max-width:320px}
-  .tagline{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;margin-top:14px;background:linear-gradient(96deg,var(--sky),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .foot-links{display:flex;flex-wrap:wrap;gap:10px 24px;font-size:14.4px;max-width:420px}
-  .foot-links a{color:var(--muted)}
-  .foot-links a:hover{color:var(--cyan)}
-  .foot-bottom{margin-top:38px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:13.6px;color:var(--muted-2)}
-
-  @media (max-width:900px){
-    .legal-grid{grid-template-columns:1fr;gap:30px}
-    .toc{position:static}
-  }
-  @media (max-width:560px){
-    .header-inner{height:66px}
-    .legal-hero{padding:46px 0 34px}
-    .btn{padding:10px 15px;font-size:13.6px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<header id="cf-header"></header>
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="index.html" aria-label="Codecrafix — home">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGradT)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <defs><linearGradient id="brandGradT" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
-          <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-        </svg>
-      </span>
-      <span class="brand-name">Code<span>crafix</span></span>
-    </a>
-    <a class="btn btn-ghost" href="index.html">&larr; Back to Home</a>
-  </div>
-</header>
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <span class="eyebrow">Legal</span>
+        <h1 class="mt-2" style="font-size:clamp(1.8rem,3.6vw,2.6rem)">Terms &amp; Conditions</h1>
+        <p class="updated mt-2">Last updated: 2 October 2026 &middot; These terms govern your use of codecrafix.shop and any purchase or service engagement with CodeCrafix.</p>
 
-<main id="main">
-  <section class="legal-hero" aria-labelledby="pageTitle">
-    <div class="glow-field" aria-hidden="true">
-      <div class="grid-lines"></div>
-      <div class="orb orb-a"></div>
-      <div class="orb orb-b"></div>
-    </div>
-    <div class="wrap content-z">
-      <span class="eyebrow"><span class="dot"></span>Legal</span>
-      <h1 id="pageTitle">Terms of <span class="grad">Service</span></h1>
-      <p class="lede">These Terms of Service govern your access to and use of the Codecrafix website, our mobile applications and games, and any related services we provide.</p>
-      <div class="meta-row">
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.4"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
-          Effective date: 28 September 2026
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2"/></svg>
-          Last updated: 28 September 2026
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.6 7l8.4 6 8.4-6"/></svg>
-          <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a>
-        </span>
+        <p>By browsing this site, downloading a free resource, purchasing a product or engaging us for a service, you agree to the terms below. If you do not agree, please do not use the site or our services.</p>
+
+        <h2>1. Definitions</h2>
+        <ul>
+          <li><strong>&ldquo;CodeCrafix&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;</strong> &mdash; the independent software studio operated by Vivek Barman, Satna, Madhya Pradesh, India.</li>
+          <li><strong>&ldquo;Product&rdquo;</strong> &mdash; any digital item sold or given away on this site, including game templates, app source codes, tools and prompt packs.</li>
+          <li><strong>&ldquo;Service&rdquo;</strong> &mdash; custom development, publishing or monetisation work performed by us for you.</li>
+          <li><strong>&ldquo;Razorpay&rdquo;</strong> &mdash; Razorpay Software Private Limited, our payment gateway provider.</li>
+        </ul>
+
+        <h2>2. Digital products and licence</h2>
+        <p>When you purchase or download a Product you receive a non-exclusive, non-transferable licence to use it for your own projects. Unless a product page states otherwise:</p>
+        <ul>
+          <li>You <strong>may</strong> use Products in unlimited personal and commercial end products.</li>
+          <li>You <strong>may</strong> modify the source code to fit your project.</li>
+          <li>You <strong>may not</strong> resell, sublicense, redistribute or give away the Product itself, in original or modified form, as a template or asset pack.</li>
+          <li>You <strong>may not</strong> claim authorship of the original Product.</li>
+        </ul>
+
+        <h2>3. Pricing and payment</h2>
+        <ul>
+          <li>All prices are listed in Indian Rupees (INR) and are inclusive of applicable taxes unless stated otherwise. We may change prices at any time; the price shown at checkout applies to your order.</li>
+          <li>Online payments are collected through <strong>Razorpay</strong>. By paying, you also agree to Razorpay&rsquo;s terms of use and privacy policy.</li>
+          <li>We do not store your full card, UPI or net-banking credentials &mdash; these are handled entirely on Razorpay&rsquo;s secure checkout.</li>
+          <li>Where a payment fails but an amount is debited, the amount is normally auto-reversed by your bank; if it is not, contact us and we will help you resolve it with Razorpay.</li>
+        </ul>
+
+        <h2>4. Delivery</h2>
+        <p>Digital products are delivered digitally &mdash; normally within minutes of confirmed payment, and always within 24 hours. Delivery is made by download link or email to the contact details you provide. If you do not receive your product within 24 hours, contact us and we will re-send it.</p>
+
+        <h2>5. Returns, refunds and cancellations</h2>
+        <p>Because our products are digital and delivered instantly, they are generally non-returnable and non-refundable. Limited exceptions, the exact refund process, and how it applies to custom development and publishing plans are set out in our dedicated policies, which form part of these terms:</p>
+        <ul>
+          <li><a href="return-policy.html">Return Policy</a></li>
+          <li><a href="refund-policy.html">Refund Policy</a></li>
+          <li><a href="cancellation-policy.html">Cancellation Policy</a></li>
+        </ul>
+
+        <h2>6. Custom development services</h2>
+        <ul>
+          <li>Scope, milestones, timeline and payment schedule are agreed in a written proposal before work begins.</li>
+          <li>A deposit is normally required to start; the balance is due on delivery.</li>
+          <li>Two rounds of revisions are included unless the proposal states otherwise. Additional changes are quoted separately.</li>
+          <li>You retain ownership of the final delivered work once full payment is received. We may reference the project in our portfolio unless you request otherwise in writing.</li>
+          <li>Timelines are estimates made in good faith and depend on timely feedback and content from you.</li>
+        </ul>
+
+        <h2>7. App publishing and monetisation plans</h2>
+        <ul>
+          <li>Publishing is performed under CodeCrafix&rsquo;s verified organisation console. You retain full ownership of your application, its source code and its intellectual property.</li>
+          <li>You confirm that any app you submit is your own work or that you hold all necessary rights, and that it complies with Google Play policies and applicable law.</li>
+          <li>We may decline or remove any app that is unlawful, infringing, deceptive or that risks the standing of our developer account.</li>
+          <li>Hosting and publishing plans are billed monthly and may be cancelled any time; access continues to the end of the paid period. If a plan lapses, we may unpublish the app after reasonable notice.</li>
+          <li>Advertising revenue generated through AdMob is settled to the account holder. We are not responsible for ad network decisions, fill rates or revenue amounts.</li>
+        </ul>
+
+        <h2>8. Acceptable use</h2>
+        <p>You agree not to use this site or our Products to build anything unlawful, malicious, infringing, or intended to defraud, harass or harm others. You also agree not to submit false reviews or reviews for products you have not purchased or used. We may remove reviews that breach this clause and suspend access for breach of these terms.</p>
+
+        <h2>9. Reviews and user content</h2>
+        <p>Reviews you submit are moderated before publication. We may approve, reject or remove a review at our discretion &mdash; for example if it is abusive, spam, promotional, or unrelated to a genuine experience. By submitting a review you grant us a non-exclusive right to display it on our site alongside your display name and rating.</p>
+
+        <h2>10. Intellectual property</h2>
+        <p>The CodeCrafix name, logo, site design, written content and any products we have not sold a licence to remain our intellectual property. Third-party assets included in a Product (fonts, sounds, icons) remain the property of their respective owners and are governed by their own licences, which are documented inside the product.</p>
+
+        <h2>11. Limitation of liability</h2>
+        <p>Our Products and services are provided &ldquo;as is&rdquo;. To the maximum extent permitted by law, CodeCrafix is not liable for indirect, incidental or consequential losses, including lost profits, lost data, store rejections or account suspensions. Our total liability for any claim is limited to the amount you paid us for the specific Product or Service concerned.</p>
+
+        <h2>12. Support</h2>
+        <p>Free Products are supported on a best-effort basis. Paid Products and active service plans receive email support; response times are stated on the relevant plan. Reach us at <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a>.</p>
+
+        <h2>13. Governing law and jurisdiction</h2>
+        <p>These terms are governed by the laws of India. Any dispute is subject to the exclusive jurisdiction of the courts of Satna, Madhya Pradesh.</p>
+
+        <h2>14. Grievance Officer</h2>
+        <p>For any complaint regarding these terms, a purchase or our content, contact our Grievance Officer:</p>
+        <ul>
+          <li><strong>Name:</strong> Vivek Barman</li>
+          <li><strong>Email:</strong> <a href="mailto:codecrafix.official@gmail.com">codecrafix.official@gmail.com</a></li>
+          <li><strong>Address:</strong> Satna, Madhya Pradesh, India</li>
+          <li><strong>Response time:</strong> acknowledgement within 48 hours; resolution within 15 days.</li>
+        </ul>
+
+        <h2>15. Changes to these terms</h2>
+        <p>We may update these terms from time to time. The version published on this page at the time of your purchase or engagement is the version that applies to you.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="legal-body">
-    <div class="wrap legal-grid">
-      <nav class="toc" aria-label="On this page">
-        <h2>On This Page</h2>
-        <ol>
-          <li><a href="#s1">Agreement to These Terms</a></li>
-          <li><a href="#s2">About Codecrafix</a></li>
-          <li><a href="#s3">Eligibility</a></li>
-          <li><a href="#s4">Permitted Use</a></li>
-          <li><a href="#s5">Prohibited Conduct</a></li>
-          <li><a href="#s6">Intellectual Property</a></li>
-          <li><a href="#s7">Client Engagements</a></li>
-          <li><a href="#s8">Apps, Games &amp; Distribution</a></li>
-          <li><a href="#s9">Purchases &amp; Licences</a></li>
-          <li><a href="#s10">YouTube &amp; Community</a></li>
-          <li><a href="#s11">Third-Party Links</a></li>
-          <li><a href="#s12">Disclaimer of Warranties</a></li>
-          <li><a href="#s13">Limitation of Liability</a></li>
-          <li><a href="#s14">Indemnification</a></li>
-          <li><a href="#s15">Termination</a></li>
-          <li><a href="#s16">Copyright &amp; Takedown</a></li>
-          <li><a href="#s17">Governing Law</a></li>
-          <li><a href="#s18">Changes to These Terms</a></li>
-          <li><a href="#s19">General Provisions</a></li>
-          <li><a href="#s20">Contact Us</a></li>
-        </ol>
-      </nav>
-
-      <article class="legal-doc">
-        <section id="s1">
-          <h2><span class="num">01</span>Agreement to These Terms</h2>
-          <p>These Terms of Service (“Terms”) form a legally binding agreement between you and Codecrafix (“Codecrafix”, “we”, “us” or “our”) governing your access to and use of our website, mobile applications, games and related services (together, the “Services”).</p>
-          <p>By accessing or using the Services, you confirm that you have read, understood and agreed to be bound by these Terms. <strong>If you do not agree with these Terms, you must not use the Services.</strong></p>
-        </section>
-
-        <section id="s2">
-          <h2><span class="num">02</span>About Codecrafix</h2>
-          <p>Codecrafix is an independent technology studio founded by <strong>Vivek Barman</strong> and based in <strong>Satna, Madhya Pradesh, India</strong>. We design, build and publish mobile applications and interactive games, and provide publishing, deployment and marketing services that take digital products from concept through to live release.</p>
-          <p>You can contact us at any time at <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a>.</p>
-        </section>
-
-        <section id="s3">
-          <h2><span class="num">03</span>Eligibility</h2>
-          <p>You must be at least 13 years old (or the minimum age of digital consent in your jurisdiction) to use the Services. If you are under 18, you may only use the Services with the involvement of a parent or legal guardian.</p>
-          <p>By using the Services, you represent that you have the legal capacity to enter into these Terms and that you will comply with all applicable laws and regulations.</p>
-        </section>
-
-        <section id="s4">
-          <h2><span class="num">04</span>Permitted Use</h2>
-          <p>Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable licence to access and use the Services for their intended purpose. This includes:</p>
-          <ul>
-            <li>browsing our website and learning about our services and portfolio;</li>
-            <li>downloading and playing our games and applications through the authorised marketplace that distributes them;</li>
-            <li>contacting us about a project, partnership or support request; and</li>
-            <li>sharing links to our public pages and content for lawful, non-commercial purposes.</li>
-          </ul>
-        </section>
-
-        <section id="s5">
-          <h2><span class="num">05</span>Prohibited Conduct</h2>
-          <p>When using the Services, you agree not to:</p>
-          <ul>
-            <li>copy, modify, translate, reverse engineer, decompile or disassemble any part of our software, except where such restriction is prohibited by law;</li>
-            <li>remove, obscure or alter any copyright, trademark or other proprietary notice;</li>
-            <li>use cheats, automation software, bots, hacks or unauthorised third-party tools to interact with our games or applications;</li>
-            <li>interfere with, disrupt, overload or attempt to gain unauthorised access to our systems, servers or networks;</li>
-            <li>use the Services to transmit malware, spam, or any unlawful, harassing, defamatory or infringing content;</li>
-            <li>impersonate Codecrafix, its founder or any of its representatives; or</li>
-            <li>use the Services in any way that violates applicable law or the rights of any third party.</li>
-          </ul>
-        </section>
-
-        <section id="s6">
-          <h2><span class="num">06</span>Intellectual Property</h2>
-          <p>All content made available through the Services — including source code, object code, game assets, artwork, user interfaces, designs, text, graphics, logos, brand names and the “Codecrafix” name and mark — is owned by or licensed to Codecrafix and is protected by copyright, trademark and other intellectual property laws.</p>
-          <p>Nothing in these Terms transfers ownership of any intellectual property to you. All rights not expressly granted are reserved.</p>
-          <h3>6.1 Your materials</h3>
-          <p>You retain ownership of any content, specifications, assets or materials you provide to us. By providing them, you grant us a limited licence to use them solely for the purpose of delivering the Services you have requested.</p>
-        </section>
-
-        <section id="s7">
-          <h2><span class="num">07</span>Client Engagements &amp; Proposals</h2>
-          <p>These Terms govern general use of our website and published products. Any bespoke development, design, publishing or marketing engagement is governed by a separate written agreement, statement of work or accepted proposal between you and Codecrafix.</p>
-          <p>Where a separate agreement exists, that agreement prevails over these Terms to the extent of any conflict. Project scope, timelines, milestones, fees, payment schedules, revision limits and intellectual-property assignment for delivered work are defined in that document.</p>
-          <div class="callout">
-            <p>To request a proposal for a project, email <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a> with a short description of what you want to build.</p>
-          </div>
-        </section>
-
-        <section id="s8">
-          <h2><span class="num">08</span>Applications, Games &amp; Distribution</h2>
-          <p>Our applications and games are distributed through authorised third-party application marketplaces, such as the Amazon Appstore. Your download, installation and use of a title is additionally subject to the terms, policies and review conditions of the marketplace through which you obtained it.</p>
-          <p>We may update, modify, suspend or discontinue any title, feature or service level at any time, including to address security, compatibility, legal or platform-policy requirements. Where reasonably practicable, we will provide notice of material changes that affect how you use a product.</p>
-        </section>
-
-        <section id="s9">
-          <h2><span class="num">09</span>Purchases, Licences &amp; Virtual Items</h2>
-          <p>Where a title offers paid content, in-application purchases or virtual items, those transactions are processed by the relevant marketplace and are subject to that marketplace’s payment, billing and refund terms. We do not process card details ourselves.</p>
-          <p>Virtual items and in-application content are licensed to you, not sold. They have no monetary value outside the product, are non-transferable, and may not be exchanged for cash or transferred between accounts except where the platform expressly permits it.</p>
-        </section>
-
-        <section id="s10">
-          <h2><span class="num">10</span>YouTube Channel &amp; Community Content</h2>
-          <p>We publish development content, tutorials and build documentation through our official YouTube channel. Your use of that platform is governed by its own terms of service and community guidelines.</p>
-          <p>We welcome questions, feedback and suggestions. By submitting comments, ideas or feedback to us through any channel, you agree that we may use them without restriction or obligation to you. Please do not send us confidential information or unsolicited creative proposals through public channels.</p>
-        </section>
-
-        <section id="s11">
-          <h2><span class="num">11</span>Third-Party Links &amp; Services</h2>
-          <p>The Services may contain links to third-party websites, marketplaces and platforms, including our official store listings and community channels. These links are provided for your convenience.</p>
-          <p>We do not control and are not responsible for the content, policies, availability or practices of any third-party site or service. Accessing a third-party service is at your own risk, and we encourage you to review its terms and privacy policy before use.</p>
-        </section>
-
-        <section id="s12">
-          <h2><span class="num">12</span>Disclaimer of Warranties</h2>
-          <p>The Services are provided on an <strong>“as is” and “as available”</strong> basis. To the fullest extent permitted by applicable law, Codecrafix disclaims all warranties, whether express, implied or statutory, including any implied warranties of merchantability, fitness for a particular purpose, title and non-infringement.</p>
-          <p>We do not warrant that the Services will be uninterrupted, error-free, secure, or free of harmful components, or that any defects will be corrected. You use the Services at your own discretion and risk.</p>
-        </section>
-
-        <section id="s13">
-          <h2><span class="num">13</span>Limitation of Liability</h2>
-          <p>To the fullest extent permitted by applicable law, Codecrafix, its founder, employees, contractors and partners shall not be liable for any indirect, incidental, special, consequential, exemplary or punitive damages, or for any loss of profits, revenue, data, goodwill or business opportunity, arising out of or in connection with your use of the Services.</p>
-          <p>This applies regardless of the legal theory on which the claim is based and even if we have been advised of the possibility of such damages. Nothing in these Terms excludes or limits liability that cannot lawfully be excluded or limited, including liability for death or personal injury caused by negligence, or for fraud.</p>
-        </section>
-
-        <section id="s14">
-          <h2><span class="num">14</span>Indemnification</h2>
-          <p>You agree to indemnify, defend and hold harmless Codecrafix and its founder, employees, contractors and partners from and against any claims, liabilities, damages, losses and expenses, including reasonable legal fees, arising out of or in any way connected with:</p>
-          <ul>
-            <li>your breach of these Terms;</li>
-            <li>your misuse of the Services; or</li>
-            <li>your violation of any law or the rights of any third party.</li>
-          </ul>
-        </section>
-
-        <section id="s15">
-          <h2><span class="num">15</span>Termination</h2>
-          <p>We may suspend or terminate your access to all or part of the Services at any time, with or without notice, if we reasonably believe you have breached these Terms, if we are required to do so by law or platform policy, or if we discontinue the relevant Service.</p>
-          <p>You may stop using the Services at any time. Sections of these Terms that by their nature should survive termination — including intellectual property, disclaimers, limitation of liability, indemnification and governing law — will continue to apply.</p>
-        </section>
-
-        <section id="s16">
-          <h2><span class="num">16</span>Copyright &amp; Takedown Requests</h2>
-          <p>We respect the intellectual property rights of others and expect our users to do the same. If you believe that content made available through the Services infringes your copyright, please send us a written notice that includes:</p>
-          <ul>
-            <li>identification of the copyrighted work you claim has been infringed;</li>
-            <li>identification of the allegedly infringing material and enough information for us to locate it;</li>
-            <li>your name, email address and other contact details;</li>
-            <li>a statement that you have a good-faith belief the use is not authorised; and</li>
-            <li>a statement, made under penalty of perjury, that the information in your notice is accurate and that you are the rights holder or authorised to act on their behalf.</li>
-          </ul>
-          <p>Send notices to <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a> with the subject line “Copyright Notice”. We will review valid notices and act appropriately, including removing or disabling access to the material where warranted.</p>
-        </section>
-
-        <section id="s17">
-          <h2><span class="num">17</span>Governing Law &amp; Jurisdiction</h2>
-          <p>These Terms and any dispute or claim arising out of or in connection with them are governed by and construed in accordance with the laws of <strong>India</strong>, without regard to conflict-of-law principles.</p>
-          <p>Subject to any mandatory consumer protection provisions that apply in your country of residence, you and Codecrafix agree that the courts at <strong>Satna, Madhya Pradesh, India</strong> shall have exclusive jurisdiction over any dispute arising from or relating to these Terms or the Services.</p>
-        </section>
-
-        <section id="s18">
-          <h2><span class="num">18</span>Changes to These Terms</h2>
-          <p>We may revise these Terms from time to time to reflect changes in our Services, our practices or the law. When we make material changes, we will update the “Last updated” date at the top of this page and, where appropriate, provide additional notice.</p>
-          <p>Your continued use of the Services after revised Terms take effect constitutes acceptance of those revisions. If you do not agree with the revised Terms, you should stop using the Services.</p>
-        </section>
-
-        <section id="s19">
-          <h2><span class="num">19</span>General Provisions</h2>
-          <ul>
-            <li><strong>Severability</strong> — if any provision of these Terms is found to be invalid or unenforceable, that provision will be limited or removed to the minimum extent necessary, and the remaining provisions will remain in full force.</li>
-            <li><strong>No waiver</strong> — our failure to enforce any right or provision of these Terms will not constitute a waiver of that right or provision.</li>
-            <li><strong>Assignment</strong> — you may not assign or transfer your rights under these Terms without our prior written consent. We may assign our rights freely.</li>
-            <li><strong>Entire agreement</strong> — these Terms, together with our Privacy Policy and any separate written agreement for paid work, constitute the entire agreement between you and Codecrafix regarding the Services.</li>
-          </ul>
-        </section>
-
-        <section id="s20">
-          <h2><span class="num">20</span>Contact Us</h2>
-          <p>If you have any questions about these Terms of Service, please contact us:</p>
-          <ul>
-            <li><strong>Email</strong> — <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a></li>
-            <li><strong>Studio</strong> — Codecrafix, Satna, Madhya Pradesh, India</li>
-            <li><strong>Founder</strong> — Vivek Barman</li>
-          </ul>
-          <div class="callout">
-            <p>We aim to respond to all enquiries within 48 hours. For project and partnership requests, including a short description of your requirements helps us reply with something useful on the first pass.</p>
-          </div>
-        </section>
-      </article>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-inner">
-      <div class="foot-brand">
-        <a class="brand" href="index.html" aria-label="Codecrafix — home">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="url(#brandGradTF)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <defs><linearGradient id="brandGradTF" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
-              <path d="M9 7l-4 5 4 5M15 7l4 5-4 5"/>
-            </svg>
-          </span>
-          <span class="brand-name">Code<span>crafix</span></span>
-        </a>
-        <p>A technology studio building mobile apps, immersive games and the publishing pipelines behind them.</p>
-        <p class="tagline">Code. Create. Scale.</p>
-      </div>
-      <nav class="foot-links" aria-label="Footer">
-        <a href="index.html">Home</a>
-        <a href="index.html#expertise">Expertise</a>
-        <a href="index.html#projects">Featured Projects</a>
-        <a href="index.html#about">About</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
-        <a href="mailto:mrvivekbarmansom@gmail.com">Email Us</a>
-        <a href="https://youtube.com/@codecrafix?si=lI-qxzyM2G2sw12z" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
-      </nav>
-    </div>
-    <div class="foot-bottom">
-      <span>&copy; 2026 Codecrafix. All rights reserved.</span>
-      <span>Satna, Madhya Pradesh, India &middot; <a href="mailto:mrvivekbarmansom@gmail.com">mrvivekbarmansom@gmail.com</a></span>
-    </div>
-  </div>
-</footer>
+<footer id="cf-footer"></footer>
+
+<script src="assets/js/config.js?v=20261003b"></script>
+<script src="assets/js/store-data.js?v=20261003b"></script>
+<script src="assets/js/app.js?v=20261003b"></script>
 </body>
 </html>
