@@ -1,12 +1,12 @@
 /* Store catalogue, tutorials and blog cards. Edit the lists below.
    Product fields: id, title, category, price (0 = Free), emoji, desc, format, version,
    url (payment / download link; empty = the button opens an email to you), featured (show on home).
-   `emoji` holds the cover <img>. It loads assets/img/<name>.png (your real poster) and
-   falls back to assets/img/<name>.svg if the PNG has not been uploaded yet.
+   `emoji` holds the cover <img>. Upload your real poster as assets/img/<n>.png (or .jpg / .jpeg / .webp)
+   and it is used automatically; until then the built-in assets/img/<n>.svg illustration is shown.
    `sample: true` items are demo content and are hidden when showSampleContent is false in config.js. */
 function cfCover(name, alt) {
-  return '<img src="assets/img/' + name + '.png" alt="' + alt + '" loading="lazy" ' +
-    'onerror="this.onerror=null;this.src=\'assets/img/' + name + '.svg\'" ' +
+  return '<img src="assets/img/' + name + '.png" alt="' + alt + '" loading="lazy" data-n="' + name + '" ' +
+    'onerror="var e=[\'jpg\',\'jpeg\',\'webp\',\'svg\'],i=+(this.dataset.i||0);if(i>=e.length){this.onerror=null;return;}this.dataset.i=i+1;this.src=\'assets/img/\'+this.dataset.n+\'.\'+e[i]" ' +
     'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">';
 }
 window.CODECRAFIX_STORE = {
