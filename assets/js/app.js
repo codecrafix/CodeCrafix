@@ -6,7 +6,7 @@
   var STORE = window.CODECRAFIX_STORE || { products: [], videos: [], blog: [], categories: ['All'] };
   var SEED = window.CODECRAFIX_REVIEWS || [];
   document.documentElement.classList.add('js');
-  if (!document.querySelector('link[href*="theme-v2.css"]')) { var lk = document.createElement('link'); lk.rel = 'stylesheet'; lk.href = 'assets/css/theme-v2.css?v=20261004d'; document.head.appendChild(lk); }
+  if (!document.querySelector('link[href*="theme-v2.css"]')) { var lk = document.createElement('link'); lk.rel = 'stylesheet'; lk.href = 'assets/css/theme-v2.css?v=20261004e'; document.head.appendChild(lk); }
   /* tweaks: cover badges above the poster, social icon sizing */
   var fx = document.createElement('style');
   fx.textContent = '.p-thumb{overflow:hidden}.p-thumb img{z-index:0}.p-cat,.p-price{z-index:2}' +
@@ -35,9 +35,10 @@
     if (f) {
       var S = C.social || {}, soc = '';
       var IG = S.instagram || 'https://www.instagram.com/codecrafix?stkn=MTF4ejJqc3VmcHZzMg==';
+      var MAIL = C.email || 'codecrafix.official@gmail.com';
       if (C.youtube) { soc += '<a href="' + esc(C.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube">&#9654;</a>'; }
       soc += '<a href="' + esc(IG) + '" target="_blank" rel="noopener" aria-label="Instagram">' + IG_ICON + '</a>';
-      if (C.whatsapp) { soc += '<a href="https://wa.me/' + esc(C.whatsapp) + '" target="_blank" rel="noopener" aria-label="WhatsApp">&#128172;</a>'; }
+      soc += '<a href="mailto:' + esc(MAIL) + '" aria-label="Email ' + esc(MAIL) + '" title="' + esc(MAIL) + '">&#128172;</a>';
       var legal = [['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
       f.innerHTML = '<div class="foot">' +
         '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div></div>' +
