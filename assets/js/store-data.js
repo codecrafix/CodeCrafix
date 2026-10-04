@@ -56,19 +56,19 @@ window.CODECRAFIX_STORE = {
     var ic = document.createElement('link'); ic.rel = 'icon'; ic.type = 'image/svg+xml'; ic.href = 'assets/img/logo.svg';
     document.head.appendChild(ic);
   } catch (e) {}
-  /* hero images: use your real photo if uploaded (webp/jpg/png), otherwise the built-in illustration */
+  /* hero images: svg illustration first (1 request), your own photo only if the svg is removed */
   function pick(img, base, order) {
     var i = 0;
     (function next() {
       if (i >= order.length) { return; }
       var src = 'images/' + base + '.' + order[i++], p = new Image();
-      p.onload = function () { img.onerror = null; img.src = src; };
+      p.onload = function () { img.onerror = null; if (img.getAttribute('src') !== src) { img.src = src; } };
       p.onerror = next;
       p.src = src;
     })();
   }
   document.addEventListener('DOMContentLoaded', function () {
-    var jobs = [['img[alt^="Custom app, game"]', 'custom-dev', ['jpg', 'webp', 'png', 'svg']], ['img[alt*="ublish"]', 'publish', ['webp', 'jpg', 'png', 'svg']]];
+    var jobs = [['img[alt*="development"]', 'custom-dev', ['svg', 'jpg', 'webp', 'png']], ['img[alt*="Rocket"]', 'publish', ['svg', 'webp', 'jpg', 'png']]];
     jobs.forEach(function (j) {
       Array.prototype.slice.call(document.querySelectorAll(j[0])).forEach(function (img) { pick(img, j[1], j[2]); });
     });
@@ -76,10 +76,11 @@ window.CODECRAFIX_STORE = {
 })();
 
 /* ---- clean URLs + SEO (runs on the live domain only) ----
-   /store instead of /store.html, / instead of /index.html, canonical + Open Graph + JSON-LD on every page. */
+   /store instead of /store.html, / instead of /index.html. Pages that already carry static meta + JSON-LD are left alone. */
 (function () {
   var ORIGIN = 'https://codecrafix.shop';
   if (!/(^|\.)codecrafix\.shop$/.test(location.hostname)) { return; }
+  var HAS_LD = false;
 
   function cleanHref(href) {
     if (!href || /^(https?:|mailto:|tel:|#|javascript:|\/\/)/i.test(href)) { return null; }
@@ -102,10 +103,14 @@ window.CODECRAFIX_STORE = {
     if (!e.getAttribute('content')) { e.setAttribute('content', val); }
   }
   function ld(obj) {
+    if (HAS_LD) { return; }
     var s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(obj);
     document.head.appendChild(s);
   }
   function seo(cur) {
+    var rb = document.head.querySelector('meta[name="robots"]');
+    if (rb && /noindex/.test(rb.getAttribute('content') || '')) { return; }
+    HAS_LD = !!document.head.querySelector('script[type="application/ld+json"]');
     var url = ORIGIN + (cur === '/' ? '/' : cur);
     var CFG = window.CODECRAFIX_CONFIG || {}, C = CFG.contact || {}, S = CFG.social || {};
     var can = document.head.querySelector('link[rel="canonical"]');
@@ -118,7 +123,7 @@ window.CODECRAFIX_STORE = {
     var img = ORIGIN + '/images/hero-mockup.webp';
     var noindex = (cur === '/admin' || cur === '/deploy-guide');
     setMeta('name', 'robots', noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large');
-    if (noindex) { var r = document.head.querySelector('meta[name="robots"]'); r.setAttribute('content', 'noindex,nofollow'); }
+    if (noindex) { document.head.querySelector('meta[name="robots"]').setAttribute('content', 'noindex,nofollow'); }
     setMeta('property', 'og:type', 'website'); setMeta('property', 'og:site_name', 'CodeCrafix');
     setMeta('property', 'og:url', url); setMeta('property', 'og:title', title); setMeta('property', 'og:description', desc); setMeta('property', 'og:image', img);
     setMeta('property', 'og:locale', 'en_IN');
@@ -128,17 +133,10 @@ window.CODECRAFIX_STORE = {
     var sameAs = [C.youtube, S.instagram].filter(Boolean);
     if (cur === '/') {
       ld({ '@context': 'https://schema.org', '@type': 'Organization', name: 'CodeCrafix', url: ORIGIN + '/', logo: ORIGIN + '/assets/img/logo.svg', email: C.email, founder: { '@type': 'Person', name: 'Vivek Barman' }, sameAs: sameAs });
-      ld({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'CodeCrafix', url: ORIGIN + '/' });
     } else {
       ld({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: ORIGIN + '/' },
         { '@type': 'ListItem', position: 2, name: title.split(' | ')[0].split(' — ')[0], item: url }] });
-    }
-    if (cur === '/store') {
-      var P = (window.CODECRAFIX_STORE || {}).products || [];
-      ld({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: P.filter(function (p) { return !p.sample; }).map(function (p, i) {
-        return { '@type': 'ListItem', position: i + 1, item: { '@type': 'SoftwareApplication', name: p.title, description: p.desc, applicationCategory: 'GameApplication', operatingSystem: 'Android', url: p.url || url, offers: { '@type': 'Offer', price: String(p.price || 0), priceCurrency: 'USD' } } };
-      }) });
     }
   }
   function run() {

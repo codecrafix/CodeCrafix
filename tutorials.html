@@ -3,15 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tutorials &amp; Blog — Learn App &amp; Game Development | CodeCrafix</title>
-<meta name="description" content="Free tutorials on Android app development, Unity game development, Play Store publishing and AdMob monetisation from the CodeCrafix YouTube channel.">
-<meta property="og:title" content="Tutorials &amp; Blog — CodeCrafix">
-<meta property="og:description" content="Learn app and game development with free CodeCrafix tutorials.">
+<meta name="color-scheme" content="dark">
+<title>App &amp; Game Dev Tutorials with ChatGPT | CodeCrafix</title>
+<meta name="description" content="Free build-along tutorials: make a dino game and a bubble shooter with ChatGPT, turn a game into a mobile app, and learn publishing and AdMob.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://codecrafix.shop/tutorials">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CodeCrafix">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://codecrafix.shop/tutorials">
+<meta property="og:title" content="App & Game Dev Tutorials with ChatGPT — CodeCrafix">
+<meta property="og:description" content="Free build-along tutorials on game development, mobile apps, publishing and monetisation.">
+<meta property="og:image" content="https://codecrafix.shop/images/hero-mockup.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="App & Game Dev Tutorials with ChatGPT — CodeCrafix">
+<meta name="twitter:description" content="Free build-along tutorials on game development, mobile apps, publishing and monetisation.">
+<meta name="twitter:image" content="https://codecrafix.shop/images/hero-mockup.webp">
 <meta name="theme-color" content="#0b0f0c">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="assets/css/style.css?v=20261004b">
 <style>
 .vid-card{padding:0;overflow:hidden;display:flex;flex-direction:column;color:inherit}
 .vid-card:hover{color:inherit}
@@ -29,6 +44,7 @@
 .blog-card h3{font-size:1rem;line-height:1.3}
 .blog-card p{font-size:.88rem}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"CodeCrafix Tutorials","url":"https://codecrafix.shop/tutorials","description":"Free build-along tutorials on game development, mobile apps, publishing and monetisation.","isPartOf":{"@type":"WebSite","name":"CodeCrafix","url":"https://codecrafix.shop/"},"mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"VideoObject","name":"Earn from Card Game Created with ChatGPT","description":"Turn a ChatGPT-built card game into a real source of income.","thumbnailUrl":"https://i.ytimg.com/vi/6eaQUQS88XY/hqdefault.jpg","url":"https://youtu.be/6eaQUQS88XY","embedUrl":"https://www.youtube.com/embed/6eaQUQS88XY"}},{"@type":"ListItem","position":2,"item":{"@type":"VideoObject","name":"Make Dino Game with ChatGPT — Secret Level Unlocked","description":"Build the classic dino runner from scratch and unlock a hidden level.","thumbnailUrl":"https://i.ytimg.com/vi/Kc2Ru8XF-yU/hqdefault.jpg","url":"https://youtu.be/Kc2Ru8XF-yU","embedUrl":"https://www.youtube.com/embed/Kc2Ru8XF-yU"}},{"@type":"ListItem","position":3,"item":{"@type":"VideoObject","name":"Convert PUBG-Style Game into Mobile App — No Coding Needed","description":"Turn a PUBG-style project into a publishable mobile app, no coding.","thumbnailUrl":"https://i.ytimg.com/vi/fqMYwYDq4YI/hqdefault.jpg","url":"https://youtu.be/fqMYwYDq4YI","embedUrl":"https://www.youtube.com/embed/fqMYwYDq4YI"}},{"@type":"ListItem","position":4,"item":{"@type":"VideoObject","name":"I Built a Bubble Shooter Game with ChatGPT","description":"A complete bubble shooter game built end to end with ChatGPT.","thumbnailUrl":"https://i.ytimg.com/vi/eD5b_4mKygI/hqdefault.jpg","url":"https://youtu.be/eD5b_4mKygI","embedUrl":"https://www.youtube.com/embed/eD5b_4mKygI"}}]}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://codecrafix.shop/"},{"@type":"ListItem","position":2,"name":"Tutorials","item":"https://codecrafix.shop/tutorials"}]}]}</script>
 </head>
 <body>
 <header id="cf-header"></header>
@@ -46,7 +62,14 @@
 
   <section class="section" style="padding-top:0">
     <div class="container">
-      <div class="grid grid-3" id="cf-videos"></div>
+      <h2 class="center" style="font-size:1.4rem;margin-bottom:22px">Latest video tutorials</h2>
+      <div class="grid grid-3" id="cf-video-list">
+        <a class="card vid-card" href="https://youtu.be/6eaQUQS88XY?si=srL7_Zzly9ZdQLr8" target="_blank" rel="noopener" aria-label="Watch on YouTube: Earn from Card Game Created with ChatGPT"><div class="vid-thumb"><img src="https://i.ytimg.com/vi/6eaQUQS88XY/hqdefault.jpg" alt="Earn from Card Game Created with ChatGPT" width="480" height="360" loading="lazy" decoding="async"><span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div><div class="vid-body"><h3>&#128176; Earn from Card Game Created with ChatGPT! #ai</h3><p>Turn a ChatGPT-built card game into a real source of income.</p></div></a>
+        <a class="card vid-card" href="https://youtu.be/Kc2Ru8XF-yU?si=C-176XffrIhQHk_X" target="_blank" rel="noopener" aria-label="Watch on YouTube: Make Dino Game with ChatGPT"><div class="vid-thumb"><img src="https://i.ytimg.com/vi/Kc2Ru8XF-yU/hqdefault.jpg" alt="Make Dino Game with ChatGPT — Secret Level Unlocked" width="480" height="360" loading="lazy" decoding="async"><span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div><div class="vid-body"><h3>&#128293; Make Dino Game with ChatGPT — Secret Level UNLOCKED #chatgpt</h3><p>Build the classic dino runner from scratch and unlock a hidden level.</p></div></a>
+        <a class="card vid-card" href="https://youtu.be/fqMYwYDq4YI?si=VDZaKVwB-SOVOLce" target="_blank" rel="noopener" aria-label="Watch on YouTube: Convert PUBG-Style Game into Mobile App"><div class="vid-thumb"><img src="https://i.ytimg.com/vi/fqMYwYDq4YI/hqdefault.jpg" alt="Convert PUBG-Style Game into Mobile App — No Coding Needed" width="480" height="360" loading="lazy" decoding="async"><span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div><div class="vid-body"><h3>&#128293; Convert PUBG-Style Game into Mobile App — No Coding Needed!</h3><p>Turn a PUBG-style project into a publishable mobile app, no coding.</p></div></a>
+        <a class="card vid-card" href="https://youtu.be/eD5b_4mKygI?si=MbtXQ9Oub38aZAjM" target="_blank" rel="noopener" aria-label="Watch on YouTube: I Built a Bubble Shooter Game with ChatGPT"><div class="vid-thumb"><img src="https://i.ytimg.com/vi/eD5b_4mKygI/hqdefault.jpg" alt="I Built a Bubble Shooter Game with ChatGPT" width="480" height="360" loading="lazy" decoding="async"><span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div><div class="vid-body"><h3>I Built a Bubble Shooter Game with ChatGPT</h3><p>A complete bubble shooter game built end to end with ChatGPT.</p></div></a>
+      </div>
+      <p class="center muted mt-3">See the finished games: <a href="dino-runner.html">Dino Runner</a> and <a href="bubble-shooter.html">Bubble Shooter</a>. Want something built for you? Try our <a href="custom-dev.html">custom development service</a>.</p>
     </div>
   </section>
 
@@ -66,14 +89,18 @@
   <section class="section" style="background:linear-gradient(180deg,transparent,rgba(16,185,129,.035),transparent)">
     <div class="container">
       <div class="section-head"><span class="eyebrow">From the Blog</span><h2 class="mt-2">Notes, guides &amp; lessons learned</h2></div>
-      <div class="grid grid-3" id="cf-blog"></div>
+      <div class="grid grid-3" id="cf-blog-list">
+        <article class="card blog-card"><div class="blog-top"><span class="blog-tag">Publishing</span><span class="blog-date">22-Sept-2026</span></div><h3>Do You Really Need a Play Console Account?</h3><p>Publishing without the paperwork — what is possible, what is not, and how to stay compliant.</p></article>
+        <article class="card blog-card"><div class="blog-top"><span class="blog-tag">Monetisation</span><span class="blog-date">12-Sept-2026</span></div><h3>AdMob in 2026: What Changed for Indie Devs</h3><p>Updated policy notes, eCPM expectations and the ad formats worth your time.</p></article>
+        <article class="card blog-card"><div class="blog-top"><span class="blog-tag">Development</span><span class="blog-date">30-Aug-2026</span></div><h3>Reskinning a Template Without Breaking It</h3><p>A practical checklist for swapping art, audio and config in a purchased template.</p></article>
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="card card-flat form-card" style="padding:36px;text-align:center">
-        <h3>Get new tutorials in your inbox</h3>
+        <h2 style="font-size:1.3rem">Get new tutorials in your inbox</h2>
         <p class="mt-1">One email a month — new videos, free resources and store discounts. No spam, ever.</p>
         <form id="cf-newsletter" class="row wrap" style="justify-content:center;margin-top:22px;gap:10px">
           <input class="input" type="email" placeholder="you@example.com" aria-label="Email address" style="max-width:300px">
@@ -84,33 +111,10 @@
   </section>
 </main>
 
-<footer id="cf-footer"></footer>
+<footer id="cf-footer"><div class="foot"><div><a class="foot-logo" href="/"><img src="assets/img/logo.svg" alt="" width="64" height="64"><span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p></div><div><h4>Explore</h4><a href="/store">Digital Store</a><a href="/custom-dev">Custom Development</a><a href="/publish-app">Publish Your App</a><a href="/tutorials">Tutorials</a><a href="/contact">Contact Us</a></div><div><h4>Company</h4><a href="/#about">About</a><a href="/#services">Services</a><a href="/#reviews">Reviews</a><a href="/custom-dev#hire">Start a project</a><a href="/contact">Contact</a></div><div><h4>Legal</h4><a href="/terms">Terms &amp; Conditions</a><a href="/privacy">Privacy Policy</a><a href="/refund-policy">Refund Policy</a><a href="/return-policy">Return Policy</a><a href="/cancellation-policy">Cancellation Policy</a></div></div></footer>
 
-<script src="assets/js/config.js?v=20261003b"></script>
-<script src="assets/js/store-data.js?v=20261003b"></script>
-<script src="assets/js/app.js?v=20261003b"></script>
-<script>
-/* Tutorials: videos never play on this site - each card opens the video on YouTube. */
-document.addEventListener('DOMContentLoaded', function () {
-  var S = window.CODECRAFIX_STORE || {};
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  var v = document.getElementById('cf-videos');
-  if (v) {
-    v.innerHTML = (S.videos || []).map(function (m) {
-      return '<a class="card vid-card" href="' + esc(m.url) + '" target="_blank" rel="noopener" aria-label="Watch on YouTube: ' + esc(m.title) + '">' +
-        '<div class="vid-thumb"><img src="https://i.ytimg.com/vi/' + esc(m.id) + '/hqdefault.jpg" alt="' + esc(m.title) + '" loading="lazy" onerror="this.style.display=\'none\'">' +
-        '<span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div>' +
-        '<div class="vid-body"><h3>' + esc(m.title) + '</h3><p>' + esc(m.desc) + '</p></div></a>';
-    }).join('');
-  }
-  var b = document.getElementById('cf-blog');
-  if (b) {
-    b.innerHTML = (S.blog || []).map(function (m) {
-      return '<article class="card blog-card"><div class="blog-top"><span class="blog-tag">' + esc(m.tag) + '</span><span class="blog-date">' + esc(m.date) + '</span></div>' +
-        '<h3>' + esc(m.title) + '</h3><p>' + esc(m.desc) + '</p></article>';
-    }).join('');
-  }
-});
-</script>
+<script src="assets/js/config.js?v=20261004n"></script>
+<script src="assets/js/store-data.js?v=20261004d"></script>
+<script src="assets/js/app.js?v=20261004c"></script>
 </body>
 </html>
