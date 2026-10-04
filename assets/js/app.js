@@ -21,7 +21,7 @@
   function msg(el, text, err) { if (!el) { return; } el.hidden = false; el.textContent = text; el.className = 'form-msg' + (err ? ' err' : ''); }
 
   /* ---------- header + footer ---------- */
-  var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials']];
+  var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials'], ['contact.html', 'Contact']];
   var LOGO = '<img src="assets/img/logo.svg" alt="" width="36" height="36">';
   var IG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
   function renderChrome() {
@@ -42,8 +42,8 @@
       var legal = [['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
       f.innerHTML = '<div class="foot">' +
         '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div></div>' +
-        '<div><h4>Explore</h4><a href="store.html">Digital Store</a><a href="custom-dev.html">Custom Development</a><a href="publish-app.html">Publish Your App</a><a href="tutorials.html">Tutorials</a></div>' +
-        '<div><h4>Company</h4><a href="index.html#about">About</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a></div>' +
+        '<div><h4>Explore</h4><a href="store.html">Digital Store</a><a href="custom-dev.html">Custom Development</a><a href="publish-app.html">Publish Your App</a><a href="tutorials.html">Tutorials</a><a href="contact.html">Contact Us</a></div>' +
+        '<div><h4>Company</h4><a href="index.html#about">About</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a><a href="contact.html">Contact</a></div>' +
         '<div><h4>Legal</h4>' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>' +
         '<div class="foot-bottom"><span>&copy; ' + new Date().getFullYear() + ' CodeCrafix. All rights reserved. Code. Create. Scale.</span><div class="foot-legal">' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>';
     }
