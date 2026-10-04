@@ -1,5 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#16a34a"/></linearGradient></defs>
-<path d="M50 20.5A22 22 0 1 0 50 53.5" fill="none" stroke="url(#g)" stroke-width="9" stroke-linecap="round"/>
-<circle cx="33" cy="37" r="14.5" fill="#06100b"/>
-<path d="M29 31l-6 6 6 6M37 31l6 6-6 6M34.6 29.5l-3.2 15" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="54" y="10" width="5" height="5" rx="1" fill="#4ade80"/><rect x="61" y="16" width="4" height="4" rx="1" fill="#22c55e"/><rect x="58" y="22" width="3" height="3" rx="1" fill="#16a34a"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><defs><linearGradient id="cg" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#8fe84a"/><stop offset=".45" stop-color="#3ecf5a"/><stop offset="1" stop-color="#13b055"/></linearGradient><linearGradient id="sh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#007a45" stop-opacity=".95"/><stop offset="1" stop-color="#0a8f4a" stop-opacity="0"/></linearGradient></defs>
+<path d="M30 11.3H49Q50 11.3 51 12.2L53.2 14.4Q53.8 15 53.1 15.7L44.5 23.5Q43.5 24.4 42 24.4H30Q26 24.4 22.5 26.8Q17 31.5 17 37.2Q17 41 19.5 43.5L28 51H42Q44 51 45.5 49.8L48.5 47Q49.5 46.2 50.5 47L55.8 51.5Q56.3 52.2 55.6 52.9Q50 58 45 60Q43 60.6 41 60.6H28Q24 60.6 19 57.5Q12 52 8 44.5Q6 40 6 37.2Q6 28 12 21Q19 12.5 30 11.3Z" fill="url(#cg)"/>
+<path d="M23 26.5Q27 24.4 31 24.4H42L36 20.2H29Q25.5 21.5 23 26.5Z" fill="url(#sh)" opacity=".8"/>
+<path d="M7 42Q9 50 17 56Q22 60 28 60.6H34Q26 56 19.5 43.5Q12 36 7 42Z" fill="#007a45" opacity=".55"/>
+<path d="M33 51H44Q46 60 41 60.6H33Z" fill="#007a45" opacity=".55"/>
+<path d="M29.5 31L24 37l5.5 6M41.5 31l5.5 6-5.5 6M37.6 28.2L33 46" fill="none" stroke="#fff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60.6" y="10.2" width="5.3" height="5.2" rx=".8" fill="#6bdc4a"/><rect x="54.2" y="15.5" width="5.6" height="5.6" rx=".8" fill="#2fc457"/><rect x="48.8" y="22.6" width="5.3" height="5.4" rx=".8" fill="#1fb855"/><rect x="61.6" y="20.6" width="3.1" height="3.2" rx=".6" fill="#4fd04f"/></svg>
