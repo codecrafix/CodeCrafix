@@ -6,6 +6,7 @@
   var STORE = window.CODECRAFIX_STORE || { products: [], videos: [], blog: [], categories: ['All'] };
   var SEED = window.CODECRAFIX_REVIEWS || [];
   document.documentElement.classList.add('js');
+  if (!document.querySelector('link[href*="theme-v2.css"]')) { var lk = document.createElement('link'); lk.rel = 'stylesheet'; lk.href = 'assets/css/theme-v2.css?v=20261004b'; document.head.appendChild(lk); }
 
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
@@ -16,22 +17,27 @@
 
   /* ---------- header + footer ---------- */
   var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials']];
+  var LOGO = '<img src="assets/img/logo.svg" alt="" width="36" height="36">';
   function renderChrome() {
     var h = $('#cf-header');
     if (h) {
-      h.innerHTML = '<div class="nav"><a class="brand" href="index.html" aria-label="CodeCrafix home"><img src="assets/img/logo.svg" alt="" width="34" height="34"><span>Code<b>Crafix</b></span></a>' +
+      h.innerHTML = '<div class="nav"><a class="brand" href="index.html" aria-label="CodeCrafix home">' + LOGO + '<span>Code<b>Crafix</b></span></a>' +
         '<nav class="nav-links" aria-label="Main">' + NAV.map(function (n) { return '<a href="' + n[0] + '"' + (page() === n[0] ? ' class="active"' : '') + '>' + n[1] + '</a>'; }).join('') + '</nav>' +
         '<a class="btn btn-primary btn-sm nav-cta" href="store.html">Explore Store</a></div>';
     }
     var f = $('#cf-footer');
     if (f) {
-      var yr = new Date().getFullYear();
-      f.innerHTML = '<div class="foot"><div><a class="brand" href="index.html"><img src="assets/img/logo.svg" alt="" width="34" height="34"><span>Code<b>Crafix</b></span></a>' +
-        '<p>Independent tech studio in India building apps, games and tools. Code. Create. Scale.</p></div>' +
-        '<div><h4>Explore</h4><a href="store.html">Store</a><a href="custom-dev.html">Custom Dev</a><a href="publish-app.html">Publish App</a><a href="tutorials.html">Tutorials</a></div>' +
-        '<div><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="refund-policy.html">Refund Policy</a><a href="return-policy.html">Return Policy</a><a href="cancellation-policy.html">Cancellation Policy</a></div>' +
-        '<div><h4>Contact</h4><a href="mailto:' + esc(C.email) + '">' + esc(C.email) + '</a><a href="' + esc(C.youtube) + '" target="_blank" rel="noopener">YouTube</a><a href="custom-dev.html#hire">Start a project</a></div></div>' +
-        '<div class="foot-bottom"><span>&copy; ' + yr + ' CodeCrafix. All rights reserved.</span><span>Made by Vivek Barman &middot; Satna, India</span></div>';
+      var S = C.social || {}, soc = '';
+      if (C.youtube) { soc += '<a href="' + esc(C.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube">&#9654;</a>'; }
+      if (S.instagram) { soc += '<a href="' + esc(S.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram">&#128247;</a>'; }
+      if (C.whatsapp) { soc += '<a href="https://wa.me/' + esc(C.whatsapp) + '" target="_blank" rel="noopener" aria-label="WhatsApp">&#128172;</a>'; }
+      var legal = [['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
+      f.innerHTML = '<div class="foot">' +
+        '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div></div>' +
+        '<div><h4>Explore</h4><a href="store.html">Digital Store</a><a href="custom-dev.html">Custom Development</a><a href="publish-app.html">Publish Your App</a><a href="tutorials.html">Tutorials</a></div>' +
+        '<div><h4>Company</h4><a href="index.html#about">About</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a></div>' +
+        '<div><h4>Legal</h4>' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>' +
+        '<div class="foot-bottom"><span>&copy; ' + new Date().getFullYear() + ' CodeCrafix. All rights reserved. Code. Create. Scale.</span><div class="foot-legal">' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>';
     }
   }
 
@@ -45,26 +51,41 @@
   }
 
   /* ---------- store ---------- */
+  var SHOW_SAMPLE = CFG.showSampleContent !== false;
+  function visibleProducts() { return STORE.products.filter(function (p) { return !p.sample || SHOW_SAMPLE; }); }
   function productCard(p) {
-    var price = p.price > 0 ? '&#8377;' + Number(p.price).toLocaleString('en-IN') : 'Free';
-    var btn = p.url ? '<a class="btn btn-primary btn-sm" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.cta || 'Get it') + '</a>'
-      : '<span class="status-pill warn">Coming soon</span>';
-    return '<article class="card product-card reveal"><img src="' + esc(p.image) + '" alt="' + esc(p.title) + '" loading="lazy"><div class="product-body">' +
-      '<span class="tag" style="align-self:flex-start">' + esc(p.category) + '</span><h3>' + esc(p.title) + '</h3><p>' + esc(p.desc) + '</p>' +
-      '<div class="product-meta"><span class="price">' + price + '</span>' + btn + '</div></div></article>';
+    var free = !(p.price > 0);
+    var price = free ? 'Free' : '&#8377;' + Number(p.price).toLocaleString('en-IN');
+    var label = p.cta || (free ? 'Download Now' : 'Buy Now');
+    var cls = 'btn btn-sm ' + (free ? 'btn-outline' : 'btn-primary');
+    var href = p.url ? ' href="' + esc(p.url) + '" target="_blank" rel="noopener"'
+      : ' href="mailto:' + esc(C.email) + '?subject=' + encodeURIComponent((free ? 'Download request' : 'Purchase request') + ' - ' + p.title) + '"';
+    return '<article class="card product-card reveal" id="' + esc(p.id) + '"><div class="p-thumb"><span class="p-cat">' + esc(p.category) + '</span><span class="p-price' + (free ? ' free' : '') + '">' + price + '</span><span aria-hidden="true">' + (p.emoji || '&#127918;') + '</span></div>' +
+      '<div class="product-body"><h3>' + esc(p.title) + '</h3><p>' + esc(p.desc) + '</p>' +
+      '<div class="p-meta"><span>' + esc(p.format || '') + '</span><span>' + esc(p.version || '') + '</span></div>' +
+      '<div class="p-actions"><a class="' + cls + '"' + href + '>' + esc(label) + '</a><button class="p-link" type="button" data-copy="store.html#' + esc(p.id) + '" aria-label="Copy link to ' + esc(p.title) + '">&#128279;</button></div></div></article>';
   }
+  function toast(t) { var d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(function () { d.remove(); }, 1600); }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-copy]'); if (!b) { return; }
+    var url = new URL(b.getAttribute('data-copy'), location.href).href;
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(function () { toast('Link copied'); }, function () { window.prompt('Copy this link:', url); }); }
+    else { window.prompt('Copy this link:', url); }
+  });
   function renderStore() {
+    var all = visibleProducts();
     var fg = $('#cf-featured-grid');
-    if (fg) { fg.innerHTML = STORE.products.filter(function (p) { return p.featured; }).map(productCard).join('') || '<div class="empty-state">New products landing soon.</div>'; }
+    if (fg) { fg.innerHTML = all.filter(function (p) { return p.featured; }).map(productCard).join('') || '<div class="empty-state">New products landing soon.</div>'; }
     var sg = $('#cf-store-grid'), fb = $('#cf-filters');
     if (!sg) { return; }
     function draw(cat) {
-      var list = STORE.products.filter(function (p) { return cat === 'All' || p.category === cat; });
+      var list = all.filter(function (p) { return cat === 'All' || p.category === cat; });
       sg.innerHTML = list.map(productCard).join('') || '<div class="empty-state">Nothing in this category yet.</div>';
       $$('.reveal', sg).forEach(function (e) { e.classList.add('in'); });
     }
     if (fb) {
-      fb.innerHTML = STORE.categories.map(function (c, i) { return '<button type="button" class="filter-btn' + (i === 0 ? ' active' : '') + '" data-filter="' + esc(c) + '">' + esc(c) + '</button>'; }).join('');
+      var cats = ['All'].concat(STORE.categories.filter(function (c) { return c !== 'All' && all.some(function (p) { return p.category === c; }); }));
+      fb.innerHTML = cats.map(function (c, i) { return '<button type="button" class="filter-btn' + (i === 0 ? ' active' : '') + '" data-filter="' + esc(c) + '">' + esc(c) + '</button>'; }).join('');
       fb.addEventListener('click', function (e) { var b = e.target.closest('.filter-btn'); if (!b) { return; } $$('.filter-btn', fb).forEach(function (x) { x.classList.remove('active'); }); b.classList.add('active'); draw(b.getAttribute('data-filter')); });
     }
     draw('All');
@@ -124,14 +145,19 @@
   /* ---------- reviews ---------- */
   var KEY = 'cf_reviews_v1';
   function stored() { return ls(KEY) || []; }
-  function stars(n) { return '&#9733;'.repeat(n) + '<span style="color:#2a3a31">' + '&#9733;'.repeat(5 - n) + '</span>'; }
-  function approved() { return SEED.concat(stored()).filter(function (r) { return r.status === 'approved' || (!r.status && SEED.indexOf(r) > -1); }); }
+  function stars(n) { return '&#9733;'.repeat(n) + '&#9734;'.repeat(5 - n); }
+  function fmtDate(r) { if (r.date) { return r.date; } try { return new Date(r.created).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
+  function initials(n) { return String(n || '?').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(''); }
+  function approved() {
+    var seed = SEED.filter(function (r) { return !r.sample || SHOW_SAMPLE; });
+    return seed.concat(stored().filter(function (r) { return r.status === 'approved'; }));
+  }
   function renderReviews() {
     var g = $('#cf-reviews-grid'); if (!g) { return; }
     var list = approved(), sum = $('#cf-review-summary');
-    if (!list.length) { g.innerHTML = '<div class="empty-state">No public reviews yet — be the first to share your experience below.</div>'; if (sum) { sum.innerHTML = ''; } return; }
-    g.innerHTML = list.map(function (r) { return '<article class="card review-card"><div class="stars">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p><div class="review-by"><span class="avatar">' + esc((r.name || '?').charAt(0).toUpperCase()) + '</span><div><b>' + esc(r.name) + '</b><span>' + esc(r.role || 'Verified customer') + '</span></div></div></article>'; }).join('');
-    if (sum) { var avg = list.reduce(function (a, r) { return a + r.rating; }, 0) / list.length; sum.innerHTML = '<span class="rs-score">' + avg.toFixed(1) + '</span><div><div class="stars">' + stars(Math.round(avg)) + '</div><span class="tiny muted">' + list.length + ' verified review' + (list.length > 1 ? 's' : '') + '</span></div>'; }
+    if (!list.length) { g.innerHTML = '<div class="empty-state">No public reviews yet &mdash; be the first to share your experience below.</div>'; if (sum) { sum.innerHTML = ''; } return; }
+    g.innerHTML = list.map(function (r) { return '<article class="card review-card"><div class="review-head"><span class="avatar">' + esc(initials(r.name)) + '</span><div><b>' + esc(r.name) + '</b><span class="role">' + esc(r.role || 'Verified customer') + '</span></div></div><div class="stars" aria-label="' + r.rating + ' out of 5">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p><div class="review-date">' + esc(fmtDate(r)) + '</div></article>'; }).join('');
+    if (sum) { var avg = list.reduce(function (a, r) { return a + r.rating; }, 0) / list.length; sum.innerHTML = '<div class="rs-block"><span class="rs-score">' + avg.toFixed(1) + '</span><span class="rs-sub">out of 5</span></div><div class="rs-side"><div class="stars">' + stars(Math.round(avg)) + '</div><span class="tiny muted">Based on ' + list.length + ' verified review' + (list.length > 1 ? 's' : '') + '</span></div>'; }
   }
   function initReviewForm() {
     var f = $('#cf-review-form'); if (!f) { return; }
