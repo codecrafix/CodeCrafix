@@ -6,12 +6,11 @@
   var STORE = window.CODECRAFIX_STORE || { products: [], videos: [], blog: [], categories: ['All'] };
   var SEED = window.CODECRAFIX_REVIEWS || [];
   document.documentElement.classList.add('js');
-  if (!document.querySelector('link[href*="theme-v2.css"]')) { var lk = document.createElement('link'); lk.rel = 'stylesheet'; lk.href = 'assets/css/theme-v2.css?v=20261004c'; document.head.appendChild(lk); }
-  /* v3 tweaks: cover badges above the poster, footer contact */
+  if (!document.querySelector('link[href*="theme-v2.css"]')) { var lk = document.createElement('link'); lk.rel = 'stylesheet'; lk.href = 'assets/css/theme-v2.css?v=20261004d'; document.head.appendChild(lk); }
+  /* tweaks: cover badges above the poster, social icon sizing */
   var fx = document.createElement('style');
   fx.textContent = '.p-thumb{overflow:hidden}.p-thumb img{z-index:0}.p-cat,.p-price{z-index:2}' +
-    '.foot-mail{display:block;margin-top:14px;font-size:.84rem;color:#4ade80;word-break:break-all}' +
-    '.social a{text-decoration:none;color:#d8f5e3}';
+    '.social a{text-decoration:none;color:#d8f5e3}.social svg{width:16px;height:16px;display:block}';
   document.head.appendChild(fx);
 
   function $(s, r) { return (r || document).querySelector(s); }
@@ -24,6 +23,7 @@
   /* ---------- header + footer ---------- */
   var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials']];
   var LOGO = '<img src="assets/img/logo.svg" alt="" width="36" height="36">';
+  var IG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
   function renderChrome() {
     var h = $('#cf-header');
     if (h) {
@@ -35,16 +35,12 @@
     if (f) {
       var S = C.social || {}, soc = '';
       var IG = S.instagram || 'https://www.instagram.com/codecrafix?stkn=MTF4ejJqc3VmcHZzMg==';
-      var MAIL = C.email || 'codecrafix.official@gmail.com';
       if (C.youtube) { soc += '<a href="' + esc(C.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube">&#9654;</a>'; }
-      soc += '<a href="' + esc(IG) + '" target="_blank" rel="noopener" aria-label="Instagram @codecrafix">&#128247;</a>';
-      soc += '<a href="mailto:' + esc(MAIL) + '" aria-label="Email">&#9993;</a>';
+      soc += '<a href="' + esc(IG) + '" target="_blank" rel="noopener" aria-label="Instagram">' + IG_ICON + '</a>';
       if (C.whatsapp) { soc += '<a href="https://wa.me/' + esc(C.whatsapp) + '" target="_blank" rel="noopener" aria-label="WhatsApp">&#128172;</a>'; }
       var legal = [['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
       f.innerHTML = '<div class="foot">' +
-        '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div>' +
-        '<a class="foot-mail" href="mailto:' + esc(MAIL) + '">' + esc(MAIL) + '</a>' +
-        '<a class="foot-mail" style="margin-top:6px" href="' + esc(IG) + '" target="_blank" rel="noopener">Instagram @codecrafix</a></div>' +
+        '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div></div>' +
         '<div><h4>Explore</h4><a href="store.html">Digital Store</a><a href="custom-dev.html">Custom Development</a><a href="publish-app.html">Publish Your App</a><a href="tutorials.html">Tutorials</a></div>' +
         '<div><h4>Company</h4><a href="index.html#about">About</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a></div>' +
         '<div><h4>Legal</h4>' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>' +
