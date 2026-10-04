@@ -68,8 +68,9 @@ window.CODECRAFIX_STORE = {
     })();
   }
   document.addEventListener('DOMContentLoaded', function () {
-    [['custom-dev', ['jpg', 'webp', 'png', 'svg']], ['publish', ['webp', 'jpg', 'png', 'svg']]].forEach(function (x) {
-      Array.prototype.slice.call(document.querySelectorAll('img[src*="images/' + x[0] + '"]')).forEach(function (img) { pick(img, x[0], x[1]); });
+    var jobs = [['img[alt^="Custom app, game"]', 'custom-dev', ['jpg', 'webp', 'png', 'svg']], ['img[alt*="ublish"]', 'publish', ['webp', 'jpg', 'png', 'svg']]];
+    jobs.forEach(function (j) {
+      Array.prototype.slice.call(document.querySelectorAll(j[0])).forEach(function (img) { pick(img, j[1], j[2]); });
     });
   });
 })();

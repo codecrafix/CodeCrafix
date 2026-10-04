@@ -1,72 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script data-tmly-media-guard="1">(function(){"use strict";
-var T=window.__tmly||(window.__tmly=(function(){
-var o={},n=String(window.name||"");
-if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
-var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
-return o})());
-if(T.presentation!=="preview"){return}
-var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
-var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
-var gestured=false;
-["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
-document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
-function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
-function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
-function harden(el){
-el.autoplay=false;el.removeAttribute("autoplay");
-if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
-if(muted){el.muted=true}
-if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
-var play=HTMLMediaElement.prototype.play;
-HTMLMediaElement.prototype.play=function(){
-if(!gestured){announcePaused(this);
-return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false);this.muted=false}
-return play.apply(this,arguments)};
-var acProtos=[];
-function guardAC(n){
-var N=window[n];if(!N||!N.prototype){return}
-if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
-var res=N.prototype.resume;
-if(typeof res==="function"){N.prototype.resume=function(){
-if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false)}
-return res.apply(this,arguments)}}}
-var W=function(o){var c=arguments.length?new N(o):new N();
-if(!gestured){try{c.suspend()}catch(e){}}return c};
-W.prototype=N.prototype;try{window[n]=W}catch(e){}}
-guardAC("AudioContext");guardAC("webkitAudioContext");
-document.addEventListener("play",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
-document.addEventListener("pause",function(e){
-if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
-document.addEventListener("volumechange",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
-function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
-for(var i=0;i<l.length;i++){harden(l[i])}}}
-new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
-for(var j=0;j<a.length;j++){var n=a[j];
-if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
-.observe(document.documentElement,{childList:true,subtree:true});
-document.addEventListener("DOMContentLoaded",function(){sweep(document)});
-sweep(document)})();</script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tutorials &amp; Blog — Learn App &amp; Game Development | CodeCrafix</title>
 <meta name="description" content="Free tutorials on Android app development, Unity game development, Play Store publishing and AdMob monetisation from the CodeCrafix YouTube channel.">
 <meta property="og:title" content="Tutorials &amp; Blog — CodeCrafix">
 <meta property="og:description" content="Learn app and game development with free CodeCrafix tutorials.">
-<meta property="og:image" content="assets/img/og-cover.png">
 <meta name="theme-color" content="#0b0f0c">
-<link rel="icon" href="assets/img/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<style>
+.vid-card{padding:0;overflow:hidden;display:flex;flex-direction:column;color:inherit}
+.vid-card:hover{color:inherit}
+.vid-thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#0c2a1e,#0a1410);overflow:hidden;border-bottom:1px solid var(--line)}
+.vid-thumb img{width:100%;height:100%;object-fit:cover;aspect-ratio:auto}
+.vid-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:#ef4444;display:grid;place-items:center;color:#fff;font-size:1.05rem;padding-left:3px;box-shadow:0 6px 22px rgba(0,0,0,.5)}
+.vid-badge{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.72);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.07em;padding:4px 10px;border-radius:999px}
+.vid-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:6px}
+.vid-body h3{font-size:.92rem;line-height:1.3}
+.vid-body p{font-size:.84rem}
+.blog-card{padding:20px;display:flex;flex-direction:column;gap:10px}
+.blog-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.blog-tag{font-size:.68rem;font-weight:600;color:var(--green-3);background:rgba(16,185,129,.1);border:1px solid var(--line);padding:3px 11px;border-radius:999px}
+.blog-date{font-size:.76rem;color:var(--muted-2)}
+.blog-card h3{font-size:1rem;line-height:1.3}
+.blog-card p{font-size:.88rem}
+</style>
 </head>
 <body>
 <header id="cf-header"></header>
@@ -96,7 +58,7 @@ sweep(document)})();</script>
           <h2 class="mt-2" style="font-size:1.6rem">New tutorials every week</h2>
           <p class="mt-1">Subscribe and turn on notifications so you catch the next build-along when it drops.</p>
         </div>
-        <a class="btn btn-primary" href="https://youtube.com/@codecrafix" target="_blank" rel="noopener">Subscribe on YouTube</a>
+        <a class="btn btn-primary" href="https://youtube.com/@codecrafix?si=KeDuYrbW3m0BBHal" target="_blank" rel="noopener">Subscribe on YouTube</a>
       </div>
     </div>
   </section>
@@ -127,5 +89,28 @@ sweep(document)})();</script>
 <script src="assets/js/config.js?v=20261003b"></script>
 <script src="assets/js/store-data.js?v=20261003b"></script>
 <script src="assets/js/app.js?v=20261003b"></script>
+<script>
+/* Tutorials: videos never play on this site - each card opens the video on YouTube. */
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.CODECRAFIX_STORE || {};
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var v = document.getElementById('cf-videos');
+  if (v) {
+    v.innerHTML = (S.videos || []).map(function (m) {
+      return '<a class="card vid-card" href="' + esc(m.url) + '" target="_blank" rel="noopener" aria-label="Watch on YouTube: ' + esc(m.title) + '">' +
+        '<div class="vid-thumb"><img src="https://i.ytimg.com/vi/' + esc(m.id) + '/hqdefault.jpg" alt="' + esc(m.title) + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+        '<span class="vid-play" aria-hidden="true">&#9654;</span><span class="vid-badge">&#9654; YOUTUBE</span></div>' +
+        '<div class="vid-body"><h3>' + esc(m.title) + '</h3><p>' + esc(m.desc) + '</p></div></a>';
+    }).join('');
+  }
+  var b = document.getElementById('cf-blog');
+  if (b) {
+    b.innerHTML = (S.blog || []).map(function (m) {
+      return '<article class="card blog-card"><div class="blog-top"><span class="blog-tag">' + esc(m.tag) + '</span><span class="blog-date">' + esc(m.date) + '</span></div>' +
+        '<h3>' + esc(m.title) + '</h3><p>' + esc(m.desc) + '</p></article>';
+    }).join('');
+  }
+});
+</script>
 </body>
 </html>
