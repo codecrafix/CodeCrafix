@@ -17,12 +17,13 @@ window.CODECRAFIX_CONFIG = {
   admin: { passwordHash: '' }
 };
 
-/* Mobile menu (3-line toggle) — loads on every page */
+/* Mobile menu (3-line toggle) — loaded synchronously so the header is styled before it is drawn (no flash) */
 (function () {
   try {
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script>');
+  } catch (e) {
     var s = document.createElement('script');
-    s.src = '/assets/js/menu.js?v=20261004m';
-    s.async = true;
+    s.src = '/assets/js/menu.js?v=20261004n';
     document.head.appendChild(s);
-  } catch (e) {}
+  }
 })();
