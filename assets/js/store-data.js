@@ -21,14 +21,55 @@ window.CODECRAFIX_STORE = {
       desc: 'A colourful puzzle game where you match and pop 3 or more bubbles. Simple controls, fun animation and classic arcade action. Free to download on the Amazon Appstore.',
       format: 'Amazon Appstore', version: 'v1.0', url: 'https://www.amazon.com/gp/product/B0FFGW6GQB' }
   ],
+  /* Tutorials: videos only play on YouTube. The site shows thumbnail + title + link. */
   videos: [
-    { icon: '📱', title: 'Android app development', desc: 'Build and ship real apps step by step — from setup to Play Store.', url: 'https://youtube.com/@codecrafix' },
-    { icon: '🎮', title: 'Unity game development', desc: 'Make 2D mobile games: runners, puzzles and arcade shooters.', url: 'https://youtube.com/@codecrafix' },
-    { icon: '🚀', title: 'Publishing & AdMob', desc: 'Store listing, ASO and monetisation without the guesswork.', url: 'https://youtube.com/@codecrafix' }
+    { id: '6eaQUQS88XY', icon: '▶', url: 'https://youtu.be/6eaQUQS88XY?si=srL7_Zzly9ZdQLr8',
+      title: '💰 Earn from Card Game Created with ChatGPT! #ai',
+      desc: 'Turn a ChatGPT-built card game into a real source of income.' },
+    { id: 'Kc2Ru8XF-yU', icon: '▶', url: 'https://youtu.be/Kc2Ru8XF-yU?si=C-176XffrIhQHk_X',
+      title: '🔥 Make Dino Game with ChatGPT — Secret Level UNLOCKED #chatgpt',
+      desc: 'Build the classic dino runner from scratch and unlock a hidden level.' },
+    { id: 'fqMYwYDq4YI', icon: '▶', url: 'https://youtu.be/fqMYwYDq4YI?si=VDZaKVwB-SOVOLce',
+      title: '🔥 Convert PUBG-Style Game into Mobile App — No Coding Needed!',
+      desc: 'Turn a PUBG-style project into a publishable mobile app, no coding.' },
+    { id: 'eD5b_4mKygI', icon: '▶', url: 'https://youtu.be/eD5b_4mKygI?si=MbtXQ9Oub38aZAjM',
+      title: 'I Built a Bubble Shooter Game with ChatGPT',
+      desc: 'A complete bubble shooter game built end to end with ChatGPT.' }
   ],
   blog: [
-    { icon: '🧭', title: 'Publish without a Play Console account', desc: 'How our hosting & publishing plans work, step by step.', url: 'publish-app.html' },
-    { icon: '🛠️', title: 'Hire us for a custom build', desc: 'The scoping, quote and delivery process explained.', url: 'custom-dev.html' },
-    { icon: '🛒', title: 'Browse the store', desc: 'Everything currently available in the CodeCrafix store.', url: 'store.html' }
+    { icon: '', url: '', tag: 'Publishing', date: '22-Sept-2026',
+      title: 'Do You Really Need a Play Console Account?',
+      desc: 'Publishing without the paperwork — what is possible, what is not, and how to stay compliant.' },
+    { icon: '', url: '', tag: 'Monetisation', date: '12-Sept-2026',
+      title: 'AdMob in 2026: What Changed for Indie Devs',
+      desc: 'Updated policy notes, eCPM expectations and the ad formats worth your time.' },
+    { icon: '', url: '', tag: 'Development', date: '30-Aug-2026',
+      title: 'Reskinning a Template Without Breaking It',
+      desc: 'A practical checklist for swapping art, audio and config in a purchased template.' }
   ]
 };
+
+/* ---- site-wide helpers (this file loads on every page) ---- */
+(function () {
+  /* favicon on every page */
+  try {
+    var ic = document.createElement('link'); ic.rel = 'icon'; ic.type = 'image/svg+xml'; ic.href = 'assets/img/logo.svg';
+    document.head.appendChild(ic);
+  } catch (e) {}
+  /* hero images: use your real photo if uploaded (webp/jpg/png), otherwise the built-in illustration */
+  function pick(img, base, order) {
+    var i = 0;
+    (function next() {
+      if (i >= order.length) { return; }
+      var src = 'images/' + base + '.' + order[i++], p = new Image();
+      p.onload = function () { img.onerror = null; img.src = src; };
+      p.onerror = next;
+      p.src = src;
+    })();
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    [['custom-dev', ['jpg', 'webp', 'png', 'svg']], ['publish', ['webp', 'jpg', 'png', 'svg']]].forEach(function (x) {
+      Array.prototype.slice.call(document.querySelectorAll('img[src*="images/' + x[0] + '"]')).forEach(function (img) { pick(img, x[0], x[1]); });
+    });
+  });
+})();
