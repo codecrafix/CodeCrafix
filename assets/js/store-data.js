@@ -1,18 +1,23 @@
 /* Store catalogue, tutorials and blog cards. Edit the lists below.
    Product fields: id, title, category, price (0 = Free), emoji, desc, format, version,
    url (payment / download link; empty = the button opens an email to you), featured (show on home).
-   `emoji` may also hold an <img> tag (used here for game cover art).
+   `emoji` holds the cover <img>. It loads assets/img/<name>.png (your real poster) and
+   falls back to assets/img/<name>.svg if the PNG has not been uploaded yet.
    `sample: true` items are demo content and are hidden when showSampleContent is false in config.js. */
-var IMG_STYLE = 'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"';
+function cfCover(name, alt) {
+  return '<img src="assets/img/' + name + '.png" alt="' + alt + '" loading="lazy" ' +
+    'onerror="this.onerror=null;this.src=\'assets/img/' + name + '.svg\'" ' +
+    'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">';
+}
 window.CODECRAFIX_STORE = {
   categories: ['All', 'Games'],
   products: [
     { id: 'dino-runner', title: 'Dino Runner — Classic T-Rex Game', category: 'Games', price: 0, featured: true,
-      emoji: '<img src="assets/img/dino-runner.svg" alt="Dino Runner cover" ' + IMG_STYLE + '>',
+      emoji: cfCover('dino-runner', 'Dino Runner cover'),
       desc: 'Relive the classic Chrome Dino Runner! Dodge obstacles, beat your high score and enjoy endless offline fun. Free to download on the Amazon Appstore.',
       format: 'Amazon Appstore', version: 'v1.0', url: 'https://www.amazon.com/dp/B0DXLCH91F/ref=apps_sf_sta' },
     { id: 'bubble-shooter', title: 'Bubble Shooter — Pop & Blast', category: 'Games', price: 0, featured: true,
-      emoji: '<img src="assets/img/bubble-shooter.svg" alt="Bubble Shooter cover" ' + IMG_STYLE + '>',
+      emoji: cfCover('bubble-shooter', 'Bubble Shooter cover'),
       desc: 'A colourful puzzle game where you match and pop 3 or more bubbles. Simple controls, fun animation and classic arcade action. Free to download on the Amazon Appstore.',
       format: 'Amazon Appstore', version: 'v1.0', url: 'https://www.amazon.com/gp/product/B0FFGW6GQB' }
   ],
