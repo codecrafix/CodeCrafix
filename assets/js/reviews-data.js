@@ -1,3 +1,10 @@
-/* Approved reviews shown on the home page. Add real reviews here after verifying them.
-   Visitor-submitted reviews are saved as "pending" and never shown until approved. */
-window.CODECRAFIX_REVIEWS = [];
+/* Reviews shown on the home page. Items marked `sample: true` are demo text and are hidden
+   when showSampleContent is false in config.js. Replace them with real, verified reviews. */
+window.CODECRAFIX_REVIEWS = [
+  { sample: true, name: 'Arjun Menon', role: 'Indie Game Developer', rating: 5, date: '24 Sept 2026', message: 'Bought the Neon Runner template and had a playable build live in three days. The code is genuinely clean and commented, and the WhatsApp support replies fast. Easily the smoothest template purchase I have made.' },
+  { sample: true, name: 'Sneha Kulkarni', role: 'Founder, Dukaan App', rating: 5, date: '15 Sept 2026', message: 'CodeCrafix built our inventory app end to end. Clear milestones, honest quoting and no surprises at all. They shipped ahead of schedule and even handled our Play Store publishing. Highly recommended.' },
+  { sample: true, name: 'Rahul Verma', role: 'Flutter Developer', rating: 5, date: '06 Sept 2026', message: 'The Auth Starter Kit saved me at least two weeks of setup. Row-level security was already wired correctly, which is rare. I have since bought two more products and they were just as solid.' },
+  { sample: true, name: 'Priya Nair', role: 'Student Developer', rating: 4, date: '28 Aug 2026', message: 'As a beginner the free Smart Notes template was the perfect starting point. Documentation is clear and beginner friendly. Would love a video walkthrough of the same project too.' },
+  { sample: true, name: 'Mohit Raikwar', role: 'Indie Publisher', rating: 5, date: '19 Aug 2026', message: 'Published my app under the CodeCrafix console without needing my own developer account. They set up AdMob properly and walked me through the revenue dashboard. Genuinely helpful team.' },
+  { sample: true, name: 'Ankit Sharma', role: 'Product Manager', rating: 5, date: '10 Aug 2026', message: 'Hired them for a small internal tool. Fixed scope, fixed quote, delivered early. Communication over WhatsApp was quick and everything was documented. Will use again for our next build.' }
+];
