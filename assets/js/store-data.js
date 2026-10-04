@@ -74,3 +74,85 @@ window.CODECRAFIX_STORE = {
     });
   });
 })();
+
+/* ---- clean URLs + SEO (runs on the live domain only) ----
+   /store instead of /store.html, / instead of /index.html, canonical + Open Graph + JSON-LD on every page. */
+(function () {
+  var ORIGIN = 'https://codecrafix.shop';
+  if (!/(^|\.)codecrafix\.shop$/.test(location.hostname)) { return; }
+
+  function cleanHref(href) {
+    if (!href || /^(https?:|mailto:|tel:|#|javascript:|\/\/)/i.test(href)) { return null; }
+    var h = href.indexOf('#'), hash = h >= 0 ? href.slice(h) : '', rest = h >= 0 ? href.slice(0, h) : href;
+    var q = rest.indexOf('?'), query = q >= 0 ? rest.slice(q) : '', path = q >= 0 ? rest.slice(0, q) : rest;
+    if (!/^\/?[A-Za-z0-9_-]+\.html$/.test(path)) { return null; }
+    var name = path.replace(/^\//, '').replace(/\.html$/, '');
+    return (name === 'index' ? '/' : '/' + name) + query + hash;
+  }
+  function cleanPath() {
+    var p = location.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+    if (!p) { p = '/'; }
+    if (p.length > 1) { p = p.replace(/\/$/, ''); }
+    return p;
+  }
+  function setMeta(attr, key, val) {
+    if (!val) { return; }
+    var e = document.head.querySelector('meta[' + attr + '="' + key + '"]');
+    if (!e) { e = document.createElement('meta'); e.setAttribute(attr, key); document.head.appendChild(e); }
+    if (!e.getAttribute('content')) { e.setAttribute('content', val); }
+  }
+  function ld(obj) {
+    var s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(obj);
+    document.head.appendChild(s);
+  }
+  function seo(cur) {
+    var url = ORIGIN + (cur === '/' ? '/' : cur);
+    var CFG = window.CODECRAFIX_CONFIG || {}, C = CFG.contact || {}, S = CFG.social || {};
+    var can = document.head.querySelector('link[rel="canonical"]');
+    if (!can) { can = document.createElement('link'); can.rel = 'canonical'; document.head.appendChild(can); }
+    can.href = url;
+    var title = document.title || 'CodeCrafix';
+    var dEl = document.head.querySelector('meta[name="description"]');
+    if (!dEl || !dEl.getAttribute('content')) { setMeta('name', 'description', 'CodeCrafix is an independent tech studio in India building mobile apps, games and dev tools, with free tutorials, custom development and app publishing help.'); dEl = document.head.querySelector('meta[name="description"]'); }
+    var desc = dEl.getAttribute('content');
+    var img = ORIGIN + '/images/hero-mockup.webp';
+    var noindex = (cur === '/admin' || cur === '/deploy-guide');
+    setMeta('name', 'robots', noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large');
+    if (noindex) { var r = document.head.querySelector('meta[name="robots"]'); r.setAttribute('content', 'noindex,nofollow'); }
+    setMeta('property', 'og:type', 'website'); setMeta('property', 'og:site_name', 'CodeCrafix');
+    setMeta('property', 'og:url', url); setMeta('property', 'og:title', title); setMeta('property', 'og:description', desc); setMeta('property', 'og:image', img);
+    setMeta('property', 'og:locale', 'en_IN');
+    setMeta('name', 'twitter:card', 'summary_large_image'); setMeta('name', 'twitter:title', title); setMeta('name', 'twitter:description', desc); setMeta('name', 'twitter:image', img);
+    var og = document.head.querySelector('meta[property="og:url"]'); if (og) { og.setAttribute('content', url); }
+    if (noindex) { return; }
+    var sameAs = [C.youtube, S.instagram].filter(Boolean);
+    if (cur === '/') {
+      ld({ '@context': 'https://schema.org', '@type': 'Organization', name: 'CodeCrafix', url: ORIGIN + '/', logo: ORIGIN + '/assets/img/logo.svg', email: C.email, founder: { '@type': 'Person', name: 'Vivek Barman' }, sameAs: sameAs });
+      ld({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'CodeCrafix', url: ORIGIN + '/' });
+    } else {
+      ld({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: ORIGIN + '/' },
+        { '@type': 'ListItem', position: 2, name: title.split(' | ')[0].split(' — ')[0], item: url }] });
+    }
+    if (cur === '/store') {
+      var P = (window.CODECRAFIX_STORE || {}).products || [];
+      ld({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: P.filter(function (p) { return !p.sample; }).map(function (p, i) {
+        return { '@type': 'ListItem', position: i + 1, item: { '@type': 'SoftwareApplication', name: p.title, description: p.desc, applicationCategory: 'GameApplication', operatingSystem: 'Android', url: p.url || url, offers: { '@type': 'Offer', price: String(p.price || 0), priceCurrency: 'USD' } } };
+      }) });
+    }
+  }
+  function run() {
+    var cur = cleanPath();
+    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var c = cleanHref(a.getAttribute('href')); if (c) { a.setAttribute('href', c); }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.nav-links a'), function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === cur);
+    });
+    try {
+      if (cur !== location.pathname) { history.replaceState(null, '', cur + location.search + location.hash); }
+    } catch (e) {}
+    try { seo(cur); } catch (e) {}
+  }
+  if (document.readyState === 'complete') { run(); } else { window.addEventListener('load', run); }
+})();
