@@ -16,3 +16,13 @@ window.CODECRAFIX_CONFIG = {
   /* Admin: SHA-256 hex of your passphrase. Empty = admin console stays locked. */
   admin: { passwordHash: '' }
 };
+
+/* Mobile menu (3-line toggle) — loads on every page */
+(function () {
+  try {
+    var s = document.createElement('script');
+    s.src = '/assets/js/menu.js?v=20261004m';
+    s.async = true;
+    document.head.appendChild(s);
+  } catch (e) {}
+})();
