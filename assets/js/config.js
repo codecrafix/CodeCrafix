@@ -8,22 +8,24 @@ window.CODECRAFIX_CONFIG = {
     youtube: 'https://youtube.com/@codecrafix'
   },
   social: { instagram: 'https://www.instagram.com/codecrafix?stkn=MTF4ejJqc3VmcHZzMg==' },
-  /* true = show the demo products and demo reviews. Set to false before real customers rely on the site. */
+  /* true = show the demo products and demo reviews. Keep false: real reviews now come from Supabase. */
   showSampleContent: false,
-  /* Optional: Supabase. If both are filled, form submissions are POSTed to your tables
-     (reviews, custom_orders, app_submissions). If empty, forms open the visitor's email app instead. */
-  supabase: { url: '', anonKey: '' },
-  /* Admin: SHA-256 hex of your passphrase. Empty = admin console stays locked. */
+  /* Supabase project "CodeCrafix". The anon key is public by design; all data is protected by Row Level Security. */
+  supabase: {
+    url: 'https://luccpfzrxhsezzmnbzsg.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y2NwZnpyeGhzZXp6bW5ienNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNzQ3NTYsImV4cCI6MjEwNjc1MDc1Nn0._ANGPdu_V3R4SdnurJpTz4OtHMK7R8rbK5fUw9n5I0s'
+  },
   admin: { passwordHash: '' }
 };
 
-/* Mobile menu (3-line toggle) — loaded synchronously so the header is styled before it is drawn (no flash) */
+/* Mobile menu + live shop (Supabase products, downloads, Razorpay). Loaded synchronously so the header is styled before it is drawn. */
 (function () {
+  if (/admin/.test(location.pathname)) { return; }
   try {
-    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script>');
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005a"><\/script>');
   } catch (e) {
-    var s = document.createElement('script');
-    s.src = '/assets/js/menu.js?v=20261004n';
-    document.head.appendChild(s);
+    ['menu.js?v=20261004n', 'shop.js?v=20261005a'].forEach(function (f) {
+      var s = document.createElement('script'); s.src = '/assets/js/' + f; document.head.appendChild(s);
+    });
   }
 })();

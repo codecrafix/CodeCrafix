@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Your download | CodeCrafix</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+<link rel="stylesheet" href="assets/css/style.css?v=20261004b">
+</head>
+<body>
+<header id="cf-header"></header>
+<main>
+  <section class="section" style="min-height:55vh;display:flex;align-items:center">
+    <div class="container center" style="max-width:520px">
+      <span class="eyebrow">&#128230; Your purchase</span>
+      <h1 class="mt-2" style="font-size:clamp(1.8rem,4vw,2.4rem)">Download your <span class="grad-text">product</span></h1>
+      <p class="mt-2" id="dl-text">Tap the button below to start your download.</p>
+      <div class="hero-actions" style="justify-content:center"><button class="btn btn-primary" id="dl-btn" type="button">Download now</button></div>
+      <div class="form-msg" id="dl-msg" hidden></div>
+      <p class="tiny muted mt-3">Problems? Email <a href="contact.html">us</a> with your payment ID and we will help.</p>
+    </div>
+  </section>
+</main>
+<footer id="cf-footer"></footer>
+<script src="assets/js/config.js?v=20261005a"></script>
+<script src="assets/js/store-data.js?v=20261004d"></script>
+<script src="assets/js/app.js?v=20261004c"></script>
+<script>
+(function () {
+  var S = (window.CODECRAFIX_CONFIG || {}).supabase || {}, q = new URLSearchParams(location.search);
+  var o = q.get('o'), t = q.get('t'), btn = document.getElementById('dl-btn'), msg = document.getElementById('dl-msg');
+  if (!o || !t) { btn.hidden = true; document.getElementById('dl-text').textContent = 'This download link is incomplete. Please use the full link from your purchase.'; return; }
+  btn.onclick = function () {
+    btn.disabled = true; btn.textContent = 'Preparing\u2026'; msg.hidden = true;
+    fetch(S.url.replace(/\/$/, '') + '/functions/v1/get-download', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: S.anonKey }, body: JSON.stringify({ order_id: o, token: t }) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (r) {
+        btn.disabled = false; btn.textContent = 'Download now';
+        if (r.ok && r.d.url) { if (r.d.type === 'file') { location.href = r.d.url; } else { window.open(r.d.url, '_blank', 'noopener') || (location.href = r.d.url); } }
+        else { msg.hidden = false; msg.className = 'form-msg err'; msg.textContent = 'This link is not valid or the payment is not confirmed yet.'; }
+      }).catch(function () { btn.disabled = false; btn.textContent = 'Download now'; msg.hidden = false; msg.className = 'form-msg err'; msg.textContent = 'Network error. Please try again.'; });
+  };
+})();
+</script>
+</body>
+</html>
