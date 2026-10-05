@@ -18,17 +18,18 @@ window.CODECRAFIX_CONFIG = {
   admin: { passwordHash: '' }
 };
 
-/* Mobile menu + live shop (Supabase products, downloads, Razorpay) + live YouTube tutorials. Loaded synchronously so the header is styled before it is drawn. */
+/* Mobile menu + live shop (Supabase products, downloads, Razorpay) + live tutorials, blog, settings and newsletter.
+   Loaded synchronously so the header is styled before it is drawn. */
 (function () {
   if (/admin/.test(location.pathname)) {
-    /* admin page: adds the Tutorials tab */
-    try { document.write('<script src="/assets/js/admin-tutorials.js?v=20261005a"><\/script>'); } catch (e) {}
+    /* admin page: Dashboard, Tutorials, Blog, Reviews, Subscribers and Settings tabs */
+    try { document.write('<script src="/assets/js/admin-extra.js?v=20261005a"><\/script>'); } catch (e) {}
     return;
   }
   try {
-    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005b"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script>');
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005b"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script><script src="/assets/js/site-extras.js?v=20261005a"><\/script>');
   } catch (e) {
-    ['menu.js?v=20261004n', 'shop.js?v=20261005b', 'tutorials.js?v=20261005a'].forEach(function (f) {
+    ['menu.js?v=20261004n', 'shop.js?v=20261005b', 'tutorials.js?v=20261005a', 'site-extras.js?v=20261005a'].forEach(function (f) {
       var s = document.createElement('script'); s.src = '/assets/js/' + f; document.head.appendChild(s);
     });
   }
