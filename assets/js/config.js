@@ -18,13 +18,17 @@ window.CODECRAFIX_CONFIG = {
   admin: { passwordHash: '' }
 };
 
-/* Mobile menu + live shop (Supabase products, downloads, Razorpay). Loaded synchronously so the header is styled before it is drawn. */
+/* Mobile menu + live shop (Supabase products, downloads, Razorpay) + live YouTube tutorials. Loaded synchronously so the header is styled before it is drawn. */
 (function () {
-  if (/admin/.test(location.pathname)) { return; }
+  if (/admin/.test(location.pathname)) {
+    /* admin page: adds the Tutorials tab */
+    try { document.write('<script src="/assets/js/admin-tutorials.js?v=20261005a"><\/script>'); } catch (e) {}
+    return;
+  }
   try {
-    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005a"><\/script>');
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005a"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script>');
   } catch (e) {
-    ['menu.js?v=20261004n', 'shop.js?v=20261005a'].forEach(function (f) {
+    ['menu.js?v=20261004n', 'shop.js?v=20261005a', 'tutorials.js?v=20261005a'].forEach(function (f) {
       var s = document.createElement('script'); s.src = '/assets/js/' + f; document.head.appendChild(s);
     });
   }
