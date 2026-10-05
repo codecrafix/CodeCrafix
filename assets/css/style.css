@@ -267,3 +267,104 @@ label{font-size:.85rem;font-weight:600;color:#dcebe3}
   .foot{grid-template-columns:1fr}
   .card-flat[style*="padding:46px"]{padding:26px!important}
 }
+
+/* ===================== v2 theme (merged here so pages never restyle after loading) ===================== */
+:root{--bg:#060d0a;--surface:#0b1511;--surface-2:#0f1c16;--line:rgba(34,197,94,.17);--muted:#9fb2a8;
+  --green-2:#10b981;--green-3:#22c55e;--green-4:#4ade80}
+h1,h2,h3,h4{font-family:Inter,system-ui,sans-serif;letter-spacing:-.02em}
+h1{font-size:clamp(2rem,4.4vw,2.6rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+.grad-text{background:linear-gradient(90deg,#10b981,#22c55e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.btn{border-radius:999px}
+.btn-primary{background:linear-gradient(135deg,#10b981,#22c55e)}
+.eyebrow{background:rgba(34,197,94,.08);color:#34d399}
+#cf-header{background:rgba(6,13,10,.9);border-bottom:1px solid rgba(34,197,94,.14);box-shadow:0 8px 30px rgba(34,197,94,.04)}
+.brand{font-family:Poppins,Inter,sans-serif;font-weight:700}
+.brand img{width:36px;height:36px;border-radius:0;background:none}
+.brand b{background:linear-gradient(90deg,#10b981,#4ade80);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links a.active{background:rgba(34,197,94,.12);color:#4ade80}
+.hero{padding:30px 0 6px}
+.hero-grid{grid-template-columns:minmax(0,1fr);gap:34px}
+.hero-grid .hero-visual{order:-1}
+.hero-visual{border-radius:18px;border-color:rgba(34,197,94,.22)}
+.hero .lead{max-width:600px}
+.hero-achievements{max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:36px;padding-top:30px;border-top:1px solid var(--line-2)}
+.ach b{font-family:Inter,sans-serif;color:#22c55e}
+@media(min-width:1100px){.hero-achievements{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.step{background:none;border:0;padding:0;grid-template-columns:34px 1fr}
+.step .num{width:34px;height:34px;border-radius:9px;font-size:.9rem;color:#22c55e;background:rgba(34,197,94,.1);border:1px solid var(--line)}
+.grid-4 .step{display:block;background:rgba(255,255,255,.02);border:1px solid var(--line-2);padding:18px}
+.grid-4 .step .num{margin-bottom:12px}
+.product-card{border-radius:16px}
+.p-thumb{position:relative;aspect-ratio:16/10;display:grid;place-items:center;font-size:2.8rem;border-bottom:1px solid var(--line);
+  background:radial-gradient(circle at 50% 55%,rgba(34,197,94,.24),transparent 62%),linear-gradient(rgba(34,197,94,.07) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,rgba(34,197,94,.07) 1px,transparent 1px) 0 0/22px 22px,#07120d}
+.p-cat{position:absolute;left:12px;top:12px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4ade80;background:rgba(3,10,6,.85);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+.p-price{position:absolute;right:12px;top:12px;font-size:.72rem;font-weight:700;color:#04140c;background:#22c55e;padding:4px 12px;border-radius:999px}
+.p-price.free{background:rgba(3,10,6,.85);color:#4ade80;border:1px solid var(--line)}
+.product-body{gap:8px}
+.product-body h3{font-size:.98rem;line-height:1.3}
+.product-body p{font-size:.84rem}
+.p-meta{display:flex;justify-content:space-between;gap:8px;font-size:.72rem;color:var(--muted-2)}
+.p-actions{display:flex;align-items:center;gap:10px;margin-top:8px}
+.p-link{margin-left:auto;width:36px;height:34px;display:grid;place-items:center;background:none;border:0;color:var(--muted);cursor:pointer;font-size:.9rem;border-radius:8px}
+.p-link:hover{background:rgba(255,255,255,.05)}
+.reviews-summary{gap:22px}
+.rs-block{text-align:center;line-height:1.1}
+.rs-score{font-family:Inter,sans-serif;font-weight:800;font-size:3rem;color:#22c55e;display:block}
+.rs-sub{font-size:.72rem;color:var(--muted-2)}
+.rs-side{display:flex;flex-direction:column;gap:2px}
+.review-card{padding:20px;gap:14px}
+.review-head{display:flex;align-items:center;gap:12px}
+.avatar{border-radius:50%;background:rgba(34,197,94,.12);border:1px solid var(--line);color:#4ade80;font-size:.78rem;width:40px;height:40px}
+.review-head b{display:block;font-size:.92rem;color:#fff}
+.review-head span.role{font-size:.76rem;color:var(--muted-2)}
+.review-date{margin-top:auto;padding-top:14px;border-top:1px solid var(--line-2);font-size:.76rem;color:var(--muted-2)}
+.stars{color:#facc15;letter-spacing:3px}
+.star.sel{color:#facc15}
+#cf-footer{background:linear-gradient(180deg,transparent,rgba(34,197,94,.035))}
+.foot{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 24px}
+@media(min-width:1100px){.foot{grid-template-columns:1.5fr 1fr 1fr 1fr}}
+.foot-logo{display:flex;flex-direction:column;align-items:flex-start;gap:6px;color:#fff}
+.foot-logo img{width:64px;height:64px}
+.foot-logo span{font:700 1.7rem Poppins,sans-serif}
+.foot-logo b{background:linear-gradient(90deg,#10b981,#4ade80);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.foot-about{max-width:260px;font-size:.84rem}
+.social{display:flex;gap:10px;margin-top:16px}
+.social a{width:36px;height:36px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:9px;background:var(--surface);font-size:.85rem}
+.foot-bottom{flex-direction:column;align-items:center;text-align:center;border-top:1px solid var(--line-2);margin-top:6px}
+.foot-legal a{color:var(--muted-2);font-size:.76rem}
+.foot-legal a+a::before{content:"\00b7";margin:0 8px;color:var(--muted-2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0f1c16;color:#d8f5e3;border:1px solid var(--line);padding:10px 18px;border-radius:999px;font-size:.84rem;z-index:99}
+@media(max-width:700px){.foot{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.foot a.foot-logo,.foot a.foot-logo:hover{color:#fff;padding:0}
+
+/* ===================== final polish (identical block also sits at the end of theme-v2.css) ===================== */
+/* 1. content is always visible: no hide-then-fade/slide flash while the page loads */
+.js .reveal,.js .reveal.in{opacity:1;transform:none;transition:border-color .25s,box-shadow .25s,transform .25s}
+.js .reveal.card:hover{transform:translateY(-3px)}
+@media(hover:none){.card:hover,.js .reveal.card:hover{transform:none}}
+/* 2. medium, evenly sized product cards, always centered */
+.product-grid,#cf-featured-grid,#cf-store-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(210px,250px))!important;justify-content:center!important;gap:20px!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important}
+.product-card{width:100%;max-width:250px;margin:0 auto}
+.p-thumb{aspect-ratio:16/9}
+.product-body{padding:14px 14px 16px;gap:6px}
+.product-body h3{font-size:.95rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-body p{font-size:.8rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.p-meta{font-size:.68rem}
+.p-actions{margin-top:auto;padding-top:6px}
+.p-cat{left:9px;top:9px;font-size:.58rem;padding:3px 9px}
+.p-price{right:9px;top:9px;font-size:.66rem;padding:3px 10px}
+#cf-featured-grid:not(.cf-live),#cf-store-grid:not(.cf-live){min-height:280px!important}
+#cf-featured-grid:not(.cf-live)::before,#cf-featured-grid:not(.cf-live)::after,#cf-store-grid:not(.cf-live)::before,#cf-store-grid:not(.cf-live)::after{height:280px!important;border-radius:16px!important}
+@media(max-width:560px){
+  .product-grid,#cf-featured-grid,#cf-store-grid{grid-template-columns:repeat(auto-fit,minmax(130px,200px))!important;gap:12px!important}
+  .product-card{max-width:200px}
+  .product-body{padding:10px 10px 12px}
+  .product-body h3{font-size:.84rem}
+  .product-body p{font-size:.74rem;-webkit-line-clamp:2}
+  .p-meta{font-size:.62rem}
+  .p-actions .btn{padding:7px 10px;font-size:.74rem}
+  .p-link{width:28px;height:28px}
+  #cf-featured-grid:not(.cf-live),#cf-store-grid:not(.cf-live){min-height:230px!important}
+  #cf-featured-grid:not(.cf-live)::before,#cf-featured-grid:not(.cf-live)::after,#cf-store-grid:not(.cf-live)::before,#cf-store-grid:not(.cf-live)::after{height:230px!important}
+}
