@@ -1,131 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script data-tmly-media-guard="1">(function(){"use strict";
-var T=window.__tmly||(window.__tmly=(function(){
-var o={},n=String(window.name||"");
-if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
-var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
-return o})());
-if(T.presentation!=="preview"){return}
-var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
-var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
-var gestured=false;
-["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
-document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
-function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
-function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
-function harden(el){
-el.autoplay=false;el.removeAttribute("autoplay");
-if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
-if(muted){el.muted=true}
-if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
-var play=HTMLMediaElement.prototype.play;
-HTMLMediaElement.prototype.play=function(){
-if(!gestured){announcePaused(this);
-return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false);this.muted=false}
-return play.apply(this,arguments)};
-var acProtos=[];
-function guardAC(n){
-var N=window[n];if(!N||!N.prototype){return}
-if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
-var res=N.prototype.resume;
-if(typeof res==="function"){N.prototype.resume=function(){
-if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false)}
-return res.apply(this,arguments)}}}
-var W=function(o){var c=arguments.length?new N(o):new N();
-if(!gestured){try{c.suspend()}catch(e){}}return c};
-W.prototype=N.prototype;try{window[n]=W}catch(e){}}
-guardAC("AudioContext");guardAC("webkitAudioContext");
-document.addEventListener("play",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
-document.addEventListener("pause",function(e){
-if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
-document.addEventListener("volumechange",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
-function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
-for(var i=0;i<l.length;i++){harden(l[i])}}}
-new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
-for(var j=0;j<a.length;j++){var n=a[j];
-if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
-.observe(document.documentElement,{childList:true,subtree:true});
-document.addEventListener("DOMContentLoaded",function(){sweep(document)});
-sweep(document)})();</script>
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin — Review Moderation | CodeCrafix</title>
+<meta name="color-scheme" content="dark">
+<title>Admin | CodeCrafix</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0b0f0c">
-<link rel="icon" href="assets/img/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+<link rel="stylesheet" href="assets/css/style.css?v=20261004b">
+<style>
+body{background:#070b09}
+.ad{max-width:1100px;margin:0 auto;padding:22px 14px 80px}
+.ad h1{font-size:1.6rem}.ad h2{font-size:1.2rem}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.item{display:flex;gap:14px;align-items:flex-start;padding:14px;margin-bottom:12px;flex-wrap:wrap}
+.item img,.item .ph{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#0f1c16;display:grid;place-items:center;font-size:1.8rem;flex:none}
+.item .grow{flex:1;min-width:200px}
+.item h3{font-size:1rem}.item p{font-size:.85rem;margin-top:4px;overflow-wrap:anywhere}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pill2{display:inline-block;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(34,197,94,.14);color:#4ade80;margin-right:6px}
+.pill2.warn{background:rgba(251,191,36,.15);color:#fbbf24}.pill2.bad{background:rgba(248,113,113,.15);color:#f87171}
+.chk{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:6px}.chk label{display:flex;align-items:center;gap:8px;font-size:.9rem;color:#d6e6dd}
+.chk input{width:18px;height:18px;accent-color:#22c55e}
+.hint{font-size:.78rem;color:var(--muted-2);margin-top:4px}
+.prev{max-width:220px;border-radius:12px;margin-top:8px;display:block}
+.kv{font-size:.85rem;margin-top:4px;color:var(--muted);overflow-wrap:anywhere}.kv b{color:#fff}
+.stat{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}.stat .card{padding:14px 18px;min-width:130px}.stat b{font-size:1.4rem;display:block;color:#4ade80}
+.prog{height:8px;background:#11201a;border-radius:99px;overflow:hidden;margin-top:8px}.prog i{display:block;height:100%;width:0;background:#22c55e;transition:width .2s}
+</style>
 </head>
 <body>
-<header id="cf-header"></header>
+<div class="ad">
+  <div id="login" class="card card-flat form-card" style="max-width:420px;margin:70px auto">
+    <h1>CodeCrafix Admin</h1>
+    <p class="mt-1 muted">Sign in with your admin email and password.</p>
+    <form id="lf" class="mt-2" novalidate>
+      <div class="field"><label for="em">Email</label><input class="input" id="em" type="email" autocomplete="username"></div>
+      <div class="field"><label for="pw">Password</label><input class="input" id="pw" type="password" autocomplete="current-password"></div>
+      <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+      <div class="form-msg" id="lm" hidden></div>
+    </form>
+  </div>
 
-<main>
-  <section class="section">
-    <div class="container">
-      <div class="admin-shell">
-        <div class="section-head">
-          <span class="eyebrow">&#128274; Admin Console</span>
-          <h1 class="mt-2" style="font-size:clamp(1.8rem,3.4vw,2.5rem)">Review Moderation</h1>
-          <p>Approve, reject or delete customer reviews. A review is only shown on the public site after you approve it.</p>
-        </div>
-
-        <!-- ---------- LOGIN GATE ---------- -->
-        <div class="card card-flat admin-login" id="cf-admin-login">
-          <h3>Sign in</h3>
-          <p class="tiny muted mt-1">Enter the admin passphrase to manage reviews.</p>
-          <form id="cf-admin-login-form" novalidate style="margin-top:18px">
-            <div class="field">
-              <label for="cf-admin-pw">Admin passphrase</label>
-              <input class="input" id="cf-admin-pw" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password">
-            </div>
-            <button class="btn btn-primary btn-block" type="submit">Unlock Console</button>
-            <div class="form-msg" id="cf-admin-msg" hidden></div>
-          </form>
-          <p class="tiny muted mt-2">The passphrase is set in <code>assets/js/config.js</code> &rarr; <code>admin.passwordHash</code>. Change it before going live.</p>
-        </div>
-
-        <!-- ---------- PANEL ---------- -->
-        <div id="cf-admin-panel" hidden>
-          <div class="admin-bar">
-            <div class="row wrap">
-              <span class="status-pill ok">&#10003; Signed in</span>
-              <span class="tiny muted">Moderating saved reviews</span>
-            </div>
-            <button class="btn btn-outline btn-sm" id="cf-admin-logout" type="button">Sign out</button>
-          </div>
-
-          <div class="admin-stats" id="cf-admin-stats"></div>
-
-          <div class="filter-bar" id="cf-admin-filters">
-            <button class="filter-btn active" data-filter="pending" type="button">Pending</button>
-            <button class="filter-btn" data-filter="approved" type="button">Approved</button>
-            <button class="filter-btn" data-filter="rejected" type="button">Rejected</button>
-            <button class="filter-btn" data-filter="all" type="button">All</button>
-          </div>
-
-          <div id="cf-admin-list">
-            <div class="empty-state">Loading reviews&hellip;</div>
-          </div>
-        </div>
-      </div>
+  <div id="app" hidden>
+    <div class="bar"><h1>&#9881;&#65039; CodeCrafix Admin</h1><div><span class="tiny muted" id="who"></span> <button class="btn btn-outline btn-sm" id="out" type="button">Log out</button></div></div>
+    <div class="tabs" id="tabs">
+      <button class="filter-btn active" data-t="products" type="button">&#128230; Products</button>
+      <button class="filter-btn" data-t="orders" type="button">&#128179; Orders</button>
+      <button class="filter-btn" data-t="inbox" type="button">&#128236; Inbox</button>
+      <button class="filter-btn" data-t="reviews" type="button">&#11088; Reviews</button>
     </div>
-  </section>
-</main>
+    <div id="view"></div>
+  </div>
+</div>
 
-<footer id="cf-footer"></footer>
+<script src="assets/js/config.js?v=20261005a"></script>
+<script>
+(function () {
+  var C = (window.CODECRAFIX_CONFIG || {}).supabase || {}, U = C.url.replace(/\/$/, ''), K = C.anonKey;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var money = function (n) { return '\u20b9' + Number(n).toLocaleString('en-IN'); };
+  var PL = [['home', 'Home page (shows the newest 4)'], ['store', 'Store page'], ['featured', 'Store page \u2013 Featured row'], ['tutorials', 'Tutorials page \u2013 Resources']];
+  var CATS = [['game', 'Game'], ['app', 'App'], ['tool', 'Tool'], ['prompt', 'Prompt'], ['code', 'Code / Source'], ['other', 'Other']];
+  var S = null; try { S = JSON.parse(sessionStorage.getItem('cf_sess') || 'null'); } catch (e) {}
+  var tab = 'products';
 
-<script src="assets/js/config.js?v=20261003b"></script>
-<script src="assets/js/store-data.js?v=20261003b"></script>
-<script src="assets/js/reviews-data.js?v=20261003b"></script>
-<script src="assets/js/app.js?v=20261003b"></script>
+  function save(s) { S = s; try { s ? sessionStorage.setItem('cf_sess', JSON.stringify(s)) : sessionStorage.removeItem('cf_sess'); } catch (e) {} }
+  function tok(r, d) { if (!r.ok) { throw new Error(d.error_description || d.msg || 'Login failed'); } d.exp = Date.now() + d.expires_in * 1000 - 60000; save(d); }
+  function login(email, pw) {
+    return fetch(U + '/auth/v1/token?grant_type=password', { method: 'POST', headers: { apikey: K, 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: pw }) })
+      .then(function (r) { return r.json().then(function (d) { tok(r, d); }); });
+  }
+  function fresh() {
+    if (!S) { return Promise.reject(new Error('Not signed in')); }
+    if (Date.now() < S.exp) { return Promise.resolve(); }
+    return fetch(U + '/auth/v1/token?grant_type=refresh_token', { method: 'POST', headers: { apikey: K, 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: S.refresh_token }) })
+      .then(function (r) { return r.json().then(function (d) { try { tok(r, d); } catch (e) { save(null); location.reload(); throw e; } }); });
+  }
+  function api(path, o) {
+    o = o || {};
+    return fresh().then(function () {
+      var h = { apikey: K, Authorization: 'Bearer ' + S.access_token, 'Content-Type': 'application/json' };
+      if (o.prefer) { h.Prefer = o.prefer; }
+      return fetch(U + path, { method: o.method || 'GET', headers: h, body: o.body ? JSON.stringify(o.body) : undefined });
+    }).then(function (r) {
+      return r.text().then(function (t) {
+        var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
+        if (!r.ok) { throw new Error((d && (d.message || d.error)) || ('Error ' + r.status)); }
+        return d;
+      });
+    });
+  }
+  function upload(bucket, path, file, onp) {
+    return fresh().then(function () {
+      return new Promise(function (res, rej) {
+        var x = new XMLHttpRequest();
+        x.open('POST', U + '/storage/v1/object/' + bucket + '/' + path.split('/').map(encodeURIComponent).join('/'));
+        x.setRequestHeader('apikey', K); x.setRequestHeader('Authorization', 'Bearer ' + S.access_token); x.setRequestHeader('x-upsert', 'true');
+        if (file.type) { x.setRequestHeader('Content-Type', file.type); }
+        x.upload.onprogress = function (e) { if (e.lengthComputable && onp) { onp(Math.round(e.loaded / e.total * 100)); } };
+        x.onload = function () { x.status < 300 ? res(path) : rej(new Error('Upload failed: ' + x.responseText)); };
+        x.onerror = function () { rej(new Error('Network error during upload')); };
+        x.send(file);
+      });
+    });
+  }
+  var slugify = function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); };
+  var safeName = function (n) { return n.toLowerCase().replace(/[^a-z0-9._-]+/g, '-'); };
+
+  /* ---------- auth ---------- */
+  function enter() {
+    return api('/rest/v1/rpc/is_admin', { method: 'POST', body: {} }).then(function (ok) {
+      if (ok !== true) { save(null); throw new Error('This account is not an admin.'); }
+      $('#login').hidden = true; $('#app').hidden = false; $('#who').textContent = 'Signed in'; show();
+    });
+  }
+  $('#lf').addEventListener('submit', function (e) {
+    e.preventDefault(); var m = $('#lm'); m.hidden = false; m.className = 'form-msg'; m.textContent = 'Signing in\u2026';
+    login($('#em').value.trim(), $('#pw').value).then(enter).catch(function (er) { m.className = 'form-msg err'; m.textContent = er.message; });
+  });
+  $('#out').onclick = function () { save(null); location.reload(); };
+  $('#tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-t]'); if (!b) { return; }
+    tab = b.getAttribute('data-t');
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs .filter-btn'), function (x) { x.classList.toggle('active', x === b); });
+    show();
+  });
+  function show() { var v = $('#view'); v.innerHTML = '<div class="empty-state">Loading\u2026</div>'; ({ products: vProducts, orders: vOrders, inbox: vInbox, reviews: vReviews })[tab]().catch(function (er) { v.innerHTML = '<div class="form-msg err">' + esc(er.message) + '</div>'; }); }
+
+  /* ---------- products ---------- */
+  function vProducts() {
+    return api('/rest/v1/products?select=*&order=created_at.desc').then(function (list) {
+      var v = $('#view');
+      v.innerHTML = '<div class="bar"><h2>Products (' + list.length + ')</h2><button class="btn btn-primary btn-sm" id="add" type="button">+ Add product</button></div><div id="form"></div><div id="plist"></div>';
+      $('#add').onclick = function () { form(null); };
+      $('#plist').innerHTML = list.map(function (p) {
+        var free = !(Number(p.price_inr) > 0);
+        return '<div class="card item">' + (p.cover_url ? '<img src="' + esc(p.cover_url) + '" alt="">' : '<div class="ph">&#128230;</div>') +
+          '<div class="grow"><h3>' + esc(p.title) + '</h3><div class="mt-1"><span class="pill2">' + esc(p.category) + '</span><span class="pill2 ' + (free ? '' : 'warn') + '">' + (free ? 'FREE' : money(p.price_inr)) + '</span><span class="pill2 ' + (p.is_published ? '' : 'bad') + '">' + (p.is_published ? 'Published' : 'Draft') + '</span></div>' +
+          '<p>Shown on: ' + esc((p.placements || []).join(', ') || 'nowhere') + ' &middot; ' + (p.delivery_type === 'file' ? 'File: ' + esc(p.file_path) : 'Link') + ' &middot; ' + p.downloads + ' downloads</p>' +
+          '<div class="acts"><button class="btn btn-outline btn-sm" data-e="' + p.id + '" type="button">Edit</button><button class="btn btn-outline btn-sm" data-pub="' + p.id + '" data-v="' + (p.is_published ? 0 : 1) + '" type="button">' + (p.is_published ? 'Unpublish' : 'Publish') + '</button><button class="btn btn-danger btn-sm" data-d="' + p.id + '" type="button">Delete</button></div></div></div>';
+      }).join('') || '<div class="empty-state">No products yet. Click \u201cAdd product\u201d.</div>';
+      $('#plist').onclick = function (e) {
+        var b = e.target.closest('button'); if (!b) { return; }
+        var id = b.getAttribute('data-e') || b.getAttribute('data-pub') || b.getAttribute('data-d');
+        var p = list.filter(function (x) { return x.id === id; })[0];
+        if (b.hasAttribute('data-e')) { form(p); window.scrollTo(0, 0); }
+        else if (b.hasAttribute('data-pub')) { api('/rest/v1/products?id=eq.' + id, { method: 'PATCH', body: { is_published: b.getAttribute('data-v') === '1' } }).then(show).catch(function (er) { alert(er.message); }); }
+        else if (b.hasAttribute('data-d') && confirm('Delete \u201c' + p.title + '\u201d? Products with orders cannot be deleted \u2014 unpublish them instead.')) { api('/rest/v1/products?id=eq.' + id, { method: 'DELETE' }).then(show).catch(function (er) { alert(er.message); }); }
+      };
+    });
+  }
+  function form(p) {
+    p = p || {};
+    var pl = p.placements || ['store'];
+    $('#form').innerHTML = '<form id="pf" class="card card-flat form-card" style="margin-bottom:22px" novalidate><h2>' + (p.id ? 'Edit product' : 'Add a new product') + '</h2>' +
+      '<div class="form-row"><div class="field"><label>Title *</label><input class="input" id="f-title" maxlength="140" value="' + esc(p.title || '') + '"></div><div class="field"><label>URL slug</label><input class="input" id="f-slug" value="' + esc(p.slug || '') + '" placeholder="auto from title"></div></div>' +
+      '<div class="form-row"><div class="field"><label>Category *</label><select class="select" id="f-cat">' + CATS.map(function (c) { return '<option value="' + c[0] + '"' + (p.category === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('') + '</select></div><div class="field"><label>Version</label><input class="input" id="f-ver" value="' + esc(p.version || '') + '" placeholder="v1.0"></div></div>' +
+      '<div class="field"><label>Short description (shown on cards)</label><input class="input" id="f-short" maxlength="300" value="' + esc(p.short_desc || '') + '"></div>' +
+      '<div class="field"><label>Full description</label><textarea class="textarea" id="f-desc">' + esc(p.description || '') + '</textarea></div>' +
+      '<div class="form-row"><div class="field"><label>Price in \u20b9 (0 = Free)</label><input class="input" id="f-price" type="number" min="0" step="1" value="' + (p.price_inr != null ? Number(p.price_inr) : 0) + '"><div class="hint">0 shows a green \u201cFree\u201d badge. Above 0 shows the price and a Buy button.</div></div><div class="field"><label>Old price (optional, shown struck-through)</label><input class="input" id="f-cmp" type="number" min="0" step="1" value="' + (p.compare_price_inr != null ? Number(p.compare_price_inr) : '') + '"></div></div>' +
+      '<div class="field"><label>Poster / product image</label><input class="input" id="f-cover" type="file" accept="image/*">' + (p.cover_url ? '<img class="prev" id="f-prev" src="' + esc(p.cover_url) + '" alt="">' : '<img class="prev" id="f-prev" alt="" hidden>') + '<div class="hint">PNG, JPG or WebP, up to 5 MB. 16:9 looks best.</div></div>' +
+      '<div class="field"><label>How is it delivered?</label><select class="select" id="f-del"><option value="file"' + (p.delivery_type === 'file' ? ' selected' : '') + '>Upload a file (ZIP, PDF, APK, code, prompt pack\u2026)</option><option value="link"' + (p.delivery_type !== 'file' ? ' selected' : '') + '>Link (Drive, Mega, store page, any URL)</option></select></div>' +
+      '<div class="field" id="d-file"><label>File (up to 50 MB)</label><input class="input" id="f-file" type="file">' + (p.file_path ? '<div class="hint">Current file: ' + esc(p.file_path) + ' (choose a new file to replace it)</div>' : '') + '<div class="prog" id="prog" hidden><i></i></div></div>' +
+      '<div class="field" id="d-link"><label>Download / redirect URL</label><input class="input" id="f-url" placeholder="https://\u2026" value="' + esc(p.external_url || '') + '"><div class="hint">Free: the user is sent here. Paid: it is revealed only after a successful payment.</div></div>' +
+      '<div class="field"><label>Format label (shown on the card)</label><input class="input" id="f-fmt" value="' + esc(p.file_format || '') + '" placeholder="ZIP, PDF, APK, Link\u2026"></div>' +
+      '<div class="field"><label>Show this product on</label><div class="chk">' + PL.map(function (x) { return '<label><input type="checkbox" name="pl" value="' + x[0] + '"' + (pl.indexOf(x[0]) > -1 ? ' checked' : '') + '> ' + x[1] + '</label>'; }).join('') + '</div></div>' +
+      '<div class="form-row"><div class="field"><label>Pin order (higher = earlier on Store)</label><input class="input" id="f-sort" type="number" step="1" value="' + (p.sort_order || 0) + '"></div><div class="field"><label>Visibility</label><div class="chk"><label><input type="checkbox" id="f-pub"' + (p.is_published ? ' checked' : '') + '> Published (visible to everyone)</label></div></div></div>' +
+      '<div class="acts"><button class="btn btn-primary" type="submit">Save product</button><button class="btn btn-outline" id="cancel" type="button">Cancel</button></div><div class="form-msg" id="pm" hidden></div></form>';
+    var sync = function () { $('#d-file').hidden = $('#f-del').value !== 'file'; $('#d-link').hidden = $('#f-del').value !== 'link'; };
+    $('#f-del').onchange = sync; sync();
+    $('#cancel').onclick = function () { $('#form').innerHTML = ''; };
+    $('#f-cover').onchange = function () { var f = this.files[0]; if (f) { var pv = $('#f-prev'); pv.src = URL.createObjectURL(f); pv.hidden = false; } };
+    $('#f-file').onchange = function () { var f = this.files[0]; if (f && !$('#f-fmt').value) { $('#f-fmt').value = (f.name.split('.').pop() || '').toUpperCase(); } };
+    $('#pf').onsubmit = function (e) { e.preventDefault(); saveP(p); };
+  }
+  function saveP(p) {
+    var m = $('#pm'), say = function (t, bad) { m.hidden = false; m.className = 'form-msg' + (bad ? ' err' : ''); m.textContent = t; };
+    var title = $('#f-title').value.trim(); if (title.length < 2) { return say('Please enter a title.', true); }
+    var price = parseFloat($('#f-price').value || '0'); if (isNaN(price) || price < 0) { return say('Price must be 0 or more.', true); }
+    var cmp = $('#f-cmp').value === '' ? null : parseFloat($('#f-cmp').value);
+    var slug = slugify($('#f-slug').value || title); if (!slug) { return say('Could not make a URL slug. Enter one.', true); }
+    var del = $('#f-del').value, cover = $('#f-cover').files[0], file = $('#f-file').files[0];
+    var pls = Array.prototype.map.call(document.querySelectorAll('input[name=pl]:checked'), function (x) { return x.value; });
+    var row = { title: title, slug: slug, category: $('#f-cat').value, version: $('#f-ver').value.trim() || null, short_desc: $('#f-short').value.trim(), description: $('#f-desc').value.trim(),
+      price_inr: price, compare_price_inr: cmp, delivery_type: del, file_format: $('#f-fmt').value.trim() || null, placements: pls, sort_order: parseInt($('#f-sort').value || '0', 10) || 0, is_published: $('#f-pub').checked };
+    if (del === 'link') { row.external_url = $('#f-url').value.trim(); if (!/^https?:\/\//.test(row.external_url)) { return say('Enter a valid link starting with https://', true); } row.file_path = null; }
+    else { row.external_url = null; if (!file && !p.file_path) { return say('Please choose a file to upload.', true); } }
+    var btn = $('#pf button[type=submit]'); btn.disabled = true; say('Saving\u2026');
+    var chain = Promise.resolve();
+    if (cover) { chain = chain.then(function () { var path = slug + '/' + Date.now() + '-' + safeName(cover.name); say('Uploading image\u2026'); return upload('product-covers', path, cover).then(function () { row.cover_url = U + '/storage/v1/object/public/product-covers/' + path; }); }); }
+    if (del === 'file' && file) {
+      chain = chain.then(function () {
+        var path = slug + '/' + Date.now() + '-' + safeName(file.name), pr = $('#prog'); pr.hidden = false; say('Uploading file\u2026');
+        return upload('product-files', path, file, function (n) { $('i', pr).style.width = n + '%'; }).then(function () { row.file_path = path; });
+      });
+    } else if (del === 'file') { row.file_path = p.file_path; }
+    chain.then(function () {
+      return p.id ? api('/rest/v1/products?id=eq.' + p.id, { method: 'PATCH', body: row, prefer: 'return=minimal' }) : api('/rest/v1/products', { method: 'POST', body: row, prefer: 'return=minimal' });
+    }).then(function () { show(); }).catch(function (er) { btn.disabled = false; say(er.message.indexOf('duplicate') > -1 ? 'That URL slug is already used. Change the slug.' : er.message, true); });
+  }
+
+  /* ---------- orders ---------- */
+  function vOrders() {
+    return api('/rest/v1/orders?select=*,products(title)&order=created_at.desc&limit=200').then(function (l) {
+      var paid = l.filter(function (o) { return o.status === 'paid'; }), rev = paid.reduce(function (a, o) { return a + Number(o.amount_inr); }, 0);
+      $('#view').innerHTML = '<div class="stat"><div class="card"><b>' + paid.length + '</b>paid orders</div><div class="card"><b>' + money(rev) + '</b>revenue</div><div class="card"><b>' + l.length + '</b>all attempts</div></div>' +
+        (l.map(function (o) {
+          return '<div class="card item"><div class="grow"><h3>' + esc((o.products && o.products.title) || 'Product') + ' &middot; ' + money(o.amount_inr) + '</h3><div class="mt-1"><span class="pill2 ' + (o.status === 'paid' ? '' : o.status === 'created' ? 'warn' : 'bad') + '">' + o.status + '</span></div>' +
+            '<p class="kv"><b>Buyer:</b> ' + esc(o.buyer_name || '') + ' &lt;' + esc(o.buyer_email) + '&gt;</p><p class="kv"><b>Razorpay:</b> ' + esc(o.razorpay_payment_id || o.razorpay_order_id || '-') + ' &middot; ' + new Date(o.created_at).toLocaleString() + '</p></div></div>';
+        }).join('') || '<div class="empty-state">No orders yet.</div>');
+    });
+  }
+
+  /* ---------- inbox ---------- */
+  var box = 'contact_messages';
+  function vInbox() {
+    return api('/rest/v1/' + box + '?select=*&order=created_at.desc&limit=100').then(function (l) {
+      var names = [['contact_messages', 'Contact'], ['custom_orders', 'Custom projects'], ['app_submissions', 'App submissions']];
+      $('#view').innerHTML = '<div class="tabs">' + names.map(function (n) { return '<button class="filter-btn' + (n[0] === box ? ' active' : '') + '" data-b="' + n[0] + '" type="button">' + n[1] + '</button>'; }).join('') + '</div>' +
+        (l.map(function (r) {
+          var fields = Object.keys(r).filter(function (k) { return ['id', 'is_read', 'created_at'].indexOf(k) < 0 && r[k]; }).map(function (k) { return '<p class="kv"><b>' + esc(k) + ':</b> ' + esc(r[k]) + '</p>'; }).join('');
+          return '<div class="card item"><div class="grow"><div><span class="pill2 ' + (r.is_read ? '' : 'warn') + '">' + (r.is_read ? 'read' : 'new') + '</span><span class="tiny muted">' + new Date(r.created_at).toLocaleString() + '</span></div>' + fields +
+            '<div class="acts">' + (r.email ? '<a class="btn btn-outline btn-sm" href="mailto:' + esc(r.email) + '">Reply</a>' : '') + (r.is_read ? '' : '<button class="btn btn-outline btn-sm" data-r="' + r.id + '" type="button">Mark read</button>') + '<button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
+        }).join('') || '<div class="empty-state">Nothing here yet.</div>');
+      $('#view').onclick = function (e) {
+        var b = e.target.closest('button'); if (!b) { return; }
+        if (b.hasAttribute('data-b')) { box = b.getAttribute('data-b'); show(); }
+        else if (b.hasAttribute('data-r')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-r'), { method: 'PATCH', body: { is_read: true } }).then(show); }
+        else if (b.hasAttribute('data-x') && confirm('Delete this entry?')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show); }
+      };
+    });
+  }
+
+  /* ---------- reviews ---------- */
+  function vReviews() {
+    return api('/rest/v1/reviews?select=*&order=created_at.desc&limit=200').then(function (l) {
+      $('#view').innerHTML = (l.map(function (r) {
+        return '<div class="card item"><div class="grow"><h3>' + esc(r.name) + ' &middot; ' + '&#9733;'.repeat(r.rating) + '</h3><div class="mt-1"><span class="pill2 ' + (r.status === 'approved' ? '' : r.status === 'pending' ? 'warn' : 'bad') + '">' + r.status + '</span></div><p>' + esc(r.message) + '</p><p class="kv">' + esc(r.role || '') + ' ' + esc(r.email || '') + '</p>' +
+          '<div class="acts"><button class="btn btn-primary btn-sm" data-s="approved" data-id="' + r.id + '" type="button">Approve</button><button class="btn btn-outline btn-sm" data-s="rejected" data-id="' + r.id + '" type="button">Reject</button><button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
+      }).join('') || '<div class="empty-state">No reviews yet.</div>');
+      $('#view').onclick = function (e) {
+        var b = e.target.closest('button'); if (!b) { return; }
+        if (b.hasAttribute('data-s')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-id'), { method: 'PATCH', body: { status: b.getAttribute('data-s') } }).then(show); }
+        else if (b.hasAttribute('data-x') && confirm('Delete this review?')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show); }
+      };
+    });
+  }
+
+  if (S) { enter().catch(function () { save(null); }); }
+})();
+</script>
 </body>
 </html>
