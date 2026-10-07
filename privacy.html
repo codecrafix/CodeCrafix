@@ -1,69 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script data-tmly-media-guard="1">(function(){"use strict";
-var T=window.__tmly||(window.__tmly=(function(){
-var o={},n=String(window.name||"");
-if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
-var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
-return o})());
-if(T.presentation!=="preview"){return}
-var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
-var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
-var gestured=false;
-["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
-document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
-function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
-function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
-function harden(el){
-el.autoplay=false;el.removeAttribute("autoplay");
-if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
-if(muted){el.muted=true}
-if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
-var play=HTMLMediaElement.prototype.play;
-HTMLMediaElement.prototype.play=function(){
-if(!gestured){announcePaused(this);
-return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false);this.muted=false}
-return play.apply(this,arguments)};
-var acProtos=[];
-function guardAC(n){
-var N=window[n];if(!N||!N.prototype){return}
-if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
-var res=N.prototype.resume;
-if(typeof res==="function"){N.prototype.resume=function(){
-if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false)}
-return res.apply(this,arguments)}}}
-var W=function(o){var c=arguments.length?new N(o):new N();
-if(!gestured){try{c.suspend()}catch(e){}}return c};
-W.prototype=N.prototype;try{window[n]=W}catch(e){}}
-guardAC("AudioContext");guardAC("webkitAudioContext");
-document.addEventListener("play",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
-document.addEventListener("pause",function(e){
-if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
-document.addEventListener("volumechange",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
-function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
-for(var i=0;i<l.length;i++){harden(l[i])}}}
-new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
-for(var j=0;j<a.length;j++){var n=a[j];
-if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
-.observe(document.documentElement,{childList:true,subtree:true});
-document.addEventListener("DOMContentLoaded",function(){sweep(document)});
-sweep(document)})();</script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy — CodeCrafix</title>
-<meta name="description" content="How CodeCrafix collects, uses and protects your personal information across codecrafix.shop, our payment gateway (Razorpay) and our products.">
+<meta name="description" content="How CodeCrafix collects, uses and protects your personal information across codecrafix.shop, our payment gateway and our products.">
 <meta name="theme-color" content="#0b0f0c">
-<link rel="icon" href="assets/img/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="assets/img/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20261003b">
+<link rel="stylesheet" href="assets/css/style.css?v=20261004b">
 </head>
 <body>
 <header id="cf-header"></header>
@@ -74,9 +20,9 @@ sweep(document)})();</script>
       <div class="prose">
         <span class="eyebrow">Legal</span>
         <h1 class="mt-2" style="font-size:clamp(1.8rem,3.6vw,2.6rem)">Privacy Policy</h1>
-        <p class="updated mt-2">Last updated: 2 October 2026 &middot; Applies to codecrafix.shop and all CodeCrafix products and services.</p>
+        <p class="updated mt-2">Last updated: 7 October 2026 &middot; Applies to codecrafix.shop and all CodeCrafix products and services.</p>
 
-        <p>CodeCrafix (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an independent software studio operated by Vivek Barman, based in Satna, Madhya Pradesh, India. This policy explains what information we collect, why we collect it, how payments are handled, and the choices you have. It is written to meet the requirements applicable to merchants using the Razorpay payment gateway.</p>
+        <p>CodeCrafix (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is an independent software studio operated by Vivek Barman, based in Satna, Madhya Pradesh, India. This policy explains what information we collect, why we collect it, how payments are handled, and the choices you have. It is written to meet the requirements applicable to merchants accepting online payments in India.</p>
 
         <h2>1. Information we collect</h2>
         <ul>
@@ -106,12 +52,12 @@ sweep(document)})();</script>
           <li>We never publish your app under our organisation account without your written consent.</li>
         </ul>
 
-        <h2>4. Payments and Razorpay</h2>
-        <p>Online payments on codecrafix.shop are processed by our payment gateway partner, <strong>Razorpay Software Private Limited</strong> (&ldquo;Razorpay&rdquo;), a PCI-DSS compliant payment aggregator. When you pay:</p>
+        <h2>4. Payments and our payment gateway</h2>
+        <p>Online payments on codecrafix.shop are processed by our payment gateway partner (the &ldquo;Payment Gateway&rdquo;), an RBI-authorised, PCI-DSS compliant payment aggregator. When you pay:</p>
         <ul>
-          <li>Your card / UPI / net-banking details are entered directly on Razorpay&rsquo;s secure, hosted checkout and are handled by Razorpay, not by us.</li>
+          <li>Your card / UPI / net-banking details are entered directly on the Payment Gateway&rsquo;s secure, hosted checkout and are handled by the gateway, not by us.</li>
           <li>We receive only a payment confirmation, a transaction/reference ID, the amount paid, and limited contact details needed to deliver your product and provide support.</li>
-          <li>Razorpay processes your personal data under its own privacy policy, available at razorpay.com/privacy.</li>
+          <li>The Payment Gateway processes your personal data under its own privacy policy, linked from its checkout page.</li>
           <li>We retain transaction records for accounting, tax and dispute-resolution purposes, as required by law.</li>
         </ul>
 
@@ -121,7 +67,7 @@ sweep(document)})();</script>
         <h2>6. Data sharing and third-party services</h2>
         <p>We share personal data only with service providers who help us run the business, and only to the extent necessary:</p>
         <ul>
-          <li><strong>Razorpay</strong> &mdash; to process payments.</li>
+          <li><strong>Payment Gateway partner</strong> &mdash; to process payments.</li>
           <li><strong>Supabase</strong> &mdash; our database and authentication provider, which stores form submissions and approved reviews.</li>
           <li><strong>Email / cloud-drive providers</strong> &mdash; to communicate with you and store project files.</li>
         </ul>
@@ -160,8 +106,8 @@ sweep(document)})();</script>
 
 <footer id="cf-footer"></footer>
 
-<script src="assets/js/config.js?v=20261003b"></script>
-<script src="assets/js/store-data.js?v=20261003b"></script>
-<script src="assets/js/app.js?v=20261003b"></script>
+<script src="assets/js/config.js?v=20261004n"></script>
+<script src="assets/js/store-data.js?v=20261004d"></script>
+<script src="assets/js/app.js?v=20261004c"></script>
 </body>
 </html>
