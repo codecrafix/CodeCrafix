@@ -17,7 +17,7 @@ window.CODECRAFIX_CONFIG = {
   /* Supabase project "CodeCrafix". The anon key is public by design; all data is protected by Row Level Security. */
   supabase: {
     url: 'https://luccpfzrxhsezzmnbzsg.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y2NwZnpyeGhzZXp6bW5ienNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNzQ3NTYsImV4cCI6MjEwNjc1MDc1Nn0._ANGPdu_V3R4SdnurJpTz4OtHMK7R8rbK5fUw9n5I0s'
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y2NwZnpyeGhzZXp6bW5ienNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNzQ3NTYsImV4cCI6MjEwNjc1MDc1Nn0._ANGPdu_V3R4SdnurJpTz4OtHMK7R8fK5rUw9n5I0s'
   },
   admin: { passwordHash: '' }
 };
@@ -26,8 +26,8 @@ window.CODECRAFIX_CONFIG = {
    Loaded synchronously so the header is styled before it is drawn. */
 (function () {
   if (/admin/.test(location.pathname)) {
-    /* admin page: Dashboard, Tutorials, Blog, Reviews, Subscribers and Settings tabs */
-    try { document.write('<script src="/assets/js/admin-extra.js?v=20261005a"><\/script>'); } catch (e) {}
+    /* admin page: Dashboard, Tutorials, Blog, Reviews, Subscribers and Settings tabs + product form guard */
+    try { document.write('<script src="/assets/js/admin-extra.js?v=20261005a"><\/script><script src="/assets/js/admin-guard.js?v=20261016a"><\/script>'); } catch (e) {}
     return;
   }
   try {
