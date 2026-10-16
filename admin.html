@@ -27,7 +27,10 @@ body{background:#070b09}
 .prev{max-width:220px;border-radius:12px;margin-top:8px;display:block}
 .kv{font-size:.85rem;margin-top:4px;color:var(--muted);overflow-wrap:anywhere}.kv b{color:#fff}
 .stat{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}.stat .card{padding:14px 18px;min-width:130px}.stat b{font-size:1.4rem;display:block;color:#4ade80}
+.stat .card[data-go]{cursor:pointer}.stat .card[data-go]:hover{outline:1px solid #22c55e}
+.stat .card.alert b{color:#fbbf24}
 .prog{height:8px;background:#11201a;border-radius:99px;overflow:hidden;margin-top:8px}.prog i{display:block;height:100%;width:0;background:#22c55e;transition:width .2s}
+.sub{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -46,10 +49,14 @@ body{background:#070b09}
   <div id="app" hidden>
     <div class="bar"><h1>&#9881;&#65039; CodeCrafix Admin</h1><div><span class="tiny muted" id="who"></span> <button class="btn btn-outline btn-sm" id="out" type="button">Log out</button></div></div>
     <div class="tabs" id="tabs">
-      <button class="filter-btn active" data-t="products" type="button">&#128230; Products</button>
+      <button class="filter-btn active" data-t="dash" type="button">&#128202; Dashboard</button>
+      <button class="filter-btn" data-t="products" type="button">&#128230; Products</button>
       <button class="filter-btn" data-t="orders" type="button">&#128179; Orders</button>
       <button class="filter-btn" data-t="inbox" type="button">&#128236; Inbox</button>
       <button class="filter-btn" data-t="reviews" type="button">&#11088; Reviews</button>
+      <button class="filter-btn" data-t="tutorials" type="button">&#127916; Tutorials</button>
+      <button class="filter-btn" data-t="blog" type="button">&#128240; Blog</button>
+      <button class="filter-btn" data-t="settings" type="button">&#9881;&#65039; Settings</button>
     </div>
     <div id="view"></div>
   </div>
@@ -61,11 +68,13 @@ body{background:#070b09}
   var C = (window.CODECRAFIX_CONFIG || {}).supabase || {}, U = C.url.replace(/\/$/, ''), K = C.anonKey;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-  var money = function (n) { return '\u20b9' + Number(n).toLocaleString('en-IN'); };
-  var PL = [['home', 'Home page (shows the newest 4)'], ['store', 'Store page'], ['featured', 'Store page \u2013 Featured row'], ['tutorials', 'Tutorials page \u2013 Resources']];
+  var money = function (n) { return '₹' + Number(n).toLocaleString('en-IN'); };
+  var PL = [['home', 'Home page (shows the newest 4)'], ['store', 'Store page'], ['featured', 'Store page – Featured row'], ['tutorials', 'Tutorials page – Resources']];
+  var TPL = [['tutorials', 'Tutorials page'], ['home', 'Home page']];
   var CATS = [['game', 'Game'], ['app', 'App'], ['tool', 'Tool'], ['prompt', 'Prompt'], ['code', 'Code / Source'], ['other', 'Other']];
+  var SETS = [['announcement', 'Announcement banner text (leave empty to hide)'], ['contact_email', 'Contact email'], ['whatsapp', 'WhatsApp link or number'], ['youtube', 'YouTube channel link'], ['instagram', 'Instagram link']];
   var S = null; try { S = JSON.parse(sessionStorage.getItem('cf_sess') || 'null'); } catch (e) {}
-  var tab = 'products';
+  var tab = 'dash';
 
   function save(s) { S = s; try { s ? sessionStorage.setItem('cf_sess', JSON.stringify(s)) : sessionStorage.removeItem('cf_sess'); } catch (e) {} }
   function tok(r, d) { if (!r.ok) { throw new Error(d.error_description || d.msg || 'Login failed'); } d.exp = Date.now() + d.expires_in * 1000 - 60000; save(d); }
@@ -109,8 +118,9 @@ body{background:#070b09}
   }
   var slugify = function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60); };
   var safeName = function (n) { return n.toLowerCase().replace(/[^a-z0-9._-]+/g, '-'); };
+  var fail = function (er) { alert(er.message); };
 
-  /* ---------- auth ---------- */
+  /* ---------- auth + navigation ---------- */
   function enter() {
     return api('/rest/v1/rpc/is_admin', { method: 'POST', body: {} }).then(function (ok) {
       if (ok !== true) { save(null); throw new Error('This account is not an admin.'); }
@@ -118,17 +128,41 @@ body{background:#070b09}
     });
   }
   $('#lf').addEventListener('submit', function (e) {
-    e.preventDefault(); var m = $('#lm'); m.hidden = false; m.className = 'form-msg'; m.textContent = 'Signing in\u2026';
+    e.preventDefault(); var m = $('#lm'); m.hidden = false; m.className = 'form-msg'; m.textContent = 'Signing in…';
     login($('#em').value.trim(), $('#pw').value).then(enter).catch(function (er) { m.className = 'form-msg err'; m.textContent = er.message; });
   });
   $('#out').onclick = function () { save(null); location.reload(); };
-  $('#tabs').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-t]'); if (!b) { return; }
-    tab = b.getAttribute('data-t');
-    Array.prototype.forEach.call(document.querySelectorAll('#tabs .filter-btn'), function (x) { x.classList.toggle('active', x === b); });
+  function go(t) {
+    tab = t;
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs .filter-btn'), function (x) { x.classList.toggle('active', x.getAttribute('data-t') === t); });
     show();
-  });
-  function show() { var v = $('#view'); v.innerHTML = '<div class="empty-state">Loading\u2026</div>'; ({ products: vProducts, orders: vOrders, inbox: vInbox, reviews: vReviews })[tab]().catch(function (er) { v.innerHTML = '<div class="form-msg err">' + esc(er.message) + '</div>'; }); }
+  }
+  $('#tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-t]'); if (b) { go(b.getAttribute('data-t')); } });
+  function show() {
+    var v = $('#view'); v.onclick = null; v.innerHTML = '<div class="empty-state">Loading…</div>';
+    ({ dash: vDash, products: vProducts, orders: vOrders, inbox: vInbox, reviews: vReviews, tutorials: vTutorials, blog: vBlog, settings: vSettings })[tab]().catch(function (er) { v.innerHTML = '<div class="form-msg err">' + esc(er.message) + '</div>'; });
+  }
+
+  /* ---------- dashboard ---------- */
+  function vDash() {
+    var q = function (p) { return api('/rest/v1/' + p).catch(function () { return []; }); };
+    return Promise.all([
+      q('products?select=id,is_published'), q('orders?select=amount_inr,status'), q('contact_messages?select=id&is_read=eq.false'),
+      q('custom_orders?select=id&is_read=eq.false'), q('app_submissions?select=id&is_read=eq.false'), q('reviews?select=id&status=eq.pending'),
+      q('newsletter_subscribers?select=id'), q('tutorials?select=id'), q('blog_posts?select=id')
+    ]).then(function (r) {
+      var paid = r[1].filter(function (o) { return o.status === 'paid'; }), rev = paid.reduce(function (a, o) { return a + Number(o.amount_inr); }, 0);
+      var live = r[0].filter(function (p) { return p.is_published; }).length;
+      var inbox = r[2].length + r[3].length + r[4].length;
+      var card = function (n, label, t, alert) { return '<div class="card' + (alert && n > 0 ? ' alert' : '') + '" data-go="' + t + '"><b>' + n + '</b>' + label + '</div>'; };
+      $('#view').innerHTML = '<h2 class="mb-1">Needs your attention</h2><div class="stat">' +
+        card(r[5].length, 'reviews waiting for approval', 'reviews', true) + card(inbox, 'new messages / requests', 'inbox', true) + '</div>' +
+        '<h2 class="mb-1">Overview</h2><div class="stat">' +
+        card(r[0].length, 'products (' + live + ' live)', 'products') + card(paid.length, 'paid orders', 'orders') + '<div class="card" data-go="orders"><b>' + money(rev) + '</b>revenue</div>' +
+        card(r[6].length, 'newsletter subscribers', 'inbox') + card(r[7].length, 'tutorials', 'tutorials') + card(r[8].length, 'blog posts', 'blog') + '</div>';
+      $('#view').onclick = function (e) { var c = e.target.closest('[data-go]'); if (c) { go(c.getAttribute('data-go')); } };
+    });
+  }
 
   /* ---------- products ---------- */
   function vProducts() {
@@ -142,14 +176,14 @@ body{background:#070b09}
           '<div class="grow"><h3>' + esc(p.title) + '</h3><div class="mt-1"><span class="pill2">' + esc(p.category) + '</span><span class="pill2 ' + (free ? '' : 'warn') + '">' + (free ? 'FREE' : money(p.price_inr)) + '</span><span class="pill2 ' + (p.is_published ? '' : 'bad') + '">' + (p.is_published ? 'Published' : 'Draft') + '</span></div>' +
           '<p>Shown on: ' + esc((p.placements || []).join(', ') || 'nowhere') + ' &middot; ' + (p.delivery_type === 'file' ? 'File: ' + esc(p.file_path) : 'Link') + ' &middot; ' + p.downloads + ' downloads</p>' +
           '<div class="acts"><button class="btn btn-outline btn-sm" data-e="' + p.id + '" type="button">Edit</button><button class="btn btn-outline btn-sm" data-pub="' + p.id + '" data-v="' + (p.is_published ? 0 : 1) + '" type="button">' + (p.is_published ? 'Unpublish' : 'Publish') + '</button><button class="btn btn-danger btn-sm" data-d="' + p.id + '" type="button">Delete</button></div></div></div>';
-      }).join('') || '<div class="empty-state">No products yet. Click \u201cAdd product\u201d.</div>';
+      }).join('') || '<div class="empty-state">No products yet. Click “Add product”.</div>';
       $('#plist').onclick = function (e) {
         var b = e.target.closest('button'); if (!b) { return; }
         var id = b.getAttribute('data-e') || b.getAttribute('data-pub') || b.getAttribute('data-d');
         var p = list.filter(function (x) { return x.id === id; })[0];
         if (b.hasAttribute('data-e')) { form(p); window.scrollTo(0, 0); }
-        else if (b.hasAttribute('data-pub')) { api('/rest/v1/products?id=eq.' + id, { method: 'PATCH', body: { is_published: b.getAttribute('data-v') === '1' } }).then(show).catch(function (er) { alert(er.message); }); }
-        else if (b.hasAttribute('data-d') && confirm('Delete \u201c' + p.title + '\u201d? Products with orders cannot be deleted \u2014 unpublish them instead.')) { api('/rest/v1/products?id=eq.' + id, { method: 'DELETE' }).then(show).catch(function (er) { alert(er.message); }); }
+        else if (b.hasAttribute('data-pub')) { api('/rest/v1/products?id=eq.' + id, { method: 'PATCH', body: { is_published: b.getAttribute('data-v') === '1' } }).then(show).catch(fail); }
+        else if (b.hasAttribute('data-d') && confirm('Delete “' + p.title + '”? Products with orders cannot be deleted — unpublish them instead.')) { api('/rest/v1/products?id=eq.' + id, { method: 'DELETE' }).then(show).catch(fail); }
       };
     });
   }
@@ -161,12 +195,12 @@ body{background:#070b09}
       '<div class="form-row"><div class="field"><label>Category *</label><select class="select" id="f-cat">' + CATS.map(function (c) { return '<option value="' + c[0] + '"' + (p.category === c[0] ? ' selected' : '') + '>' + c[1] + '</option>'; }).join('') + '</select></div><div class="field"><label>Version</label><input class="input" id="f-ver" value="' + esc(p.version || '') + '" placeholder="v1.0"></div></div>' +
       '<div class="field"><label>Short description (shown on cards)</label><input class="input" id="f-short" maxlength="300" value="' + esc(p.short_desc || '') + '"></div>' +
       '<div class="field"><label>Full description</label><textarea class="textarea" id="f-desc">' + esc(p.description || '') + '</textarea></div>' +
-      '<div class="form-row"><div class="field"><label>Price in \u20b9 (0 = Free)</label><input class="input" id="f-price" type="number" min="0" step="1" value="' + (p.price_inr != null ? Number(p.price_inr) : 0) + '"><div class="hint">0 shows a green \u201cFree\u201d badge. Above 0 shows the price and a Buy button.</div></div><div class="field"><label>Old price (optional, shown struck-through)</label><input class="input" id="f-cmp" type="number" min="0" step="1" value="' + (p.compare_price_inr != null ? Number(p.compare_price_inr) : '') + '"></div></div>' +
+      '<div class="form-row"><div class="field"><label>Price in ₹ (0 = Free)</label><input class="input" id="f-price" type="number" min="0" step="1" value="' + (p.price_inr != null ? Number(p.price_inr) : 0) + '"><div class="hint">0 shows a green “Free” badge. Above 0 shows the price and a Buy button.</div></div><div class="field"><label>Old price (optional, shown struck-through)</label><input class="input" id="f-cmp" type="number" min="0" step="1" value="' + (p.compare_price_inr != null ? Number(p.compare_price_inr) : '') + '"></div></div>' +
       '<div class="field"><label>Poster / product image</label><input class="input" id="f-cover" type="file" accept="image/*">' + (p.cover_url ? '<img class="prev" id="f-prev" src="' + esc(p.cover_url) + '" alt="">' : '<img class="prev" id="f-prev" alt="" hidden>') + '<div class="hint">PNG, JPG or WebP, up to 5 MB. 16:9 looks best.</div></div>' +
-      '<div class="field"><label>How is it delivered?</label><select class="select" id="f-del"><option value="file"' + (p.delivery_type === 'file' ? ' selected' : '') + '>Upload a file (ZIP, PDF, APK, code, prompt pack\u2026)</option><option value="link"' + (p.delivery_type !== 'file' ? ' selected' : '') + '>Link (Drive, Mega, store page, any URL)</option></select></div>' +
+      '<div class="field"><label>How is it delivered?</label><select class="select" id="f-del"><option value="file"' + (p.delivery_type === 'file' ? ' selected' : '') + '>Upload a file (ZIP, PDF, APK, code, prompt pack…)</option><option value="link"' + (p.delivery_type !== 'file' ? ' selected' : '') + '>Link (Drive, Mega, store page, any URL)</option></select></div>' +
       '<div class="field" id="d-file"><label>File (up to 50 MB)</label><input class="input" id="f-file" type="file">' + (p.file_path ? '<div class="hint">Current file: ' + esc(p.file_path) + ' (choose a new file to replace it)</div>' : '') + '<div class="prog" id="prog" hidden><i></i></div></div>' +
-      '<div class="field" id="d-link"><label>Download / redirect URL</label><input class="input" id="f-url" placeholder="https://\u2026" value="' + esc(p.external_url || '') + '"><div class="hint">Free: the user is sent here. Paid: it is revealed only after a successful payment.</div></div>' +
-      '<div class="field"><label>Format label (shown on the card)</label><input class="input" id="f-fmt" value="' + esc(p.file_format || '') + '" placeholder="ZIP, PDF, APK, Link\u2026"></div>' +
+      '<div class="field" id="d-link"><label>Download / redirect URL</label><input class="input" id="f-url" placeholder="https://…" value="' + esc(p.external_url || '') + '"><div class="hint">Free: the user is sent here. Paid: it is revealed only after a successful payment.</div></div>' +
+      '<div class="field"><label>Format label (shown on the card)</label><input class="input" id="f-fmt" value="' + esc(p.file_format || '') + '" placeholder="ZIP, PDF, APK, Link…"></div>' +
       '<div class="field"><label>Show this product on</label><div class="chk">' + PL.map(function (x) { return '<label><input type="checkbox" name="pl" value="' + x[0] + '"' + (pl.indexOf(x[0]) > -1 ? ' checked' : '') + '> ' + x[1] + '</label>'; }).join('') + '</div></div>' +
       '<div class="form-row"><div class="field"><label>Pin order (higher = earlier on Store)</label><input class="input" id="f-sort" type="number" step="1" value="' + (p.sort_order || 0) + '"></div><div class="field"><label>Visibility</label><div class="chk"><label><input type="checkbox" id="f-pub"' + (p.is_published ? ' checked' : '') + '> Published (visible to everyone)</label></div></div></div>' +
       '<div class="acts"><button class="btn btn-primary" type="submit">Save product</button><button class="btn btn-outline" id="cancel" type="button">Cancel</button></div><div class="form-msg" id="pm" hidden></div></form>';
@@ -189,12 +223,12 @@ body{background:#070b09}
       price_inr: price, compare_price_inr: cmp, delivery_type: del, file_format: $('#f-fmt').value.trim() || null, placements: pls, sort_order: parseInt($('#f-sort').value || '0', 10) || 0, is_published: $('#f-pub').checked };
     if (del === 'link') { row.external_url = $('#f-url').value.trim(); if (!/^https?:\/\//.test(row.external_url)) { return say('Enter a valid link starting with https://', true); } row.file_path = null; }
     else { row.external_url = null; if (!file && !p.file_path) { return say('Please choose a file to upload.', true); } }
-    var btn = $('#pf button[type=submit]'); btn.disabled = true; say('Saving\u2026');
+    var btn = $('#pf button[type=submit]'); btn.disabled = true; say('Saving…');
     var chain = Promise.resolve();
-    if (cover) { chain = chain.then(function () { var path = slug + '/' + Date.now() + '-' + safeName(cover.name); say('Uploading image\u2026'); return upload('product-covers', path, cover).then(function () { row.cover_url = U + '/storage/v1/object/public/product-covers/' + path; }); }); }
+    if (cover) { chain = chain.then(function () { var path = slug + '/' + Date.now() + '-' + safeName(cover.name); say('Uploading image…'); return upload('product-covers', path, cover).then(function () { row.cover_url = U + '/storage/v1/object/public/product-covers/' + path; }); }); }
     if (del === 'file' && file) {
       chain = chain.then(function () {
-        var path = slug + '/' + Date.now() + '-' + safeName(file.name), pr = $('#prog'); pr.hidden = false; say('Uploading file\u2026');
+        var path = slug + '/' + Date.now() + '-' + safeName(file.name), pr = $('#prog'); pr.hidden = false; say('Uploading file…');
         return upload('product-files', path, file, function (n) { $('i', pr).style.width = n + '%'; }).then(function () { row.file_path = path; });
       });
     } else if (del === 'file') { row.file_path = p.file_path; }
@@ -207,45 +241,171 @@ body{background:#070b09}
   function vOrders() {
     return api('/rest/v1/orders?select=*,products(title)&order=created_at.desc&limit=200').then(function (l) {
       var paid = l.filter(function (o) { return o.status === 'paid'; }), rev = paid.reduce(function (a, o) { return a + Number(o.amount_inr); }, 0);
+      var STs = ['created', 'paid', 'failed', 'refunded'];
       $('#view').innerHTML = '<div class="stat"><div class="card"><b>' + paid.length + '</b>paid orders</div><div class="card"><b>' + money(rev) + '</b>revenue</div><div class="card"><b>' + l.length + '</b>all attempts</div></div>' +
         (l.map(function (o) {
           return '<div class="card item"><div class="grow"><h3>' + esc((o.products && o.products.title) || 'Product') + ' &middot; ' + money(o.amount_inr) + '</h3><div class="mt-1"><span class="pill2 ' + (o.status === 'paid' ? '' : o.status === 'created' ? 'warn' : 'bad') + '">' + o.status + '</span></div>' +
-            '<p class="kv"><b>Buyer:</b> ' + esc(o.buyer_name || '') + ' &lt;' + esc(o.buyer_email) + '&gt;</p><p class="kv"><b>Razorpay:</b> ' + esc(o.razorpay_payment_id || o.razorpay_order_id || '-') + ' &middot; ' + new Date(o.created_at).toLocaleString() + '</p></div></div>';
+            '<p class="kv"><b>Buyer:</b> ' + esc(o.buyer_name || '') + ' &lt;' + esc(o.buyer_email) + '&gt;</p><p class="kv"><b>Razorpay:</b> ' + esc(o.razorpay_payment_id || o.razorpay_order_id || '-') + ' &middot; ' + new Date(o.created_at).toLocaleString() + '</p>' +
+            '<div class="acts"><select class="select" data-os="' + o.id + '" style="max-width:170px">' + STs.map(function (s) { return '<option' + (s === o.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></div></div></div>';
         }).join('') || '<div class="empty-state">No orders yet.</div>');
+      $('#view').onchange = function (e) {
+        var s = e.target.closest('[data-os]'); if (!s) { return; }
+        if (!confirm('Change order status to “' + s.value + '”?')) { show(); return; }
+        var body = { status: s.value }; if (s.value === 'paid') { body.paid_at = new Date().toISOString(); }
+        api('/rest/v1/orders?id=eq.' + s.getAttribute('data-os'), { method: 'PATCH', body: body }).then(show).catch(function (er) { alert(er.message); show(); });
+      };
     });
   }
 
-  /* ---------- inbox ---------- */
+  /* ---------- inbox (contact, custom projects, app submissions, newsletter) ---------- */
   var box = 'contact_messages';
   function vInbox() {
-    return api('/rest/v1/' + box + '?select=*&order=created_at.desc&limit=100').then(function (l) {
-      var names = [['contact_messages', 'Contact'], ['custom_orders', 'Custom projects'], ['app_submissions', 'App submissions']];
+    return api('/rest/v1/' + box + '?select=*&order=created_at.desc&limit=200').then(function (l) {
+      var names = [['contact_messages', 'Contact'], ['custom_orders', 'Custom projects'], ['app_submissions', 'App submissions'], ['newsletter_subscribers', 'Newsletter']];
       $('#view').innerHTML = '<div class="tabs">' + names.map(function (n) { return '<button class="filter-btn' + (n[0] === box ? ' active' : '') + '" data-b="' + n[0] + '" type="button">' + n[1] + '</button>'; }).join('') + '</div>' +
+        (box === 'newsletter_subscribers' && l.length ? '<div class="bar"><span class="muted">' + l.length + ' subscribers</span><button class="btn btn-outline btn-sm" id="copyem" type="button">Copy all emails</button></div>' : '') +
         (l.map(function (r) {
+          var hasRead = Object.prototype.hasOwnProperty.call(r, 'is_read');
           var fields = Object.keys(r).filter(function (k) { return ['id', 'is_read', 'created_at'].indexOf(k) < 0 && r[k]; }).map(function (k) { return '<p class="kv"><b>' + esc(k) + ':</b> ' + esc(r[k]) + '</p>'; }).join('');
-          return '<div class="card item"><div class="grow"><div><span class="pill2 ' + (r.is_read ? '' : 'warn') + '">' + (r.is_read ? 'read' : 'new') + '</span><span class="tiny muted">' + new Date(r.created_at).toLocaleString() + '</span></div>' + fields +
-            '<div class="acts">' + (r.email ? '<a class="btn btn-outline btn-sm" href="mailto:' + esc(r.email) + '">Reply</a>' : '') + (r.is_read ? '' : '<button class="btn btn-outline btn-sm" data-r="' + r.id + '" type="button">Mark read</button>') + '<button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
+          return '<div class="card item"><div class="grow"><div>' + (hasRead ? '<span class="pill2 ' + (r.is_read ? '' : 'warn') + '">' + (r.is_read ? 'read' : 'new') + '</span>' : '') + '<span class="tiny muted">' + new Date(r.created_at).toLocaleString() + '</span></div>' + fields +
+            '<div class="acts">' + (r.email ? '<a class="btn btn-outline btn-sm" href="mailto:' + esc(r.email) + '">Reply</a>' : '') + (hasRead && !r.is_read ? '<button class="btn btn-outline btn-sm" data-r="' + r.id + '" type="button">Mark read</button>' : '') + '<button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
         }).join('') || '<div class="empty-state">Nothing here yet.</div>');
+      var ce = $('#copyem'); if (ce) { ce.onclick = function () { var t = l.map(function (r) { return r.email; }).join(', '); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { ce.textContent = 'Copied!'; }).catch(function () { prompt('Copy these emails:', t); }); }; }
       $('#view').onclick = function (e) {
         var b = e.target.closest('button'); if (!b) { return; }
         if (b.hasAttribute('data-b')) { box = b.getAttribute('data-b'); show(); }
-        else if (b.hasAttribute('data-r')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-r'), { method: 'PATCH', body: { is_read: true } }).then(show); }
-        else if (b.hasAttribute('data-x') && confirm('Delete this entry?')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show); }
+        else if (b.hasAttribute('data-r')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-r'), { method: 'PATCH', body: { is_read: true } }).then(show).catch(fail); }
+        else if (b.hasAttribute('data-x') && confirm('Delete this entry?')) { api('/rest/v1/' + box + '?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show).catch(fail); }
       };
     });
   }
 
   /* ---------- reviews ---------- */
+  var rfilter = 'all';
   function vReviews() {
-    return api('/rest/v1/reviews?select=*&order=created_at.desc&limit=200').then(function (l) {
-      $('#view').innerHTML = (l.map(function (r) {
-        return '<div class="card item"><div class="grow"><h3>' + esc(r.name) + ' &middot; ' + '&#9733;'.repeat(r.rating) + '</h3><div class="mt-1"><span class="pill2 ' + (r.status === 'approved' ? '' : r.status === 'pending' ? 'warn' : 'bad') + '">' + r.status + '</span></div><p>' + esc(r.message) + '</p><p class="kv">' + esc(r.role || '') + ' ' + esc(r.email || '') + '</p>' +
-          '<div class="acts"><button class="btn btn-primary btn-sm" data-s="approved" data-id="' + r.id + '" type="button">Approve</button><button class="btn btn-outline btn-sm" data-s="rejected" data-id="' + r.id + '" type="button">Reject</button><button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
-      }).join('') || '<div class="empty-state">No reviews yet.</div>');
+    return api('/rest/v1/reviews?select=*&order=created_at.desc&limit=300').then(function (all) {
+      var l = rfilter === 'all' ? all : all.filter(function (r) { return r.status === rfilter; });
+      var cnt = function (s) { return all.filter(function (r) { return r.status === s; }).length; };
+      var fl = [['all', 'All (' + all.length + ')'], ['pending', 'Pending (' + cnt('pending') + ')'], ['approved', 'Approved (' + cnt('approved') + ')'], ['rejected', 'Rejected (' + cnt('rejected') + ')']];
+      $('#view').innerHTML = '<div class="bar"><div class="tabs" style="margin:0">' + fl.map(function (f) { return '<button class="filter-btn' + (f[0] === rfilter ? ' active' : '') + '" data-f="' + f[0] + '" type="button">' + f[1] + '</button>'; }).join('') + '</div><button class="btn btn-primary btn-sm" id="addr" type="button">+ Add review</button></div><div id="rform"></div>' +
+        (l.map(function (r) {
+          return '<div class="card item"><div class="grow"><h3>' + esc(r.name) + ' &middot; ' + '&#9733;'.repeat(r.rating) + '</h3><div class="mt-1"><span class="pill2 ' + (r.status === 'approved' ? '' : r.status === 'pending' ? 'warn' : 'bad') + '">' + r.status + '</span></div><p>' + esc(r.message) + '</p><p class="kv">' + esc(r.role || '') + ' ' + esc(r.email || '') + '</p>' +
+            '<div class="acts"><button class="btn btn-primary btn-sm" data-s="approved" data-id="' + r.id + '" type="button">Approve</button><button class="btn btn-outline btn-sm" data-s="rejected" data-id="' + r.id + '" type="button">Reject</button><button class="btn btn-outline btn-sm" data-s="pending" data-id="' + r.id + '" type="button">Set pending</button><button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
+        }).join('') || '<div class="empty-state">No reviews here.</div>');
+      $('#addr').onclick = function () {
+        $('#rform').innerHTML = '<form id="rf" class="card card-flat form-card" style="margin-bottom:18px" novalidate><h2>Add a review manually</h2>' +
+          '<div class="form-row"><div class="field"><label>Name *</label><input class="input" id="r-name" maxlength="80"></div><div class="field"><label>Role / company</label><input class="input" id="r-role" maxlength="80"></div></div>' +
+          '<div class="form-row"><div class="field"><label>Rating *</label><select class="select" id="r-rate"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div class="field"><label>Status</label><select class="select" id="r-stat"><option value="approved">Approved (show on site)</option><option value="pending">Pending</option></select></div></div>' +
+          '<div class="field"><label>Review text * (10-1500 characters)</label><textarea class="textarea" id="r-msg" maxlength="1500"></textarea></div>' +
+          '<div class="acts"><button class="btn btn-primary" type="submit">Save review</button><button class="btn btn-outline" id="rc" type="button">Cancel</button></div><div class="form-msg" id="rm" hidden></div></form>';
+        $('#rc').onclick = function () { $('#rform').innerHTML = ''; };
+        $('#rf').onsubmit = function (e) {
+          e.preventDefault(); var m = $('#rm'); m.hidden = false; m.className = 'form-msg err';
+          var name = $('#r-name').value.trim(), msg = $('#r-msg').value.trim();
+          if (name.length < 2) { m.textContent = 'Enter a name.'; return; } if (msg.length < 10) { m.textContent = 'Review text must be at least 10 characters.'; return; }
+          api('/rest/v1/reviews', { method: 'POST', prefer: 'return=minimal', body: { name: name, role: $('#r-role').value.trim() || null, rating: parseInt($('#r-rate').value, 10), message: msg, status: $('#r-stat').value } }).then(show).catch(function (er) { m.textContent = er.message; });
+        };
+      };
       $('#view').onclick = function (e) {
         var b = e.target.closest('button'); if (!b) { return; }
-        if (b.hasAttribute('data-s')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-id'), { method: 'PATCH', body: { status: b.getAttribute('data-s') } }).then(show); }
-        else if (b.hasAttribute('data-x') && confirm('Delete this review?')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show); }
+        if (b.hasAttribute('data-f')) { rfilter = b.getAttribute('data-f'); show(); }
+        else if (b.hasAttribute('data-s')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-id'), { method: 'PATCH', body: { status: b.getAttribute('data-s') } }).then(show).catch(fail); }
+        else if (b.hasAttribute('data-x') && confirm('Delete this review?')) { api('/rest/v1/reviews?id=eq.' + b.getAttribute('data-x'), { method: 'DELETE' }).then(show).catch(fail); }
+      };
+    });
+  }
+
+  /* ---------- tutorials ---------- */
+  function ytId(u) { var m = String(u).match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : ''; }
+  function vTutorials() {
+    return api('/rest/v1/tutorials?select=*&order=sort_order.desc,created_at.desc').then(function (list) {
+      $('#view').innerHTML = '<div class="bar"><h2>Tutorials (' + list.length + ')</h2><button class="btn btn-primary btn-sm" id="add" type="button">+ Add tutorial</button></div><div id="form"></div><div id="tl"></div>';
+      $('#add').onclick = function () { tForm(null); };
+      $('#tl').innerHTML = list.map(function (t) {
+        return '<div class="card item"><img src="https://img.youtube.com/vi/' + esc(t.video_id) + '/mqdefault.jpg" alt=""><div class="grow"><h3>' + esc(t.title) + '</h3><div class="mt-1"><span class="pill2 ' + (t.is_published ? '' : 'bad') + '">' + (t.is_published ? 'Published' : 'Hidden') + '</span><span class="pill2">' + esc((t.placements || []).join(', ') || 'nowhere') + '</span></div><p>' + esc(t.description) + '</p>' +
+          '<div class="acts"><button class="btn btn-outline btn-sm" data-e="' + t.id + '" type="button">Edit</button><button class="btn btn-outline btn-sm" data-pub="' + t.id + '" data-v="' + (t.is_published ? 0 : 1) + '" type="button">' + (t.is_published ? 'Hide' : 'Show') + '</button><button class="btn btn-danger btn-sm" data-d="' + t.id + '" type="button">Delete</button></div></div></div>';
+      }).join('') || '<div class="empty-state">No tutorials yet.</div>';
+      $('#tl').onclick = function (e) {
+        var b = e.target.closest('button'); if (!b) { return; }
+        var id = b.getAttribute('data-e') || b.getAttribute('data-pub') || b.getAttribute('data-d');
+        var t = list.filter(function (x) { return x.id === id; })[0];
+        if (b.hasAttribute('data-e')) { tForm(t); window.scrollTo(0, 0); }
+        else if (b.hasAttribute('data-pub')) { api('/rest/v1/tutorials?id=eq.' + id, { method: 'PATCH', body: { is_published: b.getAttribute('data-v') === '1' } }).then(show).catch(fail); }
+        else if (b.hasAttribute('data-d') && confirm('Delete “' + t.title + '”?')) { api('/rest/v1/tutorials?id=eq.' + id, { method: 'DELETE' }).then(show).catch(fail); }
+      };
+    });
+  }
+  function tForm(t) {
+    t = t || {}; var pl = t.placements || ['tutorials'];
+    $('#form').innerHTML = '<form id="tf" class="card card-flat form-card" style="margin-bottom:22px" novalidate><h2>' + (t.id ? 'Edit tutorial' : 'Add a tutorial') + '</h2>' +
+      '<div class="field"><label>Title *</label><input class="input" id="t-title" maxlength="160" value="' + esc(t.title || '') + '"></div>' +
+      '<div class="field"><label>YouTube link *</label><input class="input" id="t-url" placeholder="https://www.youtube.com/watch?v=…" value="' + esc(t.youtube_url || '') + '"><div class="hint">Paste any YouTube video, Shorts or youtu.be link. The video ID is detected automatically.</div></div>' +
+      '<div class="field"><label>Description (max 400 characters)</label><textarea class="textarea" id="t-desc" maxlength="400">' + esc(t.description || '') + '</textarea></div>' +
+      '<div class="field"><label>Show on</label><div class="chk">' + TPL.map(function (x) { return '<label><input type="checkbox" name="tpl" value="' + x[0] + '"' + (pl.indexOf(x[0]) > -1 ? ' checked' : '') + '> ' + x[1] + '</label>'; }).join('') + '</div></div>' +
+      '<div class="form-row"><div class="field"><label>Pin order (higher = earlier)</label><input class="input" id="t-sort" type="number" step="1" value="' + (t.sort_order || 0) + '"></div><div class="field"><label>Visibility</label><div class="chk"><label><input type="checkbox" id="t-pub"' + (t.is_published === false ? '' : ' checked') + '> Published</label></div></div></div>' +
+      '<div class="acts"><button class="btn btn-primary" type="submit">Save tutorial</button><button class="btn btn-outline" id="cancel" type="button">Cancel</button></div><div class="form-msg" id="tm" hidden></div></form>';
+    $('#cancel').onclick = function () { $('#form').innerHTML = ''; };
+    $('#tf').onsubmit = function (e) {
+      e.preventDefault(); var m = $('#tm'); m.hidden = false; m.className = 'form-msg err';
+      var title = $('#t-title').value.trim(), url = $('#t-url').value.trim(), vid = ytId(url);
+      if (title.length < 2) { m.textContent = 'Enter a title.'; return; } if (!vid) { m.textContent = 'That does not look like a valid YouTube link.'; return; }
+      var row = { title: title, youtube_url: url, video_id: vid, description: $('#t-desc').value.trim(), sort_order: parseInt($('#t-sort').value || '0', 10) || 0, is_published: $('#t-pub').checked,
+        placements: Array.prototype.map.call(document.querySelectorAll('input[name=tpl]:checked'), function (x) { return x.value; }) };
+      (t.id ? api('/rest/v1/tutorials?id=eq.' + t.id, { method: 'PATCH', body: row, prefer: 'return=minimal' }) : api('/rest/v1/tutorials', { method: 'POST', body: row, prefer: 'return=minimal' }))
+        .then(show).catch(function (er) { m.textContent = er.message.indexOf('duplicate') > -1 ? 'This video is already added.' : er.message; });
+    };
+  }
+
+  /* ---------- blog ---------- */
+  function vBlog() {
+    return api('/rest/v1/blog_posts?select=*&order=sort_order.desc,published_on.desc').then(function (list) {
+      $('#view').innerHTML = '<div class="bar"><h2>Blog posts (' + list.length + ')</h2><button class="btn btn-primary btn-sm" id="add" type="button">+ Add post</button></div><div id="form"></div><div id="bl"></div>';
+      $('#add').onclick = function () { bForm(null); };
+      $('#bl').innerHTML = list.map(function (b) {
+        return '<div class="card item"><div class="grow"><h3>' + esc(b.title) + '</h3><div class="mt-1"><span class="pill2">' + esc(b.tag) + '</span><span class="pill2 ' + (b.is_published ? '' : 'bad') + '">' + (b.is_published ? 'Published' : 'Hidden') + '</span><span class="tiny muted">' + esc(b.published_on) + '</span></div><p>' + esc(b.description) + '</p>' + (b.url ? '<p class="kv"><b>Link:</b> ' + esc(b.url) + '</p>' : '') +
+          '<div class="acts"><button class="btn btn-outline btn-sm" data-e="' + b.id + '" type="button">Edit</button><button class="btn btn-outline btn-sm" data-pub="' + b.id + '" data-v="' + (b.is_published ? 0 : 1) + '" type="button">' + (b.is_published ? 'Hide' : 'Show') + '</button><button class="btn btn-danger btn-sm" data-d="' + b.id + '" type="button">Delete</button></div></div></div>';
+      }).join('') || '<div class="empty-state">No blog posts yet.</div>';
+      $('#bl').onclick = function (e) {
+        var x = e.target.closest('button'); if (!x) { return; }
+        var id = x.getAttribute('data-e') || x.getAttribute('data-pub') || x.getAttribute('data-d');
+        var b = list.filter(function (y) { return y.id === id; })[0];
+        if (x.hasAttribute('data-e')) { bForm(b); window.scrollTo(0, 0); }
+        else if (x.hasAttribute('data-pub')) { api('/rest/v1/blog_posts?id=eq.' + id, { method: 'PATCH', body: { is_published: x.getAttribute('data-v') === '1' } }).then(show).catch(fail); }
+        else if (x.hasAttribute('data-d') && confirm('Delete “' + b.title + '”?')) { api('/rest/v1/blog_posts?id=eq.' + id, { method: 'DELETE' }).then(show).catch(fail); }
+      };
+    });
+  }
+  function bForm(b) {
+    b = b || {}; var today = new Date().toISOString().slice(0, 10);
+    $('#form').innerHTML = '<form id="bf" class="card card-flat form-card" style="margin-bottom:22px" novalidate><h2>' + (b.id ? 'Edit post' : 'Add a blog post') + '</h2>' +
+      '<div class="field"><label>Title *</label><input class="input" id="b-title" maxlength="160" value="' + esc(b.title || '') + '"></div>' +
+      '<div class="form-row"><div class="field"><label>Tag</label><input class="input" id="b-tag" maxlength="40" value="' + esc(b.tag || 'General') + '" placeholder="Publishing, Development…"></div><div class="field"><label>Date</label><input class="input" id="b-date" type="date" value="' + esc(b.published_on || today) + '"></div></div>' +
+      '<div class="field"><label>Short description (max 400 characters)</label><textarea class="textarea" id="b-desc" maxlength="400">' + esc(b.description || '') + '</textarea></div>' +
+      '<div class="field"><label>Link to the full article (optional)</label><input class="input" id="b-url" placeholder="https://…" value="' + esc(b.url || '') + '"></div>' +
+      '<div class="form-row"><div class="field"><label>Pin order (higher = earlier)</label><input class="input" id="b-sort" type="number" step="1" value="' + (b.sort_order || 0) + '"></div><div class="field"><label>Visibility</label><div class="chk"><label><input type="checkbox" id="b-pub"' + (b.is_published === false ? '' : ' checked') + '> Published</label></div></div></div>' +
+      '<div class="acts"><button class="btn btn-primary" type="submit">Save post</button><button class="btn btn-outline" id="cancel" type="button">Cancel</button></div><div class="form-msg" id="bm" hidden></div></form>';
+    $('#cancel').onclick = function () { $('#form').innerHTML = ''; };
+    $('#bf').onsubmit = function (e) {
+      e.preventDefault(); var m = $('#bm'); m.hidden = false; m.className = 'form-msg err';
+      var title = $('#b-title').value.trim(), url = $('#b-url').value.trim();
+      if (title.length < 2) { m.textContent = 'Enter a title.'; return; } if (url && !/^https?:\/\//i.test(url)) { m.textContent = 'Link must start with https://'; return; }
+      var row = { title: title, tag: $('#b-tag').value.trim() || 'General', description: $('#b-desc').value.trim(), url: url || null, published_on: $('#b-date').value || today, sort_order: parseInt($('#b-sort').value || '0', 10) || 0, is_published: $('#b-pub').checked };
+      (b.id ? api('/rest/v1/blog_posts?id=eq.' + b.id, { method: 'PATCH', body: row, prefer: 'return=minimal' }) : api('/rest/v1/blog_posts', { method: 'POST', body: row, prefer: 'return=minimal' })).then(show).catch(function (er) { m.textContent = er.message; });
+    };
+  }
+
+  /* ---------- site settings ---------- */
+  function vSettings() {
+    return api('/rest/v1/site_settings?select=key,value').then(function (rows) {
+      var cur = {}; rows.forEach(function (r) { cur[r.key] = r.value; });
+      $('#view').innerHTML = '<form id="sf" class="card card-flat form-card" novalidate><h2>Site settings</h2><p class="muted mt-1">These values are used across the website (banner, contact and social links).</p>' +
+        SETS.map(function (s) { return '<div class="field"><label>' + esc(s[1]) + '</label><input class="input" data-k="' + s[0] + '" maxlength="500" value="' + esc(cur[s[0]] || '') + '"></div>'; }).join('') +
+        '<div class="acts"><button class="btn btn-primary" type="submit">Save settings</button></div><div class="form-msg" id="sm" hidden></div></form>';
+      $('#sf').onsubmit = function (e) {
+        e.preventDefault(); var m = $('#sm'); m.hidden = false; m.className = 'form-msg'; m.textContent = 'Saving…';
+        var body = Array.prototype.map.call(document.querySelectorAll('#sf [data-k]'), function (i) { return { key: i.getAttribute('data-k'), value: i.value.trim(), updated_at: new Date().toISOString() }; });
+        api('/rest/v1/site_settings?on_conflict=key', { method: 'POST', body: body, prefer: 'resolution=merge-duplicates,return=minimal' })
+          .then(function () { m.textContent = 'Saved ✓'; }).catch(function (er) { m.className = 'form-msg err'; m.textContent = er.message; });
       };
     });
   }
