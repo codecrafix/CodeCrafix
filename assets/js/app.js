@@ -39,11 +39,11 @@
       if (C.youtube) { soc += '<a href="' + esc(C.youtube) + '" target="_blank" rel="noopener" aria-label="YouTube">&#9654;</a>'; }
       soc += '<a href="' + esc(IG) + '" target="_blank" rel="noopener" aria-label="Instagram">' + IG_ICON + '</a>';
       soc += '<a href="mailto:' + esc(MAIL) + '" aria-label="Email ' + esc(MAIL) + '" title="' + esc(MAIL) + '">&#128172;</a>';
-      var legal = [['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
+      var legal = [['about.html', 'Business Details'], ['terms.html', 'Terms & Conditions'], ['privacy.html', 'Privacy Policy'], ['refund-policy.html', 'Refund Policy'], ['return-policy.html', 'Return Policy'], ['cancellation-policy.html', 'Cancellation Policy']];
       f.innerHTML = '<div class="foot">' +
         '<div><a class="foot-logo" href="index.html">' + LOGO.replace('width="36" height="36"', 'width="64" height="64"') + '<span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p><div class="social">' + soc + '</div></div>' +
         '<div><h4>Explore</h4><a href="store.html">Digital Store</a><a href="custom-dev.html">Custom Development</a><a href="publish-app.html">Publish Your App</a><a href="tutorials.html">Tutorials</a><a href="contact.html">Contact Us</a></div>' +
-        '<div><h4>Company</h4><a href="index.html#about">About</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a><a href="contact.html">Contact</a></div>' +
+        '<div><h4>Company</h4><a href="about.html">About &amp; Business Details</a><a href="index.html#services">Services</a><a href="index.html#reviews">Reviews</a><a href="custom-dev.html#hire">Start a project</a><a href="contact.html">Contact</a></div>' +
         '<div><h4>Legal</h4>' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>' +
         '<div class="foot-bottom"><span>&copy; ' + new Date().getFullYear() + ' CodeCrafix. All rights reserved. Code. Create. Scale.</span><div class="foot-legal">' + legal.map(function (l) { return '<a href="' + l[0] + '">' + l[1].replace('&', '&amp;') + '</a>'; }).join('') + '</div></div>';
     }

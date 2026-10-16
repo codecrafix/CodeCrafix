@@ -10,6 +10,10 @@ window.CODECRAFIX_CONFIG = {
   social: { instagram: 'https://www.instagram.com/codecrafix?stkn=MTF4ejJqc3VmcHZzMg==' },
   /* true = show the demo products and demo reviews. Keep false: real reviews now come from Supabase. */
   showSampleContent: false,
+  /* false (now) = clicking Buy on a paid product sends the visitor straight to that product's
+     "Download / redirect URL" from the admin panel (no name/email form, no online payment).
+     Set to true once a payment gateway is approved to bring back the in-site checkout. */
+  paymentsLive: false,
   /* Supabase project "CodeCrafix". The anon key is public by design; all data is protected by Row Level Security. */
   supabase: {
     url: 'https://luccpfzrxhsezzmnbzsg.supabase.co',
@@ -27,9 +31,9 @@ window.CODECRAFIX_CONFIG = {
     return;
   }
   try {
-    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261005b"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script><script src="/assets/js/site-extras.js?v=20261005a"><\/script>');
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261016a"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script><script src="/assets/js/site-extras.js?v=20261005a"><\/script>');
   } catch (e) {
-    ['menu.js?v=20261004n', 'shop.js?v=20261005b', 'tutorials.js?v=20261005a', 'site-extras.js?v=20261005a'].forEach(function (f) {
+    ['menu.js?v=20261004n', 'shop.js?v=20261016a', 'tutorials.js?v=20261005a', 'site-extras.js?v=20261005a'].forEach(function (f) {
       var s = document.createElement('script'); s.src = '/assets/js/' + f; document.head.appendChild(s);
     });
   }

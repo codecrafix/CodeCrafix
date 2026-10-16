@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 Disallow: /admin
+Disallow: /deploy-guide.html
+Disallow: /deploy-guide
 
 Sitemap: https://codecrafix.shop/sitemap.xml
