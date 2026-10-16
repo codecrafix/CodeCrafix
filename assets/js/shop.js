@@ -1,6 +1,8 @@
 /* CodeCrafix shop: live products from Supabase, free downloads and Razorpay checkout.
    Products are managed in /admin. If Supabase cannot be reached the static list in store-data.js is shown instead.
-   While the live data loads, the page shows a neutral skeleton, so the old built-in cards never flash before the real ones. */
+   While the live data loads, the page shows a neutral skeleton, so the old built-in cards never flash before the real ones.
+   Paid products: while CODECRAFIX_CONFIG.paymentsLive is not true, Buy sends the visitor straight to the product's
+   redirect URL set in the admin panel (no name/email form). Set paymentsLive: true to bring back the checkout. */
 (function () {
   var CFG = window.CODECRAFIX_CONFIG || {}, SB = CFG.supabase || {};
   if (!SB.url || !SB.anonKey) { return; }
@@ -151,6 +153,26 @@
       if (r.ok && r.data.url) { deliver(r.data); } else { toast('Download is not available right now. Please try again or contact us.'); }
     }).catch(function () { btn.disabled = false; btn.textContent = old; toast('Network error. Please try again.'); });
   }
+
+  /* Paid product while payments are not live: go straight to the redirect URL saved in the admin panel. */
+  function directBuy(p, btn) {
+    var old = btn.textContent, w = null;
+    btn.disabled = true; btn.textContent = 'Opening…';
+    try { w = window.open('', '_blank'); } catch (e) { w = null; } /* opened on the click so the browser does not block it */
+    var done = function () { btn.disabled = false; btn.textContent = old; };
+    var fail = function () {
+      done(); if (w) { try { w.close(); } catch (e) {} }
+      toast('This product link is not available right now. Please contact us at ' + ((CFG.contact && CFG.contact.email) || 'our email') + '.');
+    };
+    fetch(REST + '/rpc/get_buy_redirect', { method: 'POST', headers: { apikey: SB.anonKey, Authorization: 'Bearer ' + SB.anonKey, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_id: p.id }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (url) {
+        if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) { return fail(); }
+        done();
+        if (w) { try { w.opener = null; } catch (e) {} w.location.href = url; } else { location.href = url; }
+      })
+      .catch(fail);
+  }
   function success(m, p, d) {
     var link = location.origin + '/download?o=' + encodeURIComponent(d.order_id) + '&t=' + encodeURIComponent(d.token);
     m.set('<div class="center"><div class="ok">✅</div><h3>Payment successful</h3><p>Thank you! <b>' + esc(p.title) + '</b> is ready.</p></div>' +
@@ -204,7 +226,9 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-shop-act]'); if (!b) { return; }
     var p = PRODUCTS.filter(function (x) { return x.id === b.getAttribute('data-pid'); })[0]; if (!p) { return; }
-    if (b.getAttribute('data-shop-act') === 'free') { freeDownload(p, b); } else { openBuy(p); }
+    if (b.getAttribute('data-shop-act') === 'free') { freeDownload(p, b); }
+    else if (CFG.paymentsLive === true) { openBuy(p); }
+    else { directBuy(p, b); }
   });
 
   /* ---------- approved reviews ---------- */

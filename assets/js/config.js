@@ -1,4 +1,4 @@
-/* CodeCraft Crafix site config — edit values here, no other file needs to change */
+/* CodeCrafix site config — edit values here, no other file needs to change */
 window.CODECRAFIX_CONFIG = {
   brand: { name: 'CodeCrafix', tagline: 'Build, Code & Scale' },
   contact: {
