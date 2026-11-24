@@ -144,18 +144,22 @@
 
   /* ===== Clear section separation ===== */
   .section{border-top:1px solid #e2eee5}
-  .sec-head h2::after{content:"";display:block;width:58px;height:4px;border-radius:3px;background:linear-gradient(90deg,#10b981,#0a7a4b);margin:16px auto 0}
+  .section-head h2::after{content:"";display:block;width:58px;height:4px;border-radius:3px;background:linear-gradient(90deg,#10b981,#0a7a4b);margin:16px auto 0}
   .founder-sec{background:#f5faf5;border-top:1px solid #e2eee5;border-bottom:1px solid #e2eee5}
   section{scroll-margin-top:76px}
 
   /* ===== Big professional section titles ===== */
-  .sec-head{margin-bottom:46px}
-  .sec-head h2{font-size:clamp(1.75rem,4.6vw,2.35rem);font-weight:800;letter-spacing:-.01em;line-height:1.15;color:#0b1220}
-  .sec-head h2::after{width:66px;height:5px;margin-top:18px}
-  .sec-head .eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.16em;padding:8px 18px}
-  .sec-head p{font-size:1.02rem;margin-top:16px}
-  .founder-grid h2{font-size:clamp(1.65rem,4.2vw,2.15rem);font-weight:800;letter-spacing:-.01em;line-height:1.18;color:#0b1220}
+  .section-head{margin-bottom:46px}
+  .section-head h2{font-size:clamp(2.05rem,5.6vw,2.75rem);font-weight:800;letter-spacing:-.015em;line-height:1.12;color:#0b1220}
+  .section-head h2::after{width:66px;height:5px;margin-top:18px}
+  .section-head .eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.16em;padding:8px 18px}
+  .section-head p{font-size:1.02rem;margin-top:16px}
+  .founder-grid h2{font-size:clamp(1.95rem,5.2vw,2.55rem);font-weight:800;letter-spacing:-.015em;line-height:1.15;color:#0b1220}
   .founder-grid h2::after{content:"";display:block;width:66px;height:5px;border-radius:3px;background:linear-gradient(90deg,#10b981,#0a7a4b);margin-top:16px}
+
+
+  .hero{background:radial-gradient(900px 480px at 88% -10%,rgba(16,185,129,.09),rgba(16,185,129,0) 60%),#ffffff}
+  section.founder{background:#f5faf5!important;border-top:1px solid #e2eee5;border-bottom:1px solid #e2eee5}
   #cf-footer{background:#050a07!important}
   #cf-footer .foot h4{color:#ffffff!important}
   @media(max-width:900px){.svc-grid,.steps{grid-template-columns:1fr}.counters{grid-template-columns:repeat(2,1fr)}.founder-grid{grid-template-columns:1fr}}
