@@ -3,7 +3,7 @@ window.CODECRAFIX_CONFIG = {
   brand: { name: 'CodeCrafix', tagline: 'Build, Code & Scale' },
   contact: {
     email: 'codecrafix.official@gmail.com',
-    whatsapp: '',            // e.g. '919876543210' (country code + number, no +). Leave blank to hide
+    whatsapp: '916262262913',            // e.g. '919876543210' (country code + number, no +). Leave blank to hide
     whatsappText: 'Hi CodeCrafix! I would like to discuss a project.',
     youtube: 'https://youtube.com/@codecrafix'
   },
