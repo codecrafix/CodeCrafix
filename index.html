@@ -141,6 +141,12 @@
   .svc:hover .feat li{transform:translateX(2px)}
   @media(max-width:760px){.nav{gap:8px;padding:8px 10px}.nav-links{gap:2px}.nav-links a{font-size:.76rem;padding:5px 6px}.brand span{font-size:.95rem}}
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+  /* ===== Clear section separation ===== */
+  .section{border-top:1px solid #e2eee5}
+  .sec-head h2::after{content:"";display:block;width:58px;height:4px;border-radius:3px;background:linear-gradient(90deg,#10b981,#0a7a4b);margin:16px auto 0}
+  .founder-sec{background:#f5faf5;border-top:1px solid #e2eee5;border-bottom:1px solid #e2eee5}
+  section{scroll-margin-top:76px}
   #cf-footer{background:#050a07!important}
   #cf-footer .foot h4{color:#ffffff!important}
   @media(max-width:900px){.svc-grid,.steps{grid-template-columns:1fr}.counters{grid-template-columns:repeat(2,1fr)}.founder-grid{grid-template-columns:1fr}}
@@ -159,8 +165,8 @@
           <p class="lead">CodeCrafix is a software studio from Satna, India. We build Android apps and 2D games for clients, publish your ready app on the Play Store in 3 days, and set up AdMob so your app can earn. No Play Console account? No problem &mdash; we publish on our verified organisation console, and you keep full ownership of your app.</p>
           <div class="hero-cta">
             <a class="btn btn-primary" href="publish-app.html">Publish My App &rarr;</a>
-            <a class="btn btn-wa" href="https://wa.me/916262262913?text=Hi%20CodeCrafix!%20I%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">&#128172; Chat Us</a>
             <a class="btn btn-ghostl" href="custom-dev.html">Build My App</a>
+            <a class="btn btn-wa" href="https://wa.me/916262262913?text=Hi%20CodeCrafix!%20I%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">&#128172; Chat Us</a>
           </div>
         </div>
         <div class="hero-media">
