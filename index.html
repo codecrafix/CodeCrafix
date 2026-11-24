@@ -117,6 +117,30 @@
   .review-form-card{max-width:760px;margin:0 auto;background:#ffffff!important;border:1px solid #d8ecdf!important;border-radius:20px!important;padding:34px!important;box-shadow:0 20px 44px rgba(11,30,20,.10)!important}
   .review-note{color:#61766a!important}
   .empty-state{color:#42534a!important}
+
+  /* ===== Premium polish: animations & hover effects ===== */
+  html{scroll-behavior:smooth}
+  .btn{transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(16,185,129,.38)}
+  .btn:active{transform:translateY(0) scale(.98)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .hero-grid>div{animation:fadeUp .8s ease both}
+  .hero-grid>div:nth-child(2){animation-delay:.15s}
+  .counters{animation:fadeUp .8s .3s ease both}
+  .hero-media img{transition:transform .6s ease}
+  .hero-media:hover img{transform:scale(1.02)}
+  .founder-grid img{transition:transform .5s ease,box-shadow .5s ease}
+  .founder-grid img:hover{transform:scale(1.03);box-shadow:0 28px 52px rgba(11,30,20,.26)}
+  .review-card{transition:transform .3s ease,box-shadow .3s ease}
+  .review-card:hover{transform:translateY(-5px);box-shadow:0 22px 44px rgba(11,30,20,.13)!important}
+  .review-form-card{transition:box-shadow .3s ease}
+  .review-form-card:hover{box-shadow:0 26px 52px rgba(11,30,20,.13)!important}
+  #cf-footer a{transition:color .2s ease}
+  #cf-footer a:hover{color:#4ade80!important}
+  .svc .feat li{transition:transform .2s ease}
+  .svc:hover .feat li{transform:translateX(2px)}
+  @media(max-width:760px){.nav{gap:8px;padding:8px 10px}.nav-links{gap:2px}.nav-links a{font-size:.76rem;padding:5px 6px}.brand span{font-size:.95rem}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
   #cf-footer{background:#050a07!important}
   #cf-footer .foot h4{color:#ffffff!important}
   @media(max-width:900px){.svc-grid,.steps{grid-template-columns:1fr}.counters{grid-template-columns:repeat(2,1fr)}.founder-grid{grid-template-columns:1fr}}
