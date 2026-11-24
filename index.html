@@ -54,17 +54,26 @@
   .section-head p{color:#4c5f55}
   .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(16,185,129,.17);border:1px solid rgba(16,185,129,.40);color:#0a7a4b;font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase}
   #services{background:linear-gradient(180deg,#d7efdf 0%,#e8f6ee 55%,#ffffff 100%);border-top:1px solid #dcefe3;border-bottom:1px solid #e4f2e9}
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .svc{background:#ffffff;border:1px solid #d9ebdf;border-radius:20px;overflow:hidden;box-shadow:0 12px 32px rgba(11,30,20,.08);transition:transform .35s ease,box-shadow .35s ease}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+  .svc{background:#ffffff;border:1px solid #d9ebdf;border-radius:20px;overflow:hidden;box-shadow:0 12px 32px rgba(11,30,20,.08);transition:transform .35s ease,box-shadow .35s ease;display:flex;flex-direction:column}
   .svc:hover{transform:translateY(-9px);box-shadow:0 26px 50px rgba(11,30,20,.15)}
   .svc .thumb{overflow:hidden}
-  .svc img{width:100%;height:210px;object-fit:cover;display:block;transition:transform .6s ease}
+  .svc img{width:100%;height:180px;object-fit:cover;display:block;transition:transform .6s ease}
   .svc:hover img{transform:scale(1.06)}
-  .svc .body{padding:24px}
-  .svc h3{font-size:1.28rem;margin-bottom:10px;color:#0b1220}
-  .svc p{color:#46584e;font-size:.97rem}
-  .svc .price{margin-top:16px;font-weight:800;color:#0a7a4b;font-size:1.06rem}
-  .svc .go{margin-top:14px;display:inline-flex}
+  .svc .body{padding:22px;display:flex;flex-direction:column;flex:1}
+  .svc h3{font-size:1.13rem;font-weight:700;margin-bottom:8px;color:#0b1220;line-height:1.3}
+  .svc p{color:#54675c;font-size:.9rem;line-height:1.6}
+  .svc .feat{list-style:none;margin:14px 0 0;padding:0}
+  .svc .feat li{position:relative;padding-left:26px;margin-bottom:8px;font-size:.88rem;color:#33463b;line-height:1.45}
+  .svc .feat li::before{content:"\2713";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:#0a7a4b;color:#fff;font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .svc .price{margin-top:auto;padding-top:16px;border-top:1px solid #e7f1ea;font-weight:800;color:#0a7a4b;font-size:1.45rem;line-height:1.1}
+  .svc .price small{font-size:.85rem;font-weight:700;color:#54675c}
+  .svc .go{margin-top:14px;display:flex;justify-content:center;width:100%}
+  .btn-primary{color:#ffffff!important}
+  .btn-ghostl{background:#0b1220!important;border:1.5px solid #0b1220!important;color:#ffffff!important}
+  .btn-ghostl:hover{background:#1d2b21!important;transform:translateY(-2px)}
+  .counters{background:linear-gradient(120deg,#0b3520,#0a6e43);border:1px solid #0a5c38;box-shadow:0 24px 48px rgba(10,90,55,.28)}
+  .counter b .suffix{color:#ffffff}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   .step{background:#e6f5ec;border:1px solid #e0ede5;border-radius:18px;padding:26px;transition:transform .3s ease,box-shadow .3s ease}
   .step:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(11,30,20,.10)}
@@ -155,8 +164,14 @@
           <div class="thumb"><img src="images/service-console-new.webp" alt="Google Play Console production release published for a client app" loading="lazy"></div>
           <div class="body">
             <h3>Google Play Publishing Service</h3>
-            <p>Your app is ready but you have no Play Console account? We publish and maintain it under our verified organisation console &mdash; listing, screenshots, ASO and updates, all handled. Live within 3 days.</p>
-            <div class="price">&#8377;799/month</div>
+            <p>App ready hai lekin Play Console account nahi hai? Hum apne verified organisation console se aapka app publish aur maintain karte hain.</p>
+            <ul class="feat">
+              <li>App live within 3 days</li>
+              <li>No $25 console fee for you</li>
+              <li>Listing, screenshots &amp; ASO included</li>
+              <li>Up to 4 updates every month</li>
+            </ul>
+            <div class="price">&#8377;799 <small>/month</small></div>
             <a class="btn btn-primary go" href="publish-app.html">See Plans &amp; Submit</a>
           </div>
         </article>
@@ -164,8 +179,14 @@
           <div class="thumb"><img src="images/service-admob-new.webp" alt="AdMob earnings dashboard with estimated earnings and revenue graph" loading="lazy"></div>
           <div class="body">
             <h3>AdMob Setup Service</h3>
-            <p>We set up your AdMob account, create the right ad units and place them properly inside your app, then walk you through how revenue works &mdash; so your app is ready to earn from day one. Earnings are never guaranteed.</p>
-            <div class="price">&#8377;1,499 one-time</div>
+            <p>App se earning shuru karne ke liye AdMob ka pura setup hum karte hain — account se lekar sahi ad placement tak.</p>
+            <ul class="feat">
+              <li>AdMob account &amp; ad units setup</li>
+              <li>Correct ad placement in your app</li>
+              <li>Revenue dashboard walkthrough</li>
+              <li>Earnings are never guaranteed</li>
+            </ul>
+            <div class="price">&#8377;1,499 <small>one-time</small></div>
             <a class="btn btn-primary go" href="publish-app.html">Set Up AdMob</a>
           </div>
         </article>
@@ -173,8 +194,14 @@
           <div class="thumb"><img src="images/service-build-new.webp" alt="Developer building a mobile app and 2D game in an editor" loading="lazy"></div>
           <div class="body">
             <h3>App &amp; Game Development</h3>
-            <p>Have an idea for your business? We build custom Android apps and 2D games &mdash; utility tools, business apps, runners, puzzles and more. Fixed-scope quote before we start, test builds you can install along the way.</p>
-            <div class="price">Fixed quote per project</div>
+            <p>Business ke liye app ya game banwana hai? Fixed quote ke saath custom Android apps aur 2D games banate hain.</p>
+            <ul class="feat">
+              <li>Android apps &amp; 2D games</li>
+              <li>Fixed quote before we start</li>
+              <li>Test builds you can install &amp; try</li>
+              <li>Play Store ready delivery</li>
+            </ul>
+            <div class="price">Fixed quote <small>per project</small></div>
             <a class="btn btn-primary go" href="custom-dev.html">Start a Project</a>
           </div>
         </article>
