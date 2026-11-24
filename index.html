@@ -29,60 +29,54 @@
 {"@type":"Service","position":3,"name":"App and Game Development","provider":{"@type":"Organization","name":"CodeCrafix"},"description":"Custom Android apps and 2D games built for clients with a fixed-scope quote before work starts."}]}
 </script>
 <style>
-  body{background:#ffffff!important;color:#16211b}
-  .hero{padding:150px 0 70px;background:linear-gradient(180deg,#e9f9f0 0%,#ffffff 80%)}
+  body{background:#000!important}
+  .hero{padding:150px 0 70px;background:radial-gradient(1000px 520px at 85% -80px,rgba(16,185,129,.16),transparent 60%),#000}
   .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
-  .hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);line-height:1.06;letter-spacing:-.02em;color:#0b1220}
-  .hero h1 .grad{background:linear-gradient(92deg,#0a7a4b,#22c55e);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lead{font-size:1.13rem;color:#42534a;max-width:56ch;margin-top:18px}
+  .hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);line-height:1.06;letter-spacing:-.02em;color:#fff}
+  .hero h1 .grad{background:linear-gradient(92deg,#34d399,#22c55e);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:1.13rem;color:#a9bcb1;max-width:56ch;margin-top:18px}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-  .btn-wa{background:#25d366;color:#052e16;box-shadow:0 10px 26px rgba(37,211,102,.35)}
+  .btn-wa{background:#25d366;color:#052e16;box-shadow:0 10px 26px rgba(37,211,102,.30)}
   .btn-wa:hover{transform:translateY(-2px)}
-  .btn-ghostl{background:#ffffff;border:1.5px solid #bcd8c7;color:#0b3d24}
-  .btn-ghostl:hover{border-color:#0a7a4b;transform:translateY(-2px)}
-  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.35);color:#0a7a4b;font-weight:700;font-size:.82rem;margin-bottom:20px}
-  .hero-media{position:relative;animation:floaty 7s ease-in-out infinite}
-  .hero-media img{width:100%;border-radius:22px;border:1px solid #dcebe2;box-shadow:0 30px 60px rgba(11,30,20,.16);display:block}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.35);color:#5eead4;font-weight:700;font-size:.82rem;margin-bottom:20px}
+  .hero-media{animation:floaty 7s ease-in-out infinite}
+  .hero-media img{width:100%;border-radius:22px;border:1px solid rgba(255,255,255,.10);box-shadow:0 30px 60px rgba(0,0,0,.55);display:block}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-  .counters{background:linear-gradient(120deg,#0d3b26,#0a7a4b);border-radius:22px;padding:38px 30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center;margin-top:56px;box-shadow:0 24px 48px rgba(10,90,55,.25)}
-  .counter b{display:block;font-size:clamp(1.9rem,4vw,2.7rem);color:#ffffff;line-height:1}
-  .counter b i{font-style:normal;color:#7bf0b2}
-  .counter span{display:block;margin-top:8px;color:#c9ecd8;font-size:.9rem;font-weight:600}
-  .section-head h2{color:#0b1220}
-  .section-head p{color:#4c5f55}
-  .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.35);color:#0a7a4b;font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase}
+  .counters{background:linear-gradient(120deg,#0d3b26,#0a7a4b);border:1px solid rgba(52,211,153,.35);border-radius:22px;padding:38px 30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center;margin-top:56px;box-shadow:0 24px 48px rgba(0,0,0,.5)}
+  .counter b{display:block;font-size:clamp(1.8rem,3.6vw,2.5rem);color:#ffffff;line-height:1.1;white-space:nowrap}
+  .counter b .suffix{color:#7bf0b2}
+  .counter span.lbl{display:block;margin-top:8px;color:#c9ecd8;font-size:.9rem;font-weight:600}
+  .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.35);color:#34d399;font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase}
   .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .svc{background:#ffffff;border:1px solid #e2eee7;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(11,30,20,.06);transition:transform .35s ease,box-shadow .35s ease}
-  .svc:hover{transform:translateY(-9px);box-shadow:0 26px 50px rgba(11,30,20,.14)}
+  .svc{background:#0b1510;border:1px solid rgba(255,255,255,.09);border-radius:20px;overflow:hidden;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+  .svc:hover{transform:translateY(-9px);box-shadow:0 26px 50px rgba(0,0,0,.6);border-color:rgba(52,211,153,.45)}
   .svc .thumb{overflow:hidden}
   .svc img{width:100%;height:210px;object-fit:cover;display:block;transition:transform .6s ease}
   .svc:hover img{transform:scale(1.06)}
   .svc .body{padding:24px}
-  .svc h3{font-size:1.28rem;margin-bottom:10px;color:#0b1220}
-  .svc p{color:#46584e;font-size:.97rem}
-  .svc .price{margin-top:16px;font-weight:800;color:#0a7a4b;font-size:1.06rem}
+  .svc h3{font-size:1.28rem;margin-bottom:10px;color:#fff}
+  .svc p{color:#9db3a6;font-size:.97rem}
+  .svc .price{margin-top:16px;font-weight:800;color:#34d399;font-size:1.06rem}
   .svc .go{margin-top:14px;display:inline-flex}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .step{background:#f6fbf8;border:1px solid #e0ede5;border-radius:18px;padding:26px;transition:transform .3s ease,box-shadow .3s ease}
-  .step:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(11,30,20,.10)}
+  .step{background:#0b1510;border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:26px;transition:transform .3s ease,box-shadow .3s ease}
+  .step:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(0,0,0,.5)}
   .step .num{width:38px;height:38px;border-radius:50%;background:#0a7a4b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px}
-  .step h3{color:#0b1220}
-  .step p{color:#4c5f55}
-  .founder{background:#f6fbf8;border-top:1px solid #e6f1ea;border-bottom:1px solid #e6f1ea}
-  .founder-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:46px;align-items:center}
-  .founder-grid img{width:100%;max-width:400px;border-radius:20px;box-shadow:0 24px 48px rgba(11,30,20,.16);display:block;margin:0 auto}
-  .founder h2{color:#0b1220}
-  .founder p{color:#42534a}
-  .founder .fname{font-size:1.5rem;font-weight:800;color:#0b1220;margin-top:20px}
-  .founder .frole{color:#0a7a4b;font-weight:700}
-  .review-card,.card,.form-card{background:#ffffff!important;color:#16211b!important;border:1px solid #e2eee7!important;box-shadow:0 10px 28px rgba(11,30,20,.06)}
-  .review-card p,.review-card .who{color:#42534a!important}
-  .input,.textarea,.select{background:#ffffff!important;color:#111827!important;border:1px solid #cfded4!important}
-  label{color:#22332a!important}
-  .cta{background:linear-gradient(120deg,#0d3b26,#0a7a4b);border-radius:24px;padding:52px 34px;text-align:center;color:#eafff3}
+  .step h3{color:#fff}
+  .step p{color:#9db3a6}
+  .founder{background:#050a07;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+  .founder-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:46px;align-items:center}
+  .founder-grid img{width:100%;max-width:360px;border-radius:20px;border:1px solid rgba(52,211,153,.35);box-shadow:0 24px 48px rgba(0,0,0,.6);display:block;margin:0 auto}
+  .founder h2{color:#fff}
+  .founder p{color:#a9bcb1;font-size:1.02rem}
+  .founder .fname{font-size:1.6rem;font-weight:800;color:#fff;margin-top:22px}
+  .founder .frole{color:#34d399;font-weight:700;letter-spacing:.02em}
+  .btn-ghostd{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#eafff3}
+  .btn-ghostd:hover{border-color:#34d399;transform:translateY(-2px)}
+  .cta{background:linear-gradient(120deg,#0d3b26,#0a7a4b);border:1px solid rgba(52,211,153,.35);border-radius:24px;padding:52px 34px;text-align:center;color:#eafff3}
   .cta h2{color:#fff;font-size:clamp(1.7rem,3.6vw,2.5rem)}
   .cta p{color:#c9ecd8;max-width:60ch;margin:14px auto 0}
-  .trust-note{max-width:78ch;margin:26px auto 0;text-align:center;color:#61766a;font-size:.9rem}
+  .trust-note{max-width:78ch;margin:26px auto 0;text-align:center;color:#71867a;font-size:.9rem}
   @media(max-width:900px){.svc-grid,.steps{grid-template-columns:1fr}.counters{grid-template-columns:repeat(2,1fr)}.founder-grid{grid-template-columns:1fr}}
   @media(max-width:860px){.hero-grid{grid-template-columns:1fr}.hero{padding-top:120px}}
 </style>
@@ -100,7 +94,7 @@
           <div class="hero-cta">
             <a class="btn btn-primary" href="publish-app.html">Publish My App &rarr;</a>
             <a class="btn btn-wa" data-wa href="#" target="_blank" rel="noopener">&#128172; WhatsApp Par Baat Karo</a>
-            <a class="btn btn-ghostl" href="custom-dev.html">Build My App</a>
+            <a class="btn btn-ghostd" href="custom-dev.html">Build My App</a>
           </div>
         </div>
         <div class="hero-media">
@@ -108,10 +102,10 @@
         </div>
       </div>
       <div class="counters reveal">
-        <div class="counter"><b><span data-count="3">0</span><i> Days</i></b><span>Me app Play Store par live</span></div>
-        <div class="counter"><b><span data-count="24">0</span><i> Hours</i></b><span>Ke andar personal reply</span></div>
-        <div class="counter"><b><span data-count="100">0</span><i>%</i></b><span>App ownership sirf aapki</span></div>
-        <div class="counter"><b><span data-count="799">0</span><i> &#8377;/mo</i></b><span>Se publishing shuru, sab included</span></div>
+        <div class="counter"><b><span data-count="3">0</span> <span class="suffix">Days</span></b><span class="lbl">App live on Play Store</span></div>
+        <div class="counter"><b><span data-count="24">0</span> <span class="suffix">Hours</span></b><span class="lbl">Personal reply promise</span></div>
+        <div class="counter"><b><span data-count="100">0</span><span class="suffix">%</span></b><span class="lbl">App ownership stays yours</span></div>
+        <div class="counter"><b><span class="suffix">&#8377;</span><span data-count="799">0</span><span class="suffix">/mo</span></b><span class="lbl">Publishing starts, all-inclusive</span></div>
       </div>
     </div>
   </section>
@@ -125,16 +119,16 @@
       </div>
       <div class="svc-grid">
         <article class="svc reveal">
-          <div class="thumb"><img src="images/service-play-console.webp" alt="Google Play Console production release published for a client app" loading="lazy"></div>
+          <div class="thumb"><img src="images/service-console-new.webp" alt="Google Play Console production release published for a client app" loading="lazy"></div>
           <div class="body">
             <h3>Google Play Publishing Service</h3>
-            <p>Your app is ready but you have no Play Console account? We publish and maintain it under our verified organisation console &mdash; the real Console publishing, listing, screenshots, ASO and updates, all handled. Live within 3 days.</p>
+            <p>Your app is ready but you have no Play Console account? We publish and maintain it under our verified organisation console &mdash; listing, screenshots, ASO and updates, all handled. Live within 3 days.</p>
             <div class="price">&#8377;799/month</div>
             <a class="btn btn-primary go" href="publish-app.html">See Plans &amp; Submit</a>
           </div>
         </article>
         <article class="svc reveal">
-          <div class="thumb"><img src="images/service-admob.webp" alt="AdMob earnings dashboard with estimated earnings and revenue graph" loading="lazy"></div>
+          <div class="thumb"><img src="images/service-admob-new.webp" alt="AdMob earnings dashboard with estimated earnings and revenue graph" loading="lazy"></div>
           <div class="body">
             <h3>AdMob Setup Service</h3>
             <p>We set up your AdMob account, create the right ad units and place them properly inside your app, then walk you through how revenue works &mdash; so your app is ready to earn from day one. Earnings are never guaranteed.</p>
@@ -143,7 +137,7 @@
           </div>
         </article>
         <article class="svc reveal">
-          <div class="thumb"><img src="images/service-app-game.webp" alt="Developer building a mobile app and 2D game in a game engine editor" loading="lazy"></div>
+          <div class="thumb"><img src="images/service-build-new.webp" alt="Developer building a mobile app and 2D game in an editor" loading="lazy"></div>
           <div class="body">
             <h3>App &amp; Game Development</h3>
             <p>Have an idea for your business? We build custom Android apps and 2D games &mdash; utility tools, business apps, runners, puzzles and more. Fixed-scope quote before we start, test builds you can install along the way.</p>
@@ -172,23 +166,24 @@
   <section class="section founder" id="founder">
     <div class="container">
       <div class="founder-grid">
-        <div class="reveal"><img src="images/founder-vivek.webp" alt="Vivek Barman, founder of CodeCrafix" loading="lazy"></div>
+        <div class="reveal"><img src="images/founder-vivek2.webp" alt="Vivek Barman, Founder of CodeCrafix" loading="lazy"></div>
         <div class="reveal">
           <span class="eyebrow">Meet The Founder</span>
-          <h2 class="mt-2">Ek real insaan, ek real studio</h2>
-          <p>CodeCrafix koi badi agency nahi hai &mdash; yahan aap seedha founder se baat karte hain. Main Satna, Madhya Pradesh se hoon, khud apps aur games banata hoon, aur apne YouTube channel par dusron ko bhi bina coding ke apps banana sikhata hoon. Jo kaam leta hoon, use khud personally dekhta hoon &mdash; isiliye har client ko 24 ghante ke andar mera personal reply milta hai.</p>
+          <h2 class="mt-2">The founder behind CodeCrafix</h2>
+          <p>CodeCrafix is founded and led by Vivek Barman, an app and game developer based in Satna, Madhya Pradesh. Every engagement &mdash; from the first discussion and fixed quote to development, publishing and AdMob setup &mdash; is personally overseen by him, so clients always work directly with the person responsible for their product.</p>
+          <p>Alongside client work, he runs the CodeCrafix YouTube channel, where he teaches aspiring creators how professional apps are built, published on Google Play and monetised &mdash; the same process CodeCrafix delivers for its clients.</p>
           <div class="fname">Vivek Barman</div>
-          <div class="frole">Founder, CodeCrafix</div>
+          <div class="frole">Founder &amp; Lead Developer, CodeCrafix</div>
           <div class="hero-cta">
             <a class="btn btn-primary" href="custom-dev.html">Start a Project</a>
-            <a class="btn btn-ghostl" href="https://www.youtube.com/@codecrafix" target="_blank" rel="noopener">&#9654; YouTube Par Dekho</a>
+            <a class="btn btn-ghostd" href="https://www.youtube.com/@codecrafix" target="_blank" rel="noopener">&#9654; Watch on YouTube</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="reviews" >
+  <section class="section" id="reviews" style="background:linear-gradient(180deg,transparent,rgba(16,185,129,.035),transparent)">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">&#11088; Customer Reviews</span>
@@ -245,7 +240,7 @@
         <div class="hero-cta" style="justify-content:center">
           <a class="btn btn-primary" href="custom-dev.html">Start a Project</a>
           <a class="btn btn-wa" data-wa href="#" target="_blank" rel="noopener">&#128172; WhatsApp Karo</a>
-          <a class="btn btn-ghostl" href="publish-app.html" style="background:transparent;color:#eafff3;border-color:rgba(255,255,255,.45)">Publish Your App</a>
+          <a class="btn btn-ghostd" href="publish-app.html">Publish Your App</a>
         </div>
       </div>
       <p class="trust-note">CodeCrafix is an independent software business operated by Vivek Barman from Satna, Madhya Pradesh, India. We do not operate, promote or publish gambling, betting, lottery, casino or any other real-money gaming. Our own games are free casual games with no wagering and no cash prizes. <a href="business-details.html">Read our full business details &rarr;</a></p>
@@ -262,8 +257,8 @@
 (function(){
   var els=document.querySelectorAll('[data-count]');
   function run(el){
-    var target=parseInt(el.getAttribute('data-count'),10),t0=null,dur=1600;
-    function tick(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); el.textContent=Math.floor(target*(0.2+0.8*p*p*(3-2*p))+ (p>=1?0:0)); if(p>=1){el.textContent=target;} else requestAnimationFrame(tick); }
+    var target=parseInt(el.getAttribute('data-count'),10),t0=null,dur=1500;
+    function tick(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1); var e=1-Math.pow(1-p,3); el.textContent=Math.floor(target*e); if(p>=1){el.textContent=target;} else requestAnimationFrame(tick); }
     requestAnimationFrame(tick);
   }
   if('IntersectionObserver' in window){
