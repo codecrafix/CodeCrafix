@@ -62,7 +62,7 @@
       <div>
         <div class="dash-card" id="pay-banner" style="margin-bottom:24px;display:none;border-color:#bde8cd;background:#f4fbf6">
           <h3 style="color:#0a7a4b">🎉 Payment ho gaya!</h3>
-          <p style="color:#33463b;font-size:.94rem;line-height:1.6">Tumhari booking niche <b>My Orders</b> me jud gayi hai. Hamari team 24 ghante ke andar tumse sampark karke app ki details legi.</p>
+          <p style="color:#33463b;font-size:.94rem;line-height:1.6">Tumhari booking niche <b>My Orders</b> me sari details ke saath dikh rahi hai. Hamari team 24 ghante ke andar tumse sampark karke kaam shuru karegi.</p>
         </div>
         <div class="dash-card" style="margin-bottom:24px">
           <h3>📦 My Orders</h3>
@@ -123,7 +123,7 @@
             var paid = (b.payment_status || 'pending') === 'paid';
             var title = b.app_name && b.app_name !== 'App details pending' ? b.app_name : plan;
             var det = [];
-            if (b.description) { det.push('<div>' + esc(b.description) + '</div>'); }
+            if (b.description && String(b.description).indexOf('RZP:') !== 0) { det.push('<div>' + esc(b.description) + '</div>'); }
             if (b.file_links) {
               var fl = String(b.file_links);
               det.push('<div>📎 ' + (/^https?:\/\//i.test(fl) ? '<a href="' + esc(fl) + '" target="_blank" rel="noopener">App files / screenshots ↗</a>' : esc(fl)) + '</div>');
