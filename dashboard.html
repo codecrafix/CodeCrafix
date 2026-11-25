@@ -40,6 +40,19 @@
   .plan-card .price{font-size:1.45rem;font-weight:800;color:#0a7a4b;margin:6px 0}
   .plan-card p{color:#42534a;font-size:.88rem;line-height:1.55;margin-bottom:14px}
   .empty{border:1.5px dashed #cfe3d6;border-radius:15px;padding:26px;text-align:center;color:#42534a;font-size:.94rem;line-height:1.6}
+  .section-head h2{color:#0b1220!important}
+  .section-head p{color:#42534a!important}
+  #btn-logout{color:#0a7a4b!important;border:1.5px solid #0a7a4b!important;background:#ffffff!important;font-weight:700;cursor:pointer}
+  #btn-logout:hover{background:#0a7a4b!important;color:#ffffff!important}
+  .fld{margin-bottom:12px;text-align:left}
+  .fld label{display:block;font-weight:600;font-size:.84rem;color:#0b1220;margin-bottom:5px}
+  .fld input,.fld textarea{width:100%;padding:10px 12px;border:1.5px solid #d8e4dc;border-radius:10px;font-size:.92rem;font-family:Inter,sans-serif;color:#0b1220;background:#ffffff}
+  .fld input:focus,.fld textarea:focus{outline:none;border-color:#0a7a4b;box-shadow:0 0 0 3px rgba(10,122,75,.14)}
+  .fld input[readonly]{background:#f2f7f3;color:#42534a}
+  .d-msg{border-radius:10px;padding:10px 12px;font-size:.86rem;margin-top:10px;display:none;text-align:left}
+  .d-msg.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+  .d-msg.ok{display:block;background:#ecfdf3;border:1px solid #bbe9c9;color:#065f46}
+  .mini-btn{width:100%;padding:11px;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer}
 </style>
 </head>
 <body>
@@ -52,12 +65,30 @@
       <p>Your bookings, your apps and your services — sab ek jagah.</p>
     </div>
     <div class="dash-grid">
+      <div>
       <div class="dash-card prof">
         <div class="avatar" id="pf-avatar">?</div>
         <b id="pf-name">Loading…</b>
         <span id="pf-email"></span>
         <div class="since" id="pf-since"></div>
+        <div style="margin-top:20px;border-top:1px dashed #d8e4dc;padding-top:18px">
+          <div class="fld"><label for="pf-f-name">Name</label><input id="pf-f-name" type="text" autocomplete="name"></div>
+          <div class="fld"><label for="pf-f-email">Email</label><input id="pf-f-email" type="email" readonly></div>
+          <div class="fld"><label for="pf-f-phone">Phone / WhatsApp</label><input id="pf-f-phone" type="tel" placeholder="e.g. 98765 43210" autocomplete="tel"></div>
+          <div class="fld"><label for="pf-f-address">Address</label><textarea id="pf-f-address" rows="2" placeholder="City, State — poora address"></textarea></div>
+          <button class="btn btn-primary mini-btn" id="btn-profile-save" type="button">Save profile</button>
+          <div class="d-msg" id="profile-msg"></div>
+        </div>
         <button class="btn btn-outline btn-block" id="btn-logout" style="margin-top:20px;width:100%">Logout</button>
+      </div>
+      <div class="dash-card" style="margin-top:24px">
+        <h3>🔐 Security</h3>
+        <div class="fld"><label for="sec-pass">New password</label><input id="sec-pass" type="password" placeholder="Kam se kam 6 characters" autocomplete="new-password"></div>
+        <div class="fld"><label for="sec-pass2">Confirm new password</label><input id="sec-pass2" type="password" placeholder="Wahi password dobara" autocomplete="new-password"></div>
+        <button class="btn btn-primary mini-btn" id="btn-pass-save" type="button">Change password</button>
+        <button class="btn btn-outline mini-btn" id="btn-forgot" type="button" style="margin-top:10px;color:#0a7a4b;border:1.5px solid #0a7a4b;background:#ffffff">Forgot password? Email reset link</button>
+        <div class="d-msg" id="sec-msg"></div>
+      </div>
       </div>
       <div>
         <div class="dash-card" id="pay-banner" style="margin-bottom:24px;display:none;border-color:#bde8cd;background:#f4fbf6">
@@ -67,6 +98,14 @@
         <div class="dash-card" style="margin-bottom:24px">
           <h3>📦 My Orders</h3>
           <div id="bk-list"><div class="empty">Loading your orders…</div></div>
+        </div>
+        <div class="dash-card" style="margin-bottom:24px">
+          <h3>🛠️ My Enquiries <span style="font-weight:500;font-size:.82rem;color:#61766a">(Custom app / game ke liye)</span></h3>
+          <div id="enq-list"><div class="empty">Loading your enquiries…</div></div>
+        </div>
+        <div class="dash-card" style="margin-bottom:24px">
+          <h3>✉️ My Messages <span style="font-weight:500;font-size:.82rem;color:#61766a">(Contact form se bheje hue)</span></h3>
+          <div id="msg-list"><div class="empty">Loading your messages…</div></div>
         </div>
         <div class="dash-card">
           <h3>🚀 Book a service</h3>
@@ -79,8 +118,8 @@
             </div>
             <div class="plan-card">
               <h4>Publishing + AdMob</h4>
-              <div class="price">₹1,499<span style="font-size:.85rem;color:#42534a;font-weight:600"> one-time</span></div>
-              <p>Publishing plus full AdMob setup — account, ad units and placement, with 3 updates/month.</p>
+              <div class="price">₹1,499<span style="font-size:.85rem;color:#42534a;font-weight:600">/month</span></div>
+              <p>Publishing plus full AdMob setup with hosting — account, ad units and placement, with 3 updates/month.</p>
               <a class="btn btn-primary btn-block" href="booking.html?plan=admob" style="width:100%">Book AdMob Plan</a>
             </div>
           </div>
@@ -108,8 +147,87 @@
     var av = document.getElementById('pf-avatar');
     if (m.avatar_url || m.picture) { av.innerHTML = '<img src="' + esc(m.avatar_url || m.picture) + '" alt="">'; } else { av.textContent = ini(name); }
     if (u.created_at) { try { document.getElementById('pf-since').textContent = 'Member since ' + new Date(u.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {} }
-    /* keep the profile row in sync */
-    fetch(CF_AUTH.base + '/rest/v1/profiles', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'resolution=merge-duplicates' }), body: JSON.stringify({ id: u.id, email: u.email, full_name: name, avatar_url: m.avatar_url || m.picture || null }) }).catch(function () {});
+    /* keep the profile row in sync, then fill the editable profile form */
+    function dmsg(id, text, ok) { var e = document.getElementById(id); e.textContent = text; e.className = 'd-msg ' + (ok ? 'ok' : 'err'); }
+    document.getElementById('pf-f-email').value = u.email || '';
+    document.getElementById('pf-f-name').value = name;
+    fetch(CF_AUTH.base + '/rest/v1/profiles', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'resolution=merge-duplicates' }), body: JSON.stringify({ id: u.id, email: u.email, full_name: name, avatar_url: m.avatar_url || m.picture || null }) })
+      .then(function () { return fetch(CF_AUTH.base + '/rest/v1/profiles?id=eq.' + u.id + '&select=full_name,phone,address', { headers: CF_AUTH.headers() }); })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        if (rows && rows[0]) {
+          if (rows[0].full_name) { document.getElementById('pf-f-name').value = rows[0].full_name; }
+          document.getElementById('pf-f-phone').value = rows[0].phone || '';
+          document.getElementById('pf-f-address').value = rows[0].address || '';
+        }
+      })
+      .catch(function () {});
+    document.getElementById('btn-profile-save').addEventListener('click', function () {
+      var nm = document.getElementById('pf-f-name').value.trim();
+      var ph = document.getElementById('pf-f-phone').value.trim();
+      var ad = document.getElementById('pf-f-address').value.trim();
+      if (nm.length < 2) { dmsg('profile-msg', 'Naam sahi se daalo.'); return; }
+      var b = document.getElementById('btn-profile-save'); b.disabled = true; b.textContent = 'Save ho raha hai…';
+      fetch(CF_AUTH.base + '/auth/v1/user', { method: 'PUT', headers: CF_AUTH.headers(), body: JSON.stringify({ data: { full_name: nm } }) })
+        .then(function () { return fetch(CF_AUTH.base + '/rest/v1/profiles?id=eq.' + u.id, { method: 'PATCH', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify({ full_name: nm, phone: ph, address: ad }) }); })
+        .then(function (r) {
+          b.disabled = false; b.textContent = 'Save profile';
+          if (r.ok) {
+            dmsg('profile-msg', 'Profile save ho gaya.', true);
+            document.getElementById('pf-name').textContent = nm;
+            document.getElementById('dash-title').textContent = 'Welcome, ' + nm.split(' ')[0];
+            var mm = u.user_metadata || {}; if (!mm.avatar_url && !mm.picture) { document.getElementById('pf-avatar').textContent = ini(nm); }
+          } else { dmsg('profile-msg', 'Profile save nahi hua. Dobara try karo.'); }
+        })
+        .catch(function () { b.disabled = false; b.textContent = 'Save profile'; dmsg('profile-msg', 'Network error. Dobara try karo.'); });
+    });
+    /* security: change password (logged in) + forgot password (reset email) */
+    document.getElementById('btn-pass-save').addEventListener('click', function () {
+      var p1 = document.getElementById('sec-pass').value, p2 = document.getElementById('sec-pass2').value;
+      if (p1.length < 6) { dmsg('sec-msg', 'Password kam se kam 6 characters ka ho.'); return; }
+      if (p1 !== p2) { dmsg('sec-msg', 'Dono password match nahi ho rahe.'); return; }
+      var b = document.getElementById('btn-pass-save'); b.disabled = true; b.textContent = 'Change ho raha hai…';
+      fetch(CF_AUTH.base + '/auth/v1/user', { method: 'PUT', headers: CF_AUTH.headers(), body: JSON.stringify({ password: p1 }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          b.disabled = false; b.textContent = 'Change password';
+          if (d && d.id) { dmsg('sec-msg', 'Password badal gaya.', true); document.getElementById('sec-pass').value = ''; document.getElementById('sec-pass2').value = ''; }
+          else { dmsg('sec-msg', (d && (d.error_description || d.msg || d.message)) || 'Password change nahi hua.'); }
+        })
+        .catch(function () { b.disabled = false; b.textContent = 'Change password'; dmsg('sec-msg', 'Network error. Dobara try karo.'); });
+    });
+    document.getElementById('btn-forgot').addEventListener('click', function () {
+      var b = document.getElementById('btn-forgot'); b.disabled = true; b.textContent = 'Bhej rahe hain…';
+      fetch(CF_AUTH.base + '/auth/v1/recover?redirect_to=' + encodeURIComponent(location.origin + '/login.html?mode=reset'), { method: 'POST', headers: { apikey: CF_AUTH.key, 'Content-Type': 'application/json' }, body: JSON.stringify({ email: u.email }) })
+        .then(function () { b.disabled = false; b.textContent = 'Forgot password? Email reset link'; dmsg('sec-msg', 'Reset link tumhare email (' + u.email + ') par bhej diya hai. Email kholkar link se naya password set karo.', true); })
+        .catch(function () { b.disabled = false; b.textContent = 'Forgot password? Email reset link'; dmsg('sec-msg', 'Network error. Dobara try karo.'); });
+    });
+    /* everything the user has sent: custom-dev enquiries + contact messages */
+    function fmtDate(v) { try { return new Date(v).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
+    fetch(CF_AUTH.base + '/rest/v1/custom_orders?email=eq.' + encodeURIComponent(u.email) + '&order=created_at.desc&limit=20', { headers: CF_AUTH.headers() })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        var box = document.getElementById('enq-list');
+        if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi enquiry nahi bheji.<br>Custom app ya game ke liye <a href="custom-dev.html" style="color:#0a7a4b;font-weight:600">yahan se enquiry karo →</a></div>'; return; }
+        box.innerHTML = rows.map(function (e2) {
+          return '<div class="bk"><div class="row"><b>' + esc(e2.project_type || 'Custom project') + '</b><span class="pill green">sent</span></div>' +
+            '<div class="meta">' + (e2.budget ? 'Budget: ' + esc(e2.budget) + ' · ' : '') + 'Sent on ' + fmtDate(e2.created_at) + '</div>' +
+            (e2.description ? '<div class="details"><div>' + esc(e2.description) + '</div></div>' : '') + '</div>';
+        }).join('');
+      })
+      .catch(function () { document.getElementById('enq-list').innerHTML = '<div class="empty">Enquiries load nahi ho payi. Page refresh karke dobara dekho.</div>'; });
+    fetch(CF_AUTH.base + '/rest/v1/contact_messages?email=eq.' + encodeURIComponent(u.email) + '&order=created_at.desc&limit=20', { headers: CF_AUTH.headers() })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        var box = document.getElementById('msg-list');
+        if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi message nahi bheja.<br>Kuch puchna ho to <a href="contact.html" style="color:#0a7a4b;font-weight:600">Contact page →</a></div>'; return; }
+        box.innerHTML = rows.map(function (mm2) {
+          return '<div class="bk"><div class="row"><b>' + esc(mm2.topic || 'Message') + '</b><span class="pill green">sent</span></div>' +
+            '<div class="meta">Sent on ' + fmtDate(mm2.created_at) + '</div>' +
+            (mm2.message ? '<div class="details"><div>' + esc(mm2.message) + '</div></div>' : '') + '</div>';
+        }).join('');
+      })
+      .catch(function () { document.getElementById('msg-list').innerHTML = '<div class="empty">Messages load nahi ho paye. Page refresh karke dobara dekho.</div>'; });
     /* bookings */
     function loadBookings() {
       fetch(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&order=created_at.desc', { headers: CF_AUTH.headers() })
@@ -118,20 +236,25 @@
           var box = document.getElementById('bk-list');
           if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi order nahi hai.<br>Niche se apni pehli service book karo — app publish ya AdMob setup.</div>'; return; }
           box.innerHTML = rows.map(function (b) {
-            var plan = b.plan === 'admob' ? 'Publishing + AdMob — ₹1,499' : 'Play Publishing Standard — ₹799/mo';
+            var plan = b.plan === 'admob' ? 'Publishing + AdMob — ₹1,499/mo' : 'Play Publishing Standard — ₹799/mo';
             var dt = ''; try { dt = new Date(b.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
             var paid = (b.payment_status || 'pending') === 'paid';
             var title = b.app_name && b.app_name !== 'App details pending' ? b.app_name : plan;
             var det = [];
             if (b.description && String(b.description).indexOf('RZP:') !== 0) { det.push('<div>' + esc(b.description) + '</div>'); }
             if (b.file_links) {
-              var fl = String(b.file_links);
-              det.push('<div>📎 ' + (/^https?:\/\//i.test(fl) ? '<a href="' + esc(fl) + '" target="_blank" rel="noopener">App files / screenshots ↗</a>' : esc(fl)) + '</div>');
+              String(b.file_links).split(' | ').forEach(function (seg) {
+                seg = seg.trim(); if (!seg) { return; }
+                if (/^https?:\/\//i.test(seg)) { det.push('<div>📎 <a href="' + esc(seg) + '" target="_blank" rel="noopener">App files / screenshots ↗</a></div>'); }
+                else if (seg.indexOf('storage:') === 0) { det.push('<div>📎 <a href="#" data-storage="' + esc(seg.slice(8)) + '">Uploaded AAB/APK file — Download ↗</a></div>'); }
+                else { det.push('<div>📎 ' + esc(seg) + '</div>'); }
+              });
             }
-            if (b.plan === 'admob' && (b.admob_email || b.admob_app_id || b.admob_ad_types)) {
+            if (b.plan === 'admob' && (b.admob_email || b.admob_app_id || b.admob_pub_id || b.admob_ad_types)) {
               var am = [];
               if (b.admob_email) { am.push(esc(b.admob_email)); }
-              if (b.admob_app_id) { am.push(esc(b.admob_app_id)); }
+              if (b.admob_app_id) { am.push('App: ' + esc(b.admob_app_id)); }
+              if (b.admob_pub_id) { am.push('Pub: ' + esc(b.admob_pub_id)); }
               if (b.admob_ad_types) { am.push('Ads: ' + esc(b.admob_ad_types)); }
               det.push('<div>📢 AdMob — ' + am.join(' · ') + '</div>');
             }
@@ -139,6 +262,13 @@
               '<div class="meta">' + (title !== plan ? plan + ' · ' : '') + (b.package_name ? esc(b.package_name) + ' · ' : '') + (b.category ? esc(b.category) + ' · ' : '') + 'Ordered on ' + dt + ' · Payment: <span class="pill ' + (paid ? 'green' : 'amber') + '">' + esc(b.payment_status || 'pending') + '</span>' + (b.app_name === 'App details pending' ? '<br>App details pending — hamari team tumse details legi.' : '') + '</div>' +
               (det.length ? '<div class="details">' + det.join('') + '</div>' : '') + '</div>';
           }).join('');
+          box.querySelectorAll('a[data-storage]').forEach(function (a) {
+            var path = a.getAttribute('data-storage');
+            fetch(CF_AUTH.base + '/storage/v1/object/sign/app-files/' + path, { method: 'POST', headers: CF_AUTH.headers(), body: JSON.stringify({ expiresIn: 3600 }) })
+              .then(function (r) { return r.json(); })
+              .then(function (d) { if (d && d.signedURL) { a.href = CF_AUTH.base + '/storage/v1' + d.signedURL; a.target = '_blank'; a.rel = 'noopener'; } })
+              .catch(function () {});
+          });
         })
         .catch(function () { document.getElementById('bk-list').innerHTML = '<div class="empty">Orders load nahi ho paye. Page refresh karke dobara dekho.</div>'; });
     }
