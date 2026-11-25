@@ -112,10 +112,7 @@ h2{font-size:clamp(1.5rem,3vw,2rem)}
 #cf-footer .foot-bottom{color:#ffffff}
 #cf-footer .foot-legal a{color:#ffffff}
 
-/* ===== White header (2026-11-25) ===== */
-#cf-header{background:#ffffff!important;border-bottom:1px solid #e3efe7;box-shadow:0 6px 24px rgba(6,40,24,.07)}
-#cf-header .brand{color:#0b1220}
-#cf-header .brand:hover{color:#0b1220}
-#cf-header .nav-links a{color:#33463b}
-#cf-header .nav-links a:hover{color:#0a7a4b;background:rgba(10,122,75,.07)}
-#cf-header .nav-links a.active{color:#0a7a4b;background:rgba(10,122,75,.10)}
+/* ===== Header menu text white (2026-11-25) ===== */
+#cf-header .nav-links a{color:#ffffff}
+#cf-header .nav-links a:hover{color:#ffffff;background:rgba(255,255,255,.08)}
+#cf-header .nav-links a.active{color:#ffffff}
