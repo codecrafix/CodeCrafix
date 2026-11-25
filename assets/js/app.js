@@ -21,7 +21,7 @@
   function msg(el, text, err) { if (!el) { return; } el.hidden = false; el.textContent = text; el.className = 'form-msg' + (err ? ' err' : ''); }
 
   /* ---------- header + footer ---------- */
-  var NAV = [['index.html', 'Home'], ['publish-app.html', 'Publish App'], ['custom-dev.html', 'Custom Dev'], ['store.html', 'Store'], ['contact.html', 'Contact']];
+  var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials'], ['contact.html', 'Contact']];
   var LOGO = '<img src="assets/img/logo.svg" alt="" width="36" height="36">';
   var IG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
   function renderChrome() {
@@ -156,6 +156,8 @@
   function stars(n) { return '&#9733;'.repeat(n) + '&#9734;'.repeat(5 - n); }
   function fmtDate(r) { if (r.date) { return r.date; } try { return new Date(r.created).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
   function initials(n) { return String(n || '?').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(''); }
+  function playLink(u) { u = String(u || '').trim(); return /^https:\/\/play\.google\.com\/store\/apps\/details\?id=[A-Za-z0-9._]+/.test(u) ? u : ''; }
+  function playBadge(r) { var u = playLink(r.app_link); return u ? '<a class="rv-play" href="' + esc(u) + '" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.9v16.2c0 .8.9 1.3 1.6.9l13.2-8.1c.6-.4.6-1.3 0-1.7L6.6 3C5.9 2.6 5 3.1 5 3.9Z" fill="#00A152"/></svg>View on Google Play</a>' : ''; }
   function approved() {
     var seed = SEED.filter(function (r) { return !r.sample || SHOW_SAMPLE; });
     return seed.concat(stored().filter(function (r) { return r.status === 'approved'; }));
@@ -164,7 +166,7 @@
     var g = $('#cf-reviews-grid'); if (!g) { return; }
     var list = approved(), sum = $('#cf-review-summary');
     if (!list.length) { g.innerHTML = '<div class="empty-state">No public reviews yet &mdash; be the first to share your experience below.</div>'; if (sum) { sum.innerHTML = ''; } return; }
-    g.innerHTML = list.map(function (r) { return '<article class="card review-card"><div class="review-head"><span class="avatar">' + esc(initials(r.name)) + '</span><div><b>' + esc(r.name) + '</b><span class="role">' + esc(r.role || 'Verified customer') + '</span></div></div><div class="stars" aria-label="' + r.rating + ' out of 5">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p><div class="review-date">' + esc(fmtDate(r)) + '</div></article>'; }).join('');
+    g.innerHTML = list.map(function (r) { return '<article class="card review-card"><div class="review-head"><span class="avatar">' + esc(initials(r.name)) + '</span><div><b>' + esc(r.name) + '</b><span class="role">' + esc(r.role || 'Verified customer') + '</span></div></div><div class="stars" aria-label="' + r.rating + ' out of 5">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p>' + playBadge(r) + '<div class="review-date">' + esc(fmtDate(r)) + '</div></article>'; }).join('');
     if (sum) { var avg = list.reduce(function (a, r) { return a + r.rating; }, 0) / list.length; sum.innerHTML = '<div class="rs-block"><span class="rs-score">' + avg.toFixed(1) + '</span><span class="rs-sub">out of 5</span></div><div class="rs-side"><div class="stars">' + stars(Math.round(avg)) + '</div><span class="tiny muted">Based on ' + list.length + ' verified review' + (list.length > 1 ? 's' : '') + '</span></div>'; }
   }
   function initReviewForm() {
@@ -173,11 +175,12 @@
     pick.addEventListener('click', function (e) { var b = e.target.closest('.star'); if (!b) { return; } var v = +b.getAttribute('data-v'); hid.value = v; $$('.star', pick).forEach(function (s) { s.classList.toggle('sel', +s.getAttribute('data-v') <= v); }); out.textContent = v + ' / 5'; });
     f.addEventListener('submit', function (e) {
       e.preventDefault(); var m = $('#cf-review-msg');
-      var row = { id: 'r' + Date.now(), name: val('rv-name'), email: val('rv-email'), role: val('rv-role'), rating: +hid.value || 5, message: val('rv-message'), status: 'pending', created: new Date().toISOString() };
-      if (!row.name || row.message.length < 10 || (row.email && !ok(EMAIL, row.email))) { return msg(m, 'Please add your name and a review of at least 10 characters (and a valid email if you add one).', true); }
+      var row = { id: 'r' + Date.now(), name: val('rv-name'), email: val('rv-email'), role: val('rv-role'), rating: +hid.value || 5, message: val('rv-message'), app_link: playLink(val('rv-app')), status: 'pending', created: new Date().toISOString() };
+      if (!row.app_link) { return msg(m, 'Please add your app\'s full Play Store link (play.google.com) - it appears on your review as a Google Play button.', true); }
+      if (!row.name || !ok(EMAIL, row.email) || !row.role || row.message.length < 10) { return msg(m, 'Please fill every field: your name, a valid email, what you do, and a review of at least 10 characters.', true); }
       var all = stored(); all.push(row); ls(KEY, all);
       var S = CFG.supabase || {};
-      if (S.url && S.anonKey) { fetch(S.url.replace(/\/$/, '') + '/rest/v1/reviews', { method: 'POST', headers: { apikey: S.anonKey, Authorization: 'Bearer ' + S.anonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify({ name: row.name, email: row.email, role: row.role, rating: row.rating, message: row.message, status: 'pending' }) }).catch(function () {}); }
+      if (S.url && S.anonKey) { fetch(S.url.replace(/\/$/, '') + '/rest/v1/reviews', { method: 'POST', headers: { apikey: S.anonKey, Authorization: 'Bearer ' + S.anonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify({ name: row.name, email: row.email, role: row.role, rating: row.rating, message: row.message, app_link: row.app_link || null, status: 'pending' }) }).catch(function () {}); }
       f.reset(); msg(m, 'Thank you! Your review is saved as pending and will appear once our team approves it.');
     });
   }
