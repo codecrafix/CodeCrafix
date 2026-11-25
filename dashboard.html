@@ -29,6 +29,8 @@
   .bk .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
   .bk b{color:#0b1220;font-size:1.02rem}
   .bk .meta{color:#42534a;font-size:.86rem;margin-top:5px;line-height:1.55}
+  .bk .details{margin-top:9px;padding-top:9px;border-top:1px dashed #d8e4dc;color:#33463b;font-size:.88rem;line-height:1.65}
+  .bk .details a{color:#0a7a4b;font-weight:600}
   .pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.03em}
   .pill.green{background:#e9f9f0;color:#0a7a4b;border:1px solid #bde8cd}
   .pill.amber{background:#fff7e8;color:#9a6a00;border:1px solid #f3ddab}
@@ -120,8 +122,22 @@
             var dt = ''; try { dt = new Date(b.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
             var paid = (b.payment_status || 'pending') === 'paid';
             var title = b.app_name && b.app_name !== 'App details pending' ? b.app_name : plan;
+            var det = [];
+            if (b.description) { det.push('<div>' + esc(b.description) + '</div>'); }
+            if (b.file_links) {
+              var fl = String(b.file_links);
+              det.push('<div>📎 ' + (/^https?:\/\//i.test(fl) ? '<a href="' + esc(fl) + '" target="_blank" rel="noopener">App files / screenshots ↗</a>' : esc(fl)) + '</div>');
+            }
+            if (b.plan === 'admob' && (b.admob_email || b.admob_app_id || b.admob_ad_types)) {
+              var am = [];
+              if (b.admob_email) { am.push(esc(b.admob_email)); }
+              if (b.admob_app_id) { am.push(esc(b.admob_app_id)); }
+              if (b.admob_ad_types) { am.push('Ads: ' + esc(b.admob_ad_types)); }
+              det.push('<div>📢 AdMob — ' + am.join(' · ') + '</div>');
+            }
             return '<div class="bk"><div class="row"><b>' + esc(title) + '</b><span class="pill green">' + esc(b.status || 'booked') + '</span></div>' +
-              '<div class="meta">' + (title !== plan ? plan + ' · ' : '') + (b.package_name ? esc(b.package_name) + ' · ' : '') + 'Ordered on ' + dt + ' · Payment: <span class="pill ' + (paid ? 'green' : 'amber') + '">' + esc(b.payment_status || 'pending') + '</span>' + (b.app_name === 'App details pending' ? '<br>App details pending — hamari team tumse details legi.' : '') + '</div></div>';
+              '<div class="meta">' + (title !== plan ? plan + ' · ' : '') + (b.package_name ? esc(b.package_name) + ' · ' : '') + (b.category ? esc(b.category) + ' · ' : '') + 'Ordered on ' + dt + ' · Payment: <span class="pill ' + (paid ? 'green' : 'amber') + '">' + esc(b.payment_status || 'pending') + '</span>' + (b.app_name === 'App details pending' ? '<br>App details pending — hamari team tumse details legi.' : '') + '</div>' +
+              (det.length ? '<div class="details">' + det.join('') + '</div>' : '') + '</div>';
           }).join('');
         })
         .catch(function () { document.getElementById('bk-list').innerHTML = '<div class="empty">Orders load nahi ho paye. Page refresh karke dobara dekho.</div>'; });
@@ -131,22 +147,40 @@
     var q = new URLSearchParams(location.search);
     var paidPlan = q.get('paid') === 'admob' ? 'admob' : (q.get('paid') === 'standard' ? 'standard' : null);
     var payId = q.get('razorpay_payment_id') || '';
-    if (paidPlan) {
+    function getJson(url) { return fetch(url, { headers: CF_AUTH.headers() }).then(function (r) { return r.json(); }); }
+    function finishReturn() {
+      document.getElementById('pay-banner').style.display = '';
+      try { history.replaceState({}, '', 'dashboard.html'); } catch (e) {}
+      loadBookings();
+    }
+    function createFallbackOrder() {
       var tag = payId ? 'RZP:' + payId : 'RZP:page-return';
       var checkUrl = payId
         ? CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&description=eq.' + encodeURIComponent(tag) + '&select=id'
         : CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&plan=eq.' + paidPlan + '&payment_status=eq.paid&created_at=gte.' + encodeURIComponent(new Date(Date.now() - 30 * 60000).toISOString()) + '&select=id';
-      fetch(checkUrl, { headers: CF_AUTH.headers() })
-        .then(function (r) { return r.json(); })
-        .then(function (found) {
-          if (found && found.length) { return null; }
-          return fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify({ user_id: u.id, plan: paidPlan, app_name: 'App details pending', description: tag, status: 'booked', payment_status: 'paid' }) });
+      return getJson(checkUrl).then(function (found) {
+        if (found && found.length) { return null; }
+        return fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify({ user_id: u.id, plan: paidPlan, app_name: 'App details pending', description: tag, status: 'booked', payment_status: 'paid' }) });
+      });
+    }
+    if (paidPlan) {
+      /* 1) the normal path: the user filled the details form before paying, so a
+         pending order exists — mark THAT order paid (all details stay attached). */
+      getJson(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&plan=eq.' + paidPlan + '&payment_status=eq.pending&order=created_at.desc&limit=1&select=id')
+        .then(function (rows) {
+          if (rows && rows.length) {
+            return fetch(CF_AUTH.base + '/rest/v1/bookings?id=eq.' + rows[0].id, { method: 'PATCH', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify({ payment_status: 'paid' }) });
+          }
+          /* 2) no pending order: maybe this return was already processed — a paid
+             order for this plan from the last 2 hours means do nothing new. */
+          return getJson(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&plan=eq.' + paidPlan + '&payment_status=eq.paid&created_at=gte.' + encodeURIComponent(new Date(Date.now() - 2 * 3600000).toISOString()) + '&select=id')
+            .then(function (found) {
+              if (found && found.length) { return null; }
+              /* 3) paid via a directly shared payment link (no form): create the order. */
+              return createFallbackOrder();
+            });
         })
-        .then(function () {
-          document.getElementById('pay-banner').style.display = '';
-          try { history.replaceState({}, '', 'dashboard.html'); } catch (e) {}
-          loadBookings();
-        })
+        .then(finishReturn)
         .catch(function () { loadBookings(); });
     } else {
       loadBookings();
