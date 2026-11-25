@@ -167,6 +167,22 @@
   .btn-num{background:#ffffff!important;border:1.5px solid #0a7a4b!important;color:#0a7a4b!important}
   .btn-num:hover{transform:translateY(-2px)}
   .wa-ic{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:#25d366;color:#ffffff;font-size:.7rem;margin-right:4px;vertical-align:-5px}
+
+  /* ===== Testimonials (below reviews) ===== */
+  #testimonials{background:linear-gradient(120deg,#0d3b26,#0a7a4b)}
+  #testimonials .section-head h2{color:#ffffff}
+  #testimonials .section-head p{color:#c9ecd8}
+  #testimonials .eyebrow{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.35);color:#c9ecd8}
+  .tst-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,380px));justify-content:center;gap:22px}
+  .tst-card{background:#ffffff;border-radius:20px;padding:30px;box-shadow:0 24px 48px rgba(0,0,0,.22);text-align:left;transition:transform .3s ease,box-shadow .3s ease}
+  .tst-card:hover{transform:translateY(-5px);box-shadow:0 30px 56px rgba(0,0,0,.28)}
+  .tst-card .qmark{font-size:2.6rem;line-height:.8;color:#0a7a4b;font-weight:800;font-family:Poppins,Inter,sans-serif}
+  .tst-card .stars{color:#f5a623;letter-spacing:2px;font-size:1.05rem;margin:10px 0}
+  .tst-card p{color:#33463b;font-size:.98rem;line-height:1.65}
+  .tst-who{display:flex;align-items:center;gap:13px;margin-top:18px;padding-top:16px;border-top:1px solid #e7f1ea}
+  .tst-who .avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;background:linear-gradient(135deg,#0a7a4b,#22c55e);color:#ffffff;font-weight:800;font-size:1.02rem;display:flex;align-items:center;justify-content:center}
+  .tst-who b{display:block;color:#0b1220;font-size:1.02rem;line-height:1.25}
+  .tst-who span{display:block;color:#42534a;font-size:.82rem;margin-top:1px}
 </style>
 </head>
 <body>
@@ -337,6 +353,14 @@
     </div>
 
 
+
+  <section class="section" id="testimonials" style="display:none">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">&#9733; Testimonials</span><h2>Words that keep us building</h2><p>Real words from real clients &mdash; featured from our approved reviews.</p></div>
+      <div class="tst-grid" id="cf-testimonials-grid"></div>
+    </div>
+  </section>
+
   <section class="section" style="padding-top:20px">
     <div class="container">
       <div class="cta reveal">
@@ -370,6 +394,27 @@
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(e.target);io.unobserve(e.target);}})},{threshold:.4});
     els.forEach(function(el){io.observe(el)});
   } else { els.forEach(function(el){el.textContent=el.getAttribute('data-count')}); }
+})();
+</script>
+
+<script>
+(function(){
+  var sec=document.getElementById('testimonials'); if(!sec) return;
+  var CFG=window.CODECRAFIX_CONFIG||{}; var SHOW=CFG.showSampleContent!==false;
+  var seed=(window.CODECRAFIX_REVIEWS||[]).filter(function(r){return !r.sample||SHOW;});
+  var stored=[]; try{ stored=JSON.parse(localStorage.getItem('cf_reviews_v1')||'[]'); }catch(e){}
+  var list=seed.concat(stored.filter(function(r){return r.status==='approved';}));
+  list=list.filter(function(r){return (+r.rating||0)>=4;});
+  list.sort(function(a,b){return (b.rating-a.rating)||(String(b.message||'').length-String(a.message||'').length);});
+  list=list.slice(0,3);
+  if(!list.length){ return; }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function stars(n){var s='';for(var i=0;i<5;i++){s+=(i<n?'\u2605':'\u2606');}return s;}
+  function ini(n){return String(n||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w.charAt(0).toUpperCase();}).join('');}
+  document.getElementById('cf-testimonials-grid').innerHTML=list.map(function(r){
+    return '<article class="tst-card"><div class="qmark">&ldquo;</div><div class="stars">'+stars(+r.rating||5)+'</div><p>'+esc(r.message)+'</p><div class="tst-who"><span class="avatar">'+esc(ini(r.name))+'</span><div><b>'+esc(r.name)+'</b><span>'+esc(r.role||'Verified customer')+'</span></div></div></article>';
+  }).join('');
+  sec.style.display='';
 })();
 </script>
 </body>
