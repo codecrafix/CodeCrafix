@@ -104,3 +104,13 @@ h2{font-size:clamp(1.5rem,3vw,2rem)}
   #cf-featured-grid:not(.cf-live),#cf-store-grid:not(.cf-live){min-height:230px!important}
   #cf-featured-grid:not(.cf-live)::before,#cf-featured-grid:not(.cf-live)::after,#cf-store-grid:not(.cf-live)::before,#cf-store-grid:not(.cf-live)::after{height:230px!important}
 }
+
+
+/* Footer readability: white text on black (headings green via page rules, background unchanged) */
+#cf-footer .foot a{color:#ffffff}
+#cf-footer .foot p{color:#ffffff}
+#cf-footer .foot-bottom{color:#ffffff}
+#cf-footer .foot-legal a{color:#ffffff}
+
+
+
