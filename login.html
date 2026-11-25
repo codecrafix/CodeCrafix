@@ -71,6 +71,7 @@
 <script src="assets/js/config.js?v=20261004n"></script>
 <script src="assets/js/app.js?v=20261004c"></script>
 <script src="assets/js/auth.js?v=1"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 (function () {
   var BASE = window.CF_AUTH ? CF_AUTH.base : '', KEY = window.CF_AUTH ? CF_AUTH.key : '';
@@ -94,8 +95,50 @@
   if (new URLSearchParams(location.search).get('mode') === 'signup') { setMode('signup'); }
   if (window.CF_AUTH && CF_AUTH.user()) { location.replace(nextUrl()); }
   window.CF_ON_AUTH = function () { location.replace(nextUrl()); };
-  document.getElementById('btn-google').addEventListener('click', function () {
+  /* Google login via Google Identity Services: the sign-in popup opens from
+     codecrafix.shop with our own Google client, so Google shows "CodeCrafix"
+     (not the Supabase project address). The ID token is exchanged with
+     Supabase directly (grant_type=id_token). Fallback: classic redirect flow. */
+  var GOOGLE_CLIENT_ID = '1006074689063-jud76qvp509ieco0pvpu2ha7r9ingp4j.apps.googleusercontent.com';
+  var gisReady = false, rawNonce = '';
+  function oldGoogleFlow() {
     location.href = BASE + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(location.origin + '/dashboard.html');
+  }
+  function sha256hex(text) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    });
+  }
+  function onGoogleCredential(resp) {
+    if (!resp || !resp.credential) { show('Google login cancel ho gaya. Dobara try karo.'); return; }
+    show('Google se login ho raha hai…', true);
+    fetch(BASE + '/auth/v1/token?grant_type=id_token', { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ provider: 'google', id_token: resp.credential, nonce: rawNonce }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.access_token) {
+          d.expires_at = Math.floor(Date.now() / 1000) + (d.expires_in || 3600);
+          CF_AUTH.setSession(d); location.replace(nextUrl());
+        } else {
+          show((d && (d.error_description || d.msg || d.message)) || 'Google login nahi ho paya. Dobara try karo.');
+        }
+      })
+      .catch(function () { show('Network error. Dobara try karo.'); });
+  }
+  document.getElementById('btn-google').addEventListener('click', function () {
+    if (!window.google || !google.accounts || !google.accounts.id) { oldGoogleFlow(); return; }
+    function openPrompt() {
+      google.accounts.id.prompt(function (n) {
+        if (n.isNotDisplayed() || n.isSkippedMoment()) { oldGoogleFlow(); }
+      });
+    }
+    if (gisReady) { openPrompt(); return; }
+    var bytes = new Uint8Array(16); crypto.getRandomValues(bytes);
+    rawNonce = Array.prototype.map.call(bytes, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    sha256hex(rawNonce).then(function (hashed) {
+      google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: onGoogleCredential, nonce: hashed, auto_select: false, cancel_on_tap_outside: true });
+      gisReady = true;
+      openPrompt();
+    }).catch(oldGoogleFlow);
   });
   document.getElementById('auth-form').addEventListener('submit', function (e) {
     e.preventDefault();
