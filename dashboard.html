@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>My Dashboard | CodeCrafix</title>
+<meta name="description" content="Your CodeCrafix dashboard — see your booked services, track your app publishing and AdMob work, and book new services.">
+<meta name="author" content="Vivek Barman">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://codecrafix.shop/dashboard">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20261004d">
+<link rel="stylesheet" href="assets/css/theme-v2.css?v=20261125h">
+<style>
+  .dash-wrap{padding:56px 20px 84px;background:linear-gradient(180deg,#f2faf5,#ffffff)}
+  .dash-grid{display:grid;grid-template-columns:340px 1fr;gap:24px;max-width:1180px;margin:0 auto;align-items:start}
+  .dash-card{background:#ffffff;border:1px solid #e3efe7;border-radius:20px;box-shadow:0 18px 40px rgba(6,40,24,.07);padding:28px}
+  .dash-card h3{font-family:Poppins,Inter,sans-serif;font-size:1.12rem;color:#0b1220;margin-bottom:14px}
+  .prof{text-align:center}
+  .prof .avatar{width:84px;height:84px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#0a7a4b,#22c55e);color:#fff;font-weight:800;font-size:1.7rem;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .prof .avatar img{width:100%;height:100%;object-fit:cover}
+  .prof b{display:block;font-size:1.15rem;color:#0b1220}
+  .prof span{display:block;color:#42534a;font-size:.88rem;margin-top:3px;word-break:break-all}
+  .prof .since{margin-top:10px;font-size:.8rem;color:#84968c}
+  .bk{border:1px solid #e3efe7;border-radius:15px;padding:18px 20px;margin-bottom:14px;background:#fbfefc}
+  .bk .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .bk b{color:#0b1220;font-size:1.02rem}
+  .bk .meta{color:#42534a;font-size:.86rem;margin-top:5px;line-height:1.55}
+  .pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.03em}
+  .pill.green{background:#e9f9f0;color:#0a7a4b;border:1px solid #bde8cd}
+  .pill.amber{background:#fff7e8;color:#9a6a00;border:1px solid #f3ddab}
+  .plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .plan-card{border:1.5px solid #e3efe7;border-radius:16px;padding:22px;background:#ffffff}
+  .plan-card h4{font-family:Poppins,Inter,sans-serif;color:#0b1220;font-size:1.02rem;margin-bottom:4px}
+  .plan-card .price{font-size:1.45rem;font-weight:800;color:#0a7a4b;margin:6px 0}
+  .plan-card p{color:#42534a;font-size:.88rem;line-height:1.55;margin-bottom:14px}
+  .empty{border:1.5px dashed #cfe3d6;border-radius:15px;padding:26px;text-align:center;color:#42534a;font-size:.94rem;line-height:1.6}
+</style>
+</head>
+<body>
+<header id="cf-header"></header>
+<main>
+  <section class="dash-wrap">
+    <div class="section-head" style="max-width:720px;margin:0 auto 40px;text-align:center">
+      <span class="eyebrow">👋 My Account</span>
+      <h2 id="dash-title">My Dashboard</h2>
+      <p>Your bookings, your apps and your services — sab ek jagah.</p>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-card prof">
+        <div class="avatar" id="pf-avatar">?</div>
+        <b id="pf-name">Loading…</b>
+        <span id="pf-email"></span>
+        <div class="since" id="pf-since"></div>
+        <button class="btn btn-outline btn-block" id="btn-logout" style="margin-top:20px;width:100%">Logout</button>
+      </div>
+      <div>
+        <div class="dash-card" style="margin-bottom:24px">
+          <h3>📦 My bookings</h3>
+          <div id="bk-list"><div class="empty">Loading your bookings…</div></div>
+        </div>
+        <div class="dash-card">
+          <h3>🚀 Book a service</h3>
+          <div class="plan-cards">
+            <div class="plan-card">
+              <h4>Google Play Publishing</h4>
+              <div class="price">₹799<span style="font-size:.85rem;color:#42534a;font-weight:600">/month</span></div>
+              <p>App live within 3 days on our verified console. Listing, screenshots, ASO and 1 update/month included.</p>
+              <a class="btn btn-primary btn-block" href="booking.html?plan=standard" style="width:100%">Book Standard</a>
+            </div>
+            <div class="plan-card">
+              <h4>Publishing + AdMob</h4>
+              <div class="price">₹1,499<span style="font-size:.85rem;color:#42534a;font-weight:600"> one-time</span></div>
+              <p>Publishing plus full AdMob setup — account, ad units and placement, with 3 updates/month.</p>
+              <a class="btn btn-primary btn-block" href="booking.html?plan=admob" style="width:100%">Book AdMob Plan</a>
+            </div>
+          </div>
+          <p style="margin-top:16px;color:#42534a;font-size:.9rem">Custom app ya game banwana hai? <a href="custom-dev.html" style="color:#0a7a4b;font-weight:600">Custom Development dekho →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer id="cf-footer"></footer>
+<script src="assets/js/config.js?v=20261004n"></script>
+<script src="assets/js/app.js?v=20261004c"></script>
+<script src="assets/js/auth.js?v=1"></script>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function ini(n) { return String(n || '?').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(''); }
+  document.getElementById('btn-logout').addEventListener('click', function () { CF_AUTH.signOut(); location.href = 'index.html'; });
+  CF_AUTH.ensure().then(function (s) {
+    if (!s || !s.user) { location.replace('login.html?next=dashboard.html'); return; }
+    var u = s.user, name = CF_AUTH.displayName(u), m = u.user_metadata || {};
+    document.getElementById('pf-name').textContent = name;
+    document.getElementById('pf-email').textContent = u.email || '';
+    document.getElementById('dash-title').textContent = 'Welcome, ' + name.split(' ')[0];
+    var av = document.getElementById('pf-avatar');
+    if (m.avatar_url || m.picture) { av.innerHTML = '<img src="' + esc(m.avatar_url || m.picture) + '" alt="">'; } else { av.textContent = ini(name); }
+    if (u.created_at) { try { document.getElementById('pf-since').textContent = 'Member since ' + new Date(u.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {} }
+    /* keep the profile row in sync */
+    fetch(CF_AUTH.base + '/rest/v1/profiles', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'resolution=merge-duplicates' }), body: JSON.stringify({ id: u.id, email: u.email, full_name: name, avatar_url: m.avatar_url || m.picture || null }) }).catch(function () {});
+    /* bookings */
+    fetch(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&order=created_at.desc', { headers: CF_AUTH.headers() })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) {
+        var box = document.getElementById('bk-list');
+        if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi booking nahi hai.<br>Niche se apni pehli service book karo — app publish ya AdMob setup.</div>'; return; }
+        box.innerHTML = rows.map(function (b) {
+          var plan = b.plan === 'admob' ? 'Publishing + AdMob — ₹1,499' : 'Play Publishing Standard — ₹799/mo';
+          var dt = ''; try { dt = new Date(b.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
+          return '<div class="bk"><div class="row"><b>' + esc(b.app_name || 'My App') + '</b><span class="pill green">' + esc(b.status || 'booked') + '</span></div>' +
+            '<div class="meta">' + plan + (b.package_name ? ' · ' + esc(b.package_name) : '') + '<br>Booked on ' + dt + ' · Payment: <span class="pill amber">' + esc(b.payment_status || 'pending') + '</span></div></div>';
+        }).join('');
+      })
+      .catch(function () { document.getElementById('bk-list').innerHTML = '<div class="empty">Bookings load nahi ho payi. Page refresh karke dobara dekho.</div>'; });
+  });
+})();
+</script>
+</body>
+</html>
