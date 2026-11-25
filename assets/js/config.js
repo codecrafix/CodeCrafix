@@ -1,3 +1,20 @@
+/* Responsive fix: some pages still declare <meta viewport content="width=1200">, which forces the desktop layout on phones.
+   Switch every public page to a real device-width viewport and load the shared responsive rules. */
+(function () {
+  if (/admin/.test(location.pathname)) return;
+  try {
+    var m = document.querySelector('meta[name="viewport"]');
+    if (m) {
+      if (!/device-width/.test(m.getAttribute('content') || '')) m.setAttribute('content', 'width=device-width, initial-scale=1');
+    } else {
+      m = document.createElement('meta'); m.name = 'viewport'; m.content = 'width=device-width, initial-scale=1'; document.head.appendChild(m);
+    }
+    if (!document.getElementById('cf-responsive-css')) {
+      var l = document.createElement('link'); l.id = 'cf-responsive-css'; l.rel = 'stylesheet'; l.href = '/assets/css/responsive.css?v=20261125a'; document.head.appendChild(l);
+    }
+  } catch (e) {}
+})();
+
 /* CodeCrafix site config — edit values here, no other file needs to change */
 window.CODECRAFIX_CONFIG = {
   brand: { name: 'CodeCrafix', tagline: 'Build, Code & Scale' },
