@@ -114,6 +114,8 @@
   .review-card .stars{color:#f5a623!important;font-size:1.05rem;letter-spacing:2px;margin-bottom:10px}
   .review-card p{color:#33463b!important;font-size:.97rem;line-height:1.55}
   .review-date{margin-top:16px;padding-top:12px;border-top:1px solid #e7f1ea;color:#42534a!important;font-size:.8rem;font-weight:600}
+  .rv-play{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:7px 13px;border:1px solid #bfe6cf;background:#eefaf2;color:#0a7a4b!important;font-weight:700;font-size:.85rem;border-radius:999px;text-decoration:none;transition:background .2s ease}
+  .rv-play:hover{background:#dff5e7}
   .review-form-card{max-width:760px;margin:0 auto;background:#ffffff!important;border:1px solid #d8ecdf!important;border-radius:20px!important;padding:34px!important;box-shadow:0 20px 44px rgba(11,30,20,.10)!important}
   .review-note{color:#42534a!important}
   .empty-state{color:#2e4237!important}
@@ -312,11 +314,14 @@
           <div class="form-row">
             <div class="field"><label for="rv-name">Your name <span class="req">*</span></label>
               <input class="input" id="rv-name" name="name" placeholder="e.g. Aarav Mehta" autocomplete="name"></div>
-            <div class="field"><label for="rv-email">Email <span class="muted">(never shown publicly)</span></label>
+            <div class="field"><label for="rv-email">Email <span class="req">*</span> <span class="muted">(never shown publicly)</span></label>
               <input class="input" id="rv-email" name="email" type="email" placeholder="you@example.com" autocomplete="email"></div>
           </div>
-          <div class="field"><label for="rv-role">What do you do? <span class="muted">(optional)</span></label>
+          <div class="field"><label for="rv-role">What do you do? <span class="req">*</span></label>
             <input class="input" id="rv-role" name="role" placeholder="e.g. Indie Android Developer"></div>
+          <div class="field"><label for="rv-app">Your app on Google Play <span class="req">*</span></label>
+            <input class="input" id="rv-app" name="app_link" type="url" placeholder="https://play.google.com/store/apps/details?id=...">
+            <p class="tiny muted" style="margin-top:6px">If we published or built your app, paste its Play Store link &mdash; it will appear on your review as a Google Play button.</p></div>
           <div class="field"><label>Your rating</label>
             <div class="rating-picker" id="cf-rating-picker">
               <button type="button" class="star sel" data-v="1" aria-label="1 star">&#9733;</button>
@@ -358,9 +363,10 @@
 
 <footer id="cf-footer"><div class="foot"><div><a class="foot-logo" href="/"><img src="assets/img/logo.svg" alt="" width="64" height="64"><span>Code<b>Crafix</b></span></a><p class="foot-about">An independent tech studio building apps, games and dev tools &mdash; and helping creators ship them to the world.</p></div><div><h4>Explore</h4><a href="/store">Digital Store</a><a href="/custom-dev">Custom Development</a><a href="/publish-app">Publish Your App</a><a href="/tutorials">Tutorials</a><a href="/contact">Contact Us</a></div><div><h4>Company</h4><a href="/#about">About</a><a href="/#services">Services</a><a href="/#reviews">Reviews</a><a href="/custom-dev#hire">Start a project</a><a href="/contact">Contact</a></div><div><h4>Legal</h4><a href="/business-details">Business Details</a><a href="/terms">Terms &amp; Conditions</a><a href="/privacy">Privacy Policy</a><a href="/refund-policy">Refund Policy</a><a href="/return-policy">Return Policy</a><a href="/cancellation-policy">Cancellation Policy</a></div></div></footer>
 
-<script src="assets/js/config.js?v=20261004n"></script>
+<script src="assets/js/config.js?v=20261004o"></script>
 <script src="assets/js/reviews-data.js?v=20261004b"></script>
-<script src="assets/js/app.js?v=20261004c"></script>
+<script src="assets/js/app.js?v=20261004d"></script>
+<script src="assets/js/auth.js?v=1"></script>
 <script>
 (function(){
   var els=document.querySelectorAll('[data-count]');
