@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
 <link rel="stylesheet" href="assets/css/style.css?v=20261004d">
-<link rel="stylesheet" href="assets/css/theme-v2.css?v=20261125f">
+<link rel="stylesheet" href="assets/css/theme-v2.css?v=20261125g">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"CodeCrafix","url":"https://codecrafix.shop/","logo":"https://codecrafix.shop/assets/img/logo.svg","founder":{"@type":"Person","name":"Vivek Barman"},"address":{"@type":"PostalAddress","addressLocality":"Satna","addressRegion":"Madhya Pradesh","addressCountry":"IN"},"sameAs":["https://www.youtube.com/@codecrafix"]}
 </script>
@@ -410,7 +410,7 @@
     list=list.slice(0,3);
     if(!list.length){ return; }
     document.getElementById('cf-testimonials-grid').innerHTML=list.map(function(r){
-      return '<article class="tst-card"><div class="qmark">&ldquo;</div><div class="stars">'+stars(+r.rating||5)+'</div><p>'+esc(r.message)+'</p><div class="tst-who"><span class="avatar">'+esc(ini(r.name))+'</span><div><b>'+esc(r.name)+'</b><span>'+esc(r.role||'Verified customer')+'</span></div></div></article>';
+      return '<article class="tst-card"><div class="qmark">&ldquo;</div><div class="stars">'+stars(+r.rating||5)+'</div><p>'+esc(r.message)+'</p><div class="tst-who"><span class="avatar">'+esc(ini(r.name))+'</span><div><b>'+esc(r.name)+'</b><span>'+esc(r.role||'Customer')+'</span></div></div></article>';
     }).join('');
     sec.style.display='';
   }
