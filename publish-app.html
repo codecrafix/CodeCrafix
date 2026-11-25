@@ -207,6 +207,47 @@
   .btn-white:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.25)}
   @media(max-width:900px){.mini-grid{grid-template-columns:1fr}.plans-grid{grid-template-columns:1fr}.rules-grid{grid-template-columns:1fr}.psteps{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){.psteps{grid-template-columns:1fr}}
+
+  /* ===== Publish v3 premium ===== */
+  .mini-card{display:flex;gap:16px;align-items:flex-start;text-align:left}
+  .mini-card .ic{flex:none;margin-bottom:0;width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,rgba(16,185,129,.22),rgba(10,122,75,.12));border:1px solid rgba(16,185,129,.35)}
+  .mini-card h3{font-size:1.08rem}
+  .plan .picon{width:54px;height:54px;margin:0 auto 14px;border-radius:16px;background:linear-gradient(135deg,rgba(16,185,129,.22),rgba(10,122,75,.10));border:1px solid rgba(16,185,129,.35);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+  .plan .amt{background:linear-gradient(92deg,#0a7a4b,#16a34a);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .plan .amt small{-webkit-text-fill-color:#54675c}
+  .plan hr.sep{border:none;border-top:1px solid #e7f1ea;margin:18px 0}
+  .plan.popular{transform:scale(1.02)}
+  .plan.popular:hover{transform:scale(1.02) translateY(-7px)}
+  .hero-media{position:relative}
+  .hero-chip{position:absolute;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.96);border:1px solid #d9ebdf;border-radius:999px;padding:8px 15px;font-size:.8rem;font-weight:800;color:#0a7a4b;box-shadow:0 14px 30px rgba(11,30,20,.16)}
+  .hero-chip.c1{top:16px;left:-12px}
+  .hero-chip.c2{bottom:16px;right:-10px}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .faq-wrap{max-width:840px;margin:0 auto}
+  details.faq{background:#fff;border:1px solid #d9ebdf;border-radius:16px;padding:0;margin-bottom:12px;box-shadow:0 8px 22px rgba(11,30,20,.05);overflow:hidden;transition:box-shadow .3s ease}
+  details.faq[open]{box-shadow:0 16px 34px rgba(11,30,20,.10);border-color:#bcd8c7}
+  details.faq summary{cursor:pointer;font-weight:700;color:#0b1220;font-size:.99rem;list-style:none;padding:19px 22px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:rgba(10,122,75,.12);color:#0a7a4b;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:1.05rem;transition:transform .3s ease}
+  details.faq[open ] summary::after{transform:rotate(45deg)}
+  details.faq .ans{padding:0 22px 20px;color:#54675c;font-size:.93rem;line-height:1.65}
+  @media(max-width:900px){
+    .plans-grid{grid-template-columns:1fr 1fr;gap:12px;max-width:100%}
+    .plan{padding:22px 14px;border-radius:18px}
+    .plan.popular{transform:none}
+    .plan.popular:hover{transform:translateY(-5px)}
+    .plan h3{font-size:.95rem}
+    .plan .picon{width:42px;height:42px;font-size:1.15rem;margin-bottom:10px;border-radius:13px}
+    .plan .amt{font-size:1.65rem;margin:8px 0 2px}
+    .plan .amt small{font-size:.72rem}
+    .plan .for{font-size:.76rem;margin:6px 0 14px}
+    .plan .feat li{font-size:.78rem;padding-left:22px;margin-bottom:8px}
+    .plan .feat li::before{width:16px;height:16px;font-size:.6rem}
+    .plan .go{font-size:.82rem;padding:12px 6px}
+    .plan .pop{font-size:.6rem;padding:5px 11px;top:-11px}
+    .hero-chip.c1{left:6px}.hero-chip.c2{right:6px}
+  }
 </style>
 </head>
 <body>
@@ -229,7 +270,7 @@
             <span><i>&#10003;</i>Reply within 24&ndash;48 hours</span>
           </div>
         </div>
-        <div class="hero-media"><img src="images/service-console-new.webp" alt="Google Play Console production release published for a client app" fetchpriority="high"></div>
+        <div class="hero-media"><img src="images/service-console-new.webp" alt="Google Play Console production release published for a client app" fetchpriority="high"><span class="hero-chip c1">&#10003; Live in 3 Days</span><span class="hero-chip c2">Plans &#8377;799/mo se shuru</span></div>
       </div>
     </div>
   </section>
@@ -238,9 +279,9 @@
     <div class="container">
       <div class="section-head"><span class="eyebrow">The Service</span><h2>Everything handled for you</h2><p>Teen cheezein developers ko sabse zyada rokti hain &mdash; teeno hum sambhalte hain.</p></div>
       <div class="mini-grid">
-        <div class="mini-card"><div class="ic">&#128273;</div><h3>No Play Console needed</h3><p>We publish under our verified organisation console &mdash; you never pay the $25 developer fee or wait for account approval. Ownership of your app and source code stays with you.</p></div>
-        <div class="mini-card"><div class="ic">&#128295;</div><h3>We prepare the build</h3><p>Signing keys, versioning, target SDK compliance, store listing, screenshots and a keyword-optimised description &mdash; sab taiyar karke hum dete hain.</p></div>
-        <div class="mini-card"><div class="ic">&#128176;</div><h3>Monetisation handled</h3><p>AdMob account, ad units, formats and placement tuned to earn &mdash; bina retention hurt kiye aur bina account flag hue.</p></div>
+        <div class="mini-card reveal"><div class="ic">&#128273;</div><h3>No Play Console needed</h3><p>We publish under our verified organisation console &mdash; you never pay the $25 developer fee or wait for account approval. Ownership of your app and source code stays with you.</p></div>
+        <div class="mini-card reveal"><div class="ic">&#128295;</div><h3>We prepare the build</h3><p>Signing keys, versioning, target SDK compliance, store listing, screenshots and a keyword-optimised description &mdash; sab taiyar karke hum dete hain.</p></div>
+        <div class="mini-card reveal"><div class="ic">&#128176;</div><h3>Monetisation handled</h3><p>AdMob account, ad units, formats and placement tuned to earn &mdash; bina retention hurt kiye aur bina account flag hue.</p></div>
       </div>
     </div>
   </section>
@@ -249,33 +290,33 @@
     <div class="container">
       <div class="section-head"><span class="eyebrow">Pricing</span><h2>Simple plans, no lock-in</h2><p>Choose hosting &amp; publishing, monetisation, or both. Cancel any time &mdash; you keep your source code and your app.</p></div>
       <div class="plans-grid">
-        <div class="plan">
-          <h3>Standard Hosting &amp; Publishing</h3>
+        <div class="plan reveal">
+          <div class="picon">&#128640;</div><h3>Standard Hosting &amp; Publishing</h3>
           <div class="amt">&#8377;799 <small>/ month</small></div>
-          <p class="for">For developers who just need their app live on the Play Store under our organisation account.</p>
+          <p class="for">For developers who just need their app live on the Play Store under our organisation account.</p><hr class="sep">
           <ul class="feat">
-            <li>Publishing under our verified organisation console</li>
+            <li>Publishing under our verified console</li>
             <li>Signing key management &amp; secure build hosting</li>
-            <li>Store listing, screenshots &amp; ASO-ready description</li>
+            <li>Listing, screenshots &amp; ASO description</li>
             <li>1 app update per month included</li>
-            <li>Compliance checks for the latest Play policies</li>
+            <li>Latest Play policy compliance checks</li>
             <li>Email support within 48 hours</li>
           </ul>
           <a class="btn btn-primary go" href="booking.html?plan=standard">Book Karo &mdash; &#8377;799/mo</a>
         </div>
-        <div class="plan popular">
+        <div class="plan popular reveal">
           <span class="pop">MOST POPULAR</span>
-          <h3>AdMob Monetisation Plan</h3>
+          <div class="picon">&#128176;</div><h3>AdMob Monetisation Plan</h3>
           <div class="amt">&#8377;1,499 <small>one-time setup</small></div>
-          <p class="for">Everything in Standard, plus a complete ad monetisation setup so your app starts earning.</p>
+          <p class="for">Everything in Standard, plus a complete ad monetisation setup so your app starts earning.</p><hr class="sep">
           <ul class="feat">
             <li>Everything in the Standard plan</li>
             <li>3 app updates per month included</li>
             <li>AdMob account created &amp; linked to your app</li>
-            <li>Ad units, mediation &amp; format placement strategy</li>
-            <li>Banner, interstitial, native &amp; rewarded ad integration</li>
-            <li>Revenue reporting dashboard walkthrough</li>
-            <li>Policy-safe placement review to protect your account</li>
+            <li>Ad units, mediation &amp; placement strategy</li>
+            <li>Banner, interstitial, native &amp; rewarded ads</li>
+            <li>Revenue dashboard walkthrough</li>
+            <li>Policy-safe placement review</li>
           </ul>
           <a class="btn btn-primary go" href="booking.html?plan=admob">Book Karo &mdash; &#8377;1,499</a>
         </div>
@@ -299,12 +340,14 @@
 
   <section class="section" style="padding-top:0">
     <div class="container">
-      <div class="section-head"><span class="eyebrow">Eligibility &amp; Content Rules</span><h2>What we publish &mdash; and what we do not</h2><p>Every submission is reviewed manually before publishing. We only publish apps that follow Google Play policy and Indian law.</p></div>
-      <div class="rules-grid">
-        <div class="rule-card ok"><h3>&#9989; We publish</h3><p>Utility apps, tools, educational apps, casual and hyper-casual games, productivity and lifestyle apps &mdash; original work that you own or have the rights to.</p></div>
-        <div class="rule-card no"><h3>&#10060; We do not publish</h3><p>Gambling, betting, lottery, casino or real-money gaming apps; adult content; malware or spyware; apps that copy another developer&rsquo;s work or trademarks; deceptive or misleading apps; anything unlawful.</p></div>
+      <div class="section-head"><span class="eyebrow">FAQ</span><h2>Publish karne se pehle ye jaan lo</h2><p>Jo sawal har developer humse pehle puchta hai &mdash; unke saaf jawab.</p></div>
+      <div class="faq-wrap">
+        <details class="faq"><summary>Kis type ke apps publish hote hain?</summary><div class="ans">Utility apps, tools, educational apps, casual aur hyper-casual games, productivity aur lifestyle apps &mdash; koi bhi original app jo tumhara apna ho ya jiske rights tumhare paas hon.</div></details>
+        <details class="faq"><summary>Kaun se apps publish nahi hote?</summary><div class="ans">Gambling, betting, lottery, casino ya real-money gaming apps; adult content; malware ya spyware; kisi aur developer ke app ki copy ya trademark ka galat istemal; dhokha dene wale (deceptive) apps; aur koi bhi gair-kanooni content. Har submission publish se pehle manually review hota hai.</div></details>
+        <details class="faq"><summary>Kya app ki ownership meri hi rahegi?</summary><div class="ans">Haan, 100%. App aur uska source code hamesha tumhara rahta hai. Hum sirf apne verified organisation console se publish karte hain &mdash; tum kabhi bhi plan cancel karke apna app wapas le sakte ho.</div></details>
+        <details class="faq"><summary>Kya AdMob se earning guaranteed hai?</summary><div class="ans">Nahi &mdash; aur jo iski guarantee de, usse savdhaan raho. Ad earnings Google AdMob seedha tumhare apne account me deta hai; rakam tumhare users aur ad impressions par nirbhar karti hai. Hum sahi setup aur policy-safe placement ki guarantee dete hain, income ki nahi.</div></details>
+        <details class="faq"><summary>Publish hone me kitna time lagta hai?</summary><div class="ans">Details aur build milne ke baad hum 48 ghante me review karte hain, aur app aam taur par 3 din ke andar Play Store par live ho jata hai. Tum apne dashboard me har step ka status dekh sakte ho.</div></details>
       </div>
-      <p class="pay-note" style="margin-top:18px">Ad earnings are paid by Google AdMob directly to your own account and are never guaranteed. CodeCrafix does not promise income.</p>
     </div>
   </section>
 
@@ -339,6 +382,9 @@
     els.forEach(function(el){io.observe(el)});
   } else { els.forEach(function(el){el.textContent=el.getAttribute('data-count')}); }
 })();
+</script>
+<script>
+(function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}})},{threshold:.12});els.forEach(function(e){io.observe(e)});})();
 </script>
 </body>
 </html>
