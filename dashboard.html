@@ -58,9 +58,13 @@
         <button class="btn btn-outline btn-block" id="btn-logout" style="margin-top:20px;width:100%">Logout</button>
       </div>
       <div>
+        <div class="dash-card" id="pay-banner" style="margin-bottom:24px;display:none;border-color:#bde8cd;background:#f4fbf6">
+          <h3 style="color:#0a7a4b">🎉 Payment ho gaya!</h3>
+          <p style="color:#33463b;font-size:.94rem;line-height:1.6">Tumhari booking niche <b>My Orders</b> me jud gayi hai. Hamari team 24 ghante ke andar tumse sampark karke app ki details legi.</p>
+        </div>
         <div class="dash-card" style="margin-bottom:24px">
-          <h3>📦 My bookings</h3>
-          <div id="bk-list"><div class="empty">Loading your bookings…</div></div>
+          <h3>📦 My Orders</h3>
+          <div id="bk-list"><div class="empty">Loading your orders…</div></div>
         </div>
         <div class="dash-card">
           <h3>🚀 Book a service</h3>
@@ -105,19 +109,48 @@
     /* keep the profile row in sync */
     fetch(CF_AUTH.base + '/rest/v1/profiles', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'resolution=merge-duplicates' }), body: JSON.stringify({ id: u.id, email: u.email, full_name: name, avatar_url: m.avatar_url || m.picture || null }) }).catch(function () {});
     /* bookings */
-    fetch(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&order=created_at.desc', { headers: CF_AUTH.headers() })
-      .then(function (r) { return r.json(); })
-      .then(function (rows) {
-        var box = document.getElementById('bk-list');
-        if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi booking nahi hai.<br>Niche se apni pehli service book karo — app publish ya AdMob setup.</div>'; return; }
-        box.innerHTML = rows.map(function (b) {
-          var plan = b.plan === 'admob' ? 'Publishing + AdMob — ₹1,499' : 'Play Publishing Standard — ₹799/mo';
-          var dt = ''; try { dt = new Date(b.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
-          return '<div class="bk"><div class="row"><b>' + esc(b.app_name || 'My App') + '</b><span class="pill green">' + esc(b.status || 'booked') + '</span></div>' +
-            '<div class="meta">' + plan + (b.package_name ? ' · ' + esc(b.package_name) : '') + '<br>Booked on ' + dt + ' · Payment: <span class="pill amber">' + esc(b.payment_status || 'pending') + '</span></div></div>';
-        }).join('');
-      })
-      .catch(function () { document.getElementById('bk-list').innerHTML = '<div class="empty">Bookings load nahi ho payi. Page refresh karke dobara dekho.</div>'; });
+    function loadBookings() {
+      fetch(CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&order=created_at.desc', { headers: CF_AUTH.headers() })
+        .then(function (r) { return r.json(); })
+        .then(function (rows) {
+          var box = document.getElementById('bk-list');
+          if (!rows || !rows.length) { box.innerHTML = '<div class="empty">Abhi tak koi order nahi hai.<br>Niche se apni pehli service book karo — app publish ya AdMob setup.</div>'; return; }
+          box.innerHTML = rows.map(function (b) {
+            var plan = b.plan === 'admob' ? 'Publishing + AdMob — ₹1,499' : 'Play Publishing Standard — ₹799/mo';
+            var dt = ''; try { dt = new Date(b.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
+            var paid = (b.payment_status || 'pending') === 'paid';
+            var title = b.app_name && b.app_name !== 'App details pending' ? b.app_name : plan;
+            return '<div class="bk"><div class="row"><b>' + esc(title) + '</b><span class="pill green">' + esc(b.status || 'booked') + '</span></div>' +
+              '<div class="meta">' + (title !== plan ? plan + ' · ' : '') + (b.package_name ? esc(b.package_name) + ' · ' : '') + 'Ordered on ' + dt + ' · Payment: <span class="pill ' + (paid ? 'green' : 'amber') + '">' + esc(b.payment_status || 'pending') + '</span>' + (b.app_name === 'App details pending' ? '<br>App details pending — hamari team tumse details legi.' : '') + '</div></div>';
+          }).join('');
+        })
+        .catch(function () { document.getElementById('bk-list').innerHTML = '<div class="empty">Orders load nahi ho paye. Page refresh karke dobara dekho.</div>'; });
+    }
+    /* payment return: Razorpay redirects here after a successful payment —
+       turn it into an order (once per payment id), then show the list. */
+    var q = new URLSearchParams(location.search);
+    var paidPlan = q.get('paid') === 'admob' ? 'admob' : (q.get('paid') === 'standard' ? 'standard' : null);
+    var payId = q.get('razorpay_payment_id') || '';
+    if (paidPlan) {
+      var tag = payId ? 'RZP:' + payId : 'RZP:page-return';
+      var checkUrl = payId
+        ? CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&description=eq.' + encodeURIComponent(tag) + '&select=id'
+        : CF_AUTH.base + '/rest/v1/bookings?user_id=eq.' + u.id + '&plan=eq.' + paidPlan + '&payment_status=eq.paid&created_at=gte.' + encodeURIComponent(new Date(Date.now() - 30 * 60000).toISOString()) + '&select=id';
+      fetch(checkUrl, { headers: CF_AUTH.headers() })
+        .then(function (r) { return r.json(); })
+        .then(function (found) {
+          if (found && found.length) { return null; }
+          return fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify({ user_id: u.id, plan: paidPlan, app_name: 'App details pending', description: tag, status: 'booked', payment_status: 'paid' }) });
+        })
+        .then(function () {
+          document.getElementById('pay-banner').style.display = '';
+          try { history.replaceState({}, '', 'dashboard.html'); } catch (e) {}
+          loadBookings();
+        })
+        .catch(function () { loadBookings(); });
+    } else {
+      loadBookings();
+    }
   });
 })();
 </script>
