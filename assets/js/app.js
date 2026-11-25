@@ -21,7 +21,7 @@
   function msg(el, text, err) { if (!el) { return; } el.hidden = false; el.textContent = text; el.className = 'form-msg' + (err ? ' err' : ''); }
 
   /* ---------- header + footer ---------- */
-  var NAV = [['index.html', 'Home'], ['store.html', 'Store'], ['custom-dev.html', 'Custom Dev'], ['publish-app.html', 'Publish App'], ['tutorials.html', 'Tutorials'], ['contact.html', 'Contact']];
+  var NAV = [['index.html', 'Home'], ['publish-app.html', 'Publish App'], ['custom-dev.html', 'Custom Dev'], ['store.html', 'Store'], ['contact.html', 'Contact']];
   var LOGO = '<img src="assets/img/logo.svg" alt="" width="36" height="36">';
   var IG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
   function renderChrome() {
