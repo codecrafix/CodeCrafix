@@ -248,6 +248,21 @@
     .plan .pop{font-size:.6rem;padding:5px 11px;top:-11px}
     .hero-chip.c1{left:6px}.hero-chip.c2{right:6px}
   }
+
+  /* ===== Benefits v4: horizontal image rows with bullet points ===== */
+  .feat-rows{display:flex;flex-direction:column;gap:22px}
+  .feat-row{display:grid;grid-template-columns:330px 1fr;background:#fff;border:1px solid #d9ebdf;border-radius:22px;overflow:hidden;box-shadow:0 14px 34px rgba(11,30,20,.08);transition:transform .35s ease,box-shadow .35s ease}
+  .feat-row:hover{transform:translateY(-5px);box-shadow:0 26px 50px rgba(11,30,20,.14)}
+  .feat-row .fimg{overflow:hidden;min-height:100%}
+  .feat-row .fimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+  .feat-row:hover .fimg img{transform:scale(1.05)}
+  .feat-row .fbody{padding:28px 30px;display:flex;flex-direction:column;justify-content:center}
+  .feat-row h3{font-size:1.3rem;font-weight:800;color:#0b1220;margin-bottom:14px;letter-spacing:-.01em}
+  .feat-row ul{list-style:none;margin:0;padding:0}
+  .feat-row ul li{position:relative;padding-left:24px;margin-bottom:10px;font-size:.97rem;color:#33463b;line-height:1.55}
+  .feat-row ul li::before{content:"";position:absolute;left:2px;top:.52em;width:8px;height:8px;border-radius:50%;background:#0a7a4b}
+  .feat-row ul li b{color:#0b1220}
+  @media(max-width:860px){.feat-row{grid-template-columns:1fr}.feat-row .fimg img{height:190px}.feat-row .fbody{padding:22px}}
 </style>
 </head>
 <body>
@@ -261,7 +276,7 @@
           <h1>Publish Your App the Easy Way &mdash; <span class="grad">No Play Console Needed</span></h1>
           <p class="lead">You built something good &mdash; you should not be blocked by a developer account, a signing key or an ad network setup. Send us your build and we handle the rest.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="#plans" style="font-size:1.02rem;padding:15px 34px">Book Karo &darr;</a>
+            <a class="btn btn-primary" href="#plans" style="font-size:1.02rem;padding:15px 34px">Book Now &darr;</a>
           </div>
           <div class="trust-row">
             <span><i>&#10003;</i>Live in 3 days</span>
@@ -278,10 +293,40 @@
   <section class="section" style="padding-top:56px">
     <div class="container">
       <div class="section-head"><span class="eyebrow">The Service</span><h2>Everything handled for you</h2><p>Teen cheezein developers ko sabse zyada rokti hain &mdash; teeno hum sambhalte hain.</p></div>
-      <div class="mini-grid">
-        <div class="mini-card reveal"><div class="ic">&#128273;</div><h3>No Play Console needed</h3><p>We publish under our verified organisation console &mdash; you never pay the $25 developer fee or wait for account approval. Ownership of your app and source code stays with you.</p></div>
-        <div class="mini-card reveal"><div class="ic">&#128295;</div><h3>We prepare the build</h3><p>Signing keys, versioning, target SDK compliance, store listing, screenshots and a keyword-optimised description &mdash; sab taiyar karke hum dete hain.</p></div>
-        <div class="mini-card reveal"><div class="ic">&#128176;</div><h3>Monetisation handled</h3><p>AdMob account, ad units, formats and placement tuned to earn &mdash; bina retention hurt kiye aur bina account flag hue.</p></div>
+      <div class="feat-rows">
+        <div class="feat-row reveal">
+          <div class="fimg"><img src="images/service-play-console.webp" alt="Google Play Console me published app" loading="lazy"></div>
+          <div class="fbody">
+            <h3>No Play Console needed</h3>
+            <ul>
+              <li><b>Verified organisation console</b> se tumhara app publish hota hai</li>
+              <li><b>$25 developer fee nahi</b> &mdash; aur account approval ka wait bhi nahi</li>
+              <li>App aur source code ki <b>ownership hamesha tumhari</b> rahti hai</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feat-row reveal">
+          <div class="fimg"><img src="images/service-build-new.webp" alt="App build taiyar karte hue developer" loading="lazy"></div>
+          <div class="fbody">
+            <h3>We prepare the build</h3>
+            <ul>
+              <li><b>Signing keys aur versioning</b> &mdash; hum sambhalte hain</li>
+              <li><b>Target SDK + Play policy</b> compliance pehle hi check hoti hai</li>
+              <li><b>Listing, screenshots aur ASO description</b> &mdash; sab taiyar milta hai</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feat-row reveal">
+          <div class="fimg"><img src="images/service-admob-new.webp" alt="AdMob earnings dashboard" loading="lazy"></div>
+          <div class="fbody">
+            <h3>Monetisation handled</h3>
+            <ul>
+              <li><b>AdMob account + ad units</b> ka pura setup hum karte hain</li>
+              <li>Banner, interstitial, native, rewarded &mdash; <b>sahi jagah placement</b></li>
+              <li><b>Retention aur account safety</b> ka pura dhyan rakha jata hai</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -302,7 +347,7 @@
             <li>Latest Play policy compliance checks</li>
             <li>Email support within 48 hours</li>
           </ul>
-          <a class="btn btn-primary go" href="booking.html?plan=standard">Book Karo &mdash; &#8377;799/mo</a>
+          <a class="btn btn-primary go" href="booking.html?plan=standard">Book Now &mdash; &#8377;799/mo</a>
         </div>
         <div class="plan popular reveal">
           <span class="pop">MOST POPULAR</span>
@@ -318,7 +363,7 @@
             <li>Revenue dashboard walkthrough</li>
             <li>Policy-safe placement review</li>
           </ul>
-          <a class="btn btn-primary go" href="booking.html?plan=admob">Book Karo &mdash; &#8377;1,499</a>
+          <a class="btn btn-primary go" href="booking.html?plan=admob">Book Now &mdash; &#8377;1,499</a>
         </div>
       </div>
       <div class="pay-chips"><span class="pay-chip">UPI</span><span class="pay-chip">Credit &amp; Debit Cards</span><span class="pay-chip">Net Banking</span><span class="pay-chip">Wallets</span></div>
@@ -355,9 +400,9 @@
     <div class="container">
       <div class="cta">
         <h2>App ready hai? Let&rsquo;s get it live.</h2>
-        <p>Plan chuno aur Book Karo &mdash; 3 din me tumhara app Play Store par hoga.</p>
+        <p>Apna plan chuno &mdash; 3 din me tumhara app Play Store par hoga.</p>
         <div class="hero-cta" style="justify-content:center">
-          <a class="btn btn-white" href="#plans" style="font-size:1.02rem;padding:15px 34px">Book Karo</a>
+          <a class="btn btn-white" href="#plans" style="font-size:1.02rem;padding:15px 34px">Book Now</a>
         </div>
       </div>
     </div>
