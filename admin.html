@@ -289,7 +289,7 @@ body{background:#070b09}
       var fl = [['all', 'All (' + all.length + ')'], ['pending', 'Pending (' + cnt('pending') + ')'], ['approved', 'Approved (' + cnt('approved') + ')'], ['rejected', 'Rejected (' + cnt('rejected') + ')']];
       $('#view').innerHTML = '<div class="bar"><div class="tabs" style="margin:0">' + fl.map(function (f) { return '<button class="filter-btn' + (f[0] === rfilter ? ' active' : '') + '" data-f="' + f[0] + '" type="button">' + f[1] + '</button>'; }).join('') + '</div><button class="btn btn-primary btn-sm" id="addr" type="button">+ Add review</button></div><div id="rform"></div>' +
         (l.map(function (r) {
-          return '<div class="card item"><div class="grow"><h3>' + esc(r.name) + ' &middot; ' + '&#9733;'.repeat(r.rating) + '</h3><div class="mt-1"><span class="pill2 ' + (r.status === 'approved' ? '' : r.status === 'pending' ? 'warn' : 'bad') + '">' + r.status + '</span></div><p>' + esc(r.message) + '</p><p class="kv">' + esc(r.role || '') + ' ' + esc(r.email || '') + '</p>' +
+          return '<div class="card item"><div class="grow"><h3>' + esc(r.name) + ' &middot; ' + '&#9733;'.repeat(r.rating) + '</h3><div class="mt-1"><span class="pill2 ' + (r.status === 'approved' ? '' : r.status === 'pending' ? 'warn' : 'bad') + '">' + r.status + '</span></div><p>' + esc(r.message) + '</p><p class="kv">' + esc(r.role || '') + ' ' + esc(r.email || '') + '</p>' + (r.app_link ? '<p class="kv"><a href="' + esc(r.app_link) + '" target="_blank" rel="noopener">&#9654; Google Play: ' + esc(r.app_link) + '</a></p>' : '') +
             '<div class="acts"><button class="btn btn-primary btn-sm" data-s="approved" data-id="' + r.id + '" type="button">Approve</button><button class="btn btn-outline btn-sm" data-s="rejected" data-id="' + r.id + '" type="button">Reject</button><button class="btn btn-outline btn-sm" data-s="pending" data-id="' + r.id + '" type="button">Set pending</button><button class="btn btn-danger btn-sm" data-x="' + r.id + '" type="button">Delete</button></div></div></div>';
         }).join('') || '<div class="empty-state">No reviews here.</div>');
       $('#addr').onclick = function () {
@@ -297,13 +297,14 @@ body{background:#070b09}
           '<div class="form-row"><div class="field"><label>Name *</label><input class="input" id="r-name" maxlength="80"></div><div class="field"><label>Role / company</label><input class="input" id="r-role" maxlength="80"></div></div>' +
           '<div class="form-row"><div class="field"><label>Rating *</label><select class="select" id="r-rate"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div class="field"><label>Status</label><select class="select" id="r-stat"><option value="approved">Approved (show on site)</option><option value="pending">Pending</option></select></div></div>' +
           '<div class="field"><label>Review text * (10-1500 characters)</label><textarea class="textarea" id="r-msg" maxlength="1500"></textarea></div>' +
+          '<div class="field"><label>Play Store link (optional)</label><input class="input" id="r-app" maxlength="300" placeholder="https://play.google.com/store/apps/details?id=..."></div>' +
           '<div class="acts"><button class="btn btn-primary" type="submit">Save review</button><button class="btn btn-outline" id="rc" type="button">Cancel</button></div><div class="form-msg" id="rm" hidden></div></form>';
         $('#rc').onclick = function () { $('#rform').innerHTML = ''; };
         $('#rf').onsubmit = function (e) {
           e.preventDefault(); var m = $('#rm'); m.hidden = false; m.className = 'form-msg err';
           var name = $('#r-name').value.trim(), msg = $('#r-msg').value.trim();
           if (name.length < 2) { m.textContent = 'Enter a name.'; return; } if (msg.length < 10) { m.textContent = 'Review text must be at least 10 characters.'; return; }
-          api('/rest/v1/reviews', { method: 'POST', prefer: 'return=minimal', body: { name: name, role: $('#r-role').value.trim() || null, rating: parseInt($('#r-rate').value, 10), message: msg, status: $('#r-stat').value } }).then(show).catch(function (er) { m.textContent = er.message; });
+          api('/rest/v1/reviews', { method: 'POST', prefer: 'return=minimal', body: { name: name, role: $('#r-role').value.trim() || null, rating: parseInt($('#r-rate').value, 10), message: msg, app_link: $('#r-app').value.trim() || null, status: $('#r-stat').value } }).then(show).catch(function (er) { m.textContent = er.message; });
         };
       };
       $('#view').onclick = function (e) {
