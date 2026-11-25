@@ -3,16 +3,72 @@
 (function () {
   if (/admin/.test(location.pathname)) return;
   try {
-    var m = document.querySelector('meta[name="viewport"]');
-    if (m) {
-      if (!/device-width/.test(m.getAttribute('content') || '')) m.setAttribute('content', 'width=device-width, initial-scale=1');
-    } else {
-      m = document.createElement('meta'); m.name = 'viewport'; m.content = 'width=device-width, initial-scale=1'; document.head.appendChild(m);
-    }
+    var VP = 'width=device-width, initial-scale=1, minimum-scale=1';
+    var olds = document.querySelectorAll('meta[name="viewport"]');
+    for (var i = 0; i < olds.length; i++) { olds[i].parentNode.removeChild(olds[i]); }
+    var m = document.createElement('meta'); m.name = 'viewport'; m.content = VP; document.head.appendChild(m);
     if (!document.getElementById('cf-responsive-css')) {
-      var l = document.createElement('link'); l.id = 'cf-responsive-css'; l.rel = 'stylesheet'; l.href = '/assets/css/responsive.css?v=20261125a'; document.head.appendChild(l);
+      var l = document.createElement('link'); l.id = 'cf-responsive-css'; l.rel = 'stylesheet'; l.href = '/assets/css/responsive.css?v=20261125b'; document.head.appendChild(l);
     }
   } catch (e) {}
+
+  /* Safety net (phones only, <=640px): a text-heavy multi-column grid whose columns are too narrow becomes one column. Desktop is never touched. */
+  function cfGrid() {
+    try {
+      var narrow = window.innerWidth <= 640;
+      var els = document.querySelectorAll('main div, main ul, main ol, main form, main section');
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (el.hasAttribute('data-cf-g')) {
+          if (!narrow) { el.style.removeProperty('grid-template-columns'); el.removeAttribute('data-cf-g'); }
+          continue;
+        }
+        if (!narrow) continue;
+        if (el.matches('.counters,.rating-picker')) continue;
+        var cs = getComputedStyle(el);
+        if (cs.display !== 'grid') continue;
+        var cols = cs.gridTemplateColumns.split(' ').length;
+        if (cols < 2 || !el.children.length) continue;
+        if (el.clientWidth / cols > 190) continue;
+        if ((el.textContent || '').length / el.children.length < 30) continue;
+        el.style.setProperty('grid-template-columns', 'minmax(0,1fr)', 'important');
+        el.setAttribute('data-cf-g', '1');
+      }
+    } catch (e) {}
+  }
+  var gt;
+  function cfGridSoon() { clearTimeout(gt); gt = setTimeout(cfGrid, 150); }
+  document.addEventListener('DOMContentLoaded', function () {
+    cfGrid(); setTimeout(cfGrid, 700); setTimeout(cfGrid, 2000);
+    var mn = document.querySelector('main');
+    if (mn && window.MutationObserver) { new MutationObserver(cfGridSoon).observe(mn, { childList: true, subtree: true }); }
+  });
+  window.addEventListener('load', cfGrid);
+  window.addEventListener('resize', cfGridSoon);
+  window.addEventListener('orientationchange', cfGridSoon);
+
+  /* Login page: make the official Google button fit the card width on small phones. */
+  if (/login/.test(location.pathname)) {
+    var tries = 0, timer = setInterval(function () {
+      var g = window.google && google.accounts && google.accounts.id;
+      if (g || ++tries > 150) {
+        clearInterval(timer);
+        try {
+          if (g && !g.__cfw) {
+            g.__cfw = 1;
+            var orig = g.renderButton;
+            g.renderButton = function (el, o) {
+              try {
+                var w = el && el.parentNode ? el.parentNode.clientWidth : 0;
+                if (o && w && o.width && w < o.width) { o.width = Math.max(200, Math.floor(w)); }
+              } catch (e) {}
+              return orig.call(g, el, o);
+            };
+          }
+        } catch (e) {}
+      }
+    }, 40);
+  }
 })();
 
 /* CodeCrafix site config — edit values here, no other file needs to change */

@@ -6,9 +6,11 @@ img,video,iframe,svg{max-width:100%}
 
 @media(max-width:1000px){
   .svc-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .psteps{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 
 @media(max-width:820px){
+  html,body{max-width:100%}
   body{overflow-x:hidden;overflow-wrap:break-word}
   .container{padding-left:16px;padding-right:16px}
   .section{padding-top:48px;padding-bottom:48px}
@@ -22,14 +24,30 @@ img,video,iframe,svg{max-width:100%}
   .section-head h2{font-size:clamp(1.6rem,7vw,2.2rem)!important}
   .cta{padding:38px 20px!important}
   .review-form-card,.form-card{padding:22px 16px!important}
+  /* pricing plans, booking, dashboard */
+  .plans-grid{grid-template-columns:minmax(0,1fr)!important;max-width:560px!important;gap:20px!important}
+  .plan{padding:26px 20px!important}
+  .book-grid,.dash-grid,.plan-cards{grid-template-columns:minmax(0,1fr)!important}
+  .book-wrap,.dash-wrap{padding:36px 14px 60px!important}
+  .book-card,.dash-card{padding:22px 16px!important}
+  /* grid / flex children may shrink instead of forcing the page wider */
+  .svc-grid>*,.psteps>*,.steps>*,.plans-grid>*,.hero-grid>*,.book-grid>*,.dash-grid>*{min-width:0}
+  /* login card */
+  .auth-wrap{padding:28px 14px 40px!important}
+  .auth-card{padding:28px 18px!important}
+  /* footer */
+  #cf-footer .foot{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:26px 18px!important}
+  #cf-footer .foot>div:first-child{grid-column:1/-1}
+  pre,code{overflow-x:auto;max-width:100%}
 }
 
 @media(max-width:640px){
   .svc-grid{grid-template-columns:minmax(0,1fr)!important}
+  .psteps{grid-template-columns:minmax(0,1fr)!important}
   .svc img{height:170px!important}
   .hero-cta .btn{flex:1 1 100%}
   .btn{white-space:normal}
-  .form-row{grid-template-columns:minmax(0,1fr)!important}
+  .form-row,.two{grid-template-columns:minmax(0,1fr)!important}
   .review-grid{grid-template-columns:minmax(0,1fr)!important}
   [style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important}
 }
