@@ -48,7 +48,7 @@
 
   /* start the network request right away; the page is drawn once app.js is done */
   var PRODUCTS_REQ = needProducts ? get('/products?select=' + COLS + '&is_published=eq.true&order=sort_order.desc,created_at.desc') : null;
-  var REVIEWS_REQ = $('#cf-reviews-grid') ? get('/reviews?select=id,name,role,rating,message,created_at&status=eq.approved&order=created_at.desc&limit=30') : null;
+  var REVIEWS_REQ = $('#cf-reviews-grid') ? get('/reviews?select=id,name,role,rating,message,app_link,created_at&status=eq.approved&order=created_at.desc&limit=30') : null;
   if (PRODUCTS_REQ) { PRODUCTS_REQ.catch(function () {}); }
   if (REVIEWS_REQ) { REVIEWS_REQ.catch(function () {}); }
 
@@ -233,12 +233,14 @@
 
   /* ---------- approved reviews ---------- */
   function stars(n) { return '&#9733;'.repeat(n) + '&#9734;'.repeat(5 - n); }
+  function playLink(u) { u = String(u || '').trim(); return /^https:\/\/play\.google\.com\/store\/apps\/details\?id=[A-Za-z0-9._]+/.test(u) ? u : ''; }
+  function playBadge(r) { var u = playLink(r.app_link); return u ? '<a class="rv-play" href="' + esc(u) + '" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.9v16.2c0 .8.9 1.3 1.6.9l13.2-8.1c.6-.4.6-1.3 0-1.7L6.6 3C5.9 2.6 5 3.1 5 3.9Z" fill="#00A152"/></svg>View on Google Play</a>' : ''; }
   function renderReviews(list) {
     var g = $('#cf-reviews-grid'); if (!g || !list.length) { return; }
     g.innerHTML = list.map(function (r) {
       var ini = String(r.name || '?').trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join('');
       var dt = ''; try { dt = new Date(r.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); } catch (e) {}
-      return '<article class="card review-card"><div class="review-head"><span class="avatar">' + esc(ini) + '</span><div><b>' + esc(r.name) + '</b><span class="role">' + esc(r.role || 'Customer') + '</span></div></div><div class="stars" aria-label="' + r.rating + ' out of 5">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p><div class="review-date">' + esc(dt) + '</div></article>';
+      return '<article class="card review-card"><div class="review-head"><span class="avatar">' + esc(ini) + '</span><div><b>' + esc(r.name) + '</b><span class="role">' + esc(r.role || 'Customer') + '</span></div></div><div class="stars" aria-label="' + r.rating + ' out of 5">' + stars(r.rating) + '</div><p>' + esc(r.message) + '</p>' + playBadge(r) + '<div class="review-date">' + esc(dt) + '</div></article>';
     }).join('');
     var s = $('#cf-review-summary');
     if (s) { var avg = list.reduce(function (a, r) { return a + r.rating; }, 0) / list.length; s.innerHTML = '<div class="rs-block"><span class="rs-score">' + avg.toFixed(1) + '</span><span class="rs-sub">out of 5</span></div><div class="rs-side"><div class="stars">' + stars(Math.round(avg)) + '</div><span class="tiny muted">Based on ' + list.length + ' review' + (list.length > 1 ? 's' : '') + '</span></div>'; }
