@@ -31,9 +31,9 @@ window.CODECRAFIX_CONFIG = {
     return;
   }
   try {
-    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261016a"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script><script src="/assets/js/site-extras.js?v=20261005a"><\/script>');
+    document.write('<script src="/assets/js/menu.js?v=20261004n"><\/script><script src="/assets/js/shop.js?v=20261016b"><\/script><script src="/assets/js/tutorials.js?v=20261005a"><\/script><script src="/assets/js/site-extras.js?v=20261005a"><\/script>');
   } catch (e) {
-    ['menu.js?v=20261004n', 'shop.js?v=20261016a', 'tutorials.js?v=20261005a', 'site-extras.js?v=20261005a'].forEach(function (f) {
+    ['menu.js?v=20261004n', 'shop.js?v=20261016b', 'tutorials.js?v=20261005a', 'site-extras.js?v=20261005a'].forEach(function (f) {
       var s = document.createElement('script'); s.src = '/assets/js/' + f; document.head.appendChild(s);
     });
   }
