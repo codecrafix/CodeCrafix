@@ -51,6 +51,10 @@
   .pay-note{border:1px solid #bde8cd;background:#f4fbf6;border-radius:13px;padding:14px 16px;color:#14532d;font-size:.9rem;line-height:1.6;margin-top:18px}
   .saved-note{border:1px solid #bde8cd;background:#f4fbf6;border-radius:13px;padding:12px 16px;color:#14532d;font-size:.9rem;line-height:1.6;margin-bottom:18px}
   .back-edit{display:inline-block;margin-top:16px;color:#0a7a4b;font-weight:600;font-size:.9rem;cursor:pointer}
+  .section-head h2{color:#0b1220!important}
+  .section-head p{color:#42534a!important}
+  .wa-note{border:1px solid #bde8cd;background:#f4fbf6;border-radius:13px;padding:13px 16px;color:#14532d;font-size:.9rem;line-height:1.6;margin-bottom:18px}
+  .wa-note a{color:#0a7a4b;font-weight:700}
 </style>
 </head>
 <body>
@@ -72,6 +76,7 @@
       <div>
         <div class="book-card" id="step-form">
           <h3>📱 Step 1 — Your app details</h3>
+          <div class="wa-note">📝 <b>Note:</b> Fikr mat karo — jo details abhi paas nahi hain, wo tum baad me <a href="https://wa.me/916262262913" target="_blank" rel="noopener">WhatsApp par bhi de sakte ho</a>. Abhi main details bhar do, booking ho jayegi.</div>
           <div class="form-msg" id="bk-msg"></div>
           <form class="bk-form" id="bk-form" novalidate>
             <div class="two">
@@ -84,12 +89,14 @@
               <div class="field"><label for="bk-links">App file / screenshot links</label><input id="bk-links" type="text" placeholder="Google Drive link (AAB, icon, screenshots)"></div>
             </div>
             <div class="field"><label for="bk-desc">App ke baare me short me</label><textarea id="bk-desc" placeholder="App kya karta hai, kis ke liye hai — 2-3 line me"></textarea></div>
+            <div class="field"><label for="bk-file">AAB / APK file upload karo (max 50MB)</label><input id="bk-file" type="file" accept=".aab,.apk"><p style="font-size:.8rem;color:#61766a;margin-top:5px">File 50MB se badi hai to upar Drive link de do — ya baad me WhatsApp par bhej dena.</p></div>
             <div class="admob-box" id="admob-box" style="display:none">
               <h4>📢 AdMob details (sirf AdMob plan ke liye)</h4>
               <div class="two">
                 <div class="field"><label for="bk-am-email">AdMob account email</label><input id="bk-am-email" type="email" placeholder="AdMob wala Gmail"></div>
                 <div class="field"><label for="bk-am-appid">AdMob App ID (agar hai to)</label><input id="bk-am-appid" type="text" placeholder="ca-app-pub-xxxx~yyyy"></div>
               </div>
+              <div class="field"><label for="bk-am-pubid">AdMob Publisher ID (agar hai to)</label><input id="bk-am-pubid" type="text" placeholder="pub-xxxxxxxxxxxxxxxx"></div>
               <div class="field" style="margin-bottom:0"><label>Kaun se ads chahiye?</label>
                 <div class="checks">
                   <label><input type="checkbox" class="am-type" value="Banner" checked> Banner</label>
@@ -131,7 +138,7 @@
   try { if (!new URLSearchParams(location.search).get('plan') && sessionStorage.getItem('cf_book_plan')) { plan = sessionStorage.getItem('cf_book_plan'); } } catch (e) {}
   var PLANS = {
     standard: { name: 'Standard — Play Publishing', price: '₹799<span style="font-size:.9rem;color:#42534a;font-weight:600">/month</span>', amt: '₹799', per: '/month', points: ['App live within 3 days', 'No $25 console fee for you', 'Listing, screenshots & ASO included', '1 app update every month', 'Personal reply within 24 hours'] },
-    admob: { name: 'AdMob Plan — Publishing + Ads', price: '₹1,499<span style="font-size:.9rem;color:#42534a;font-weight:600"> one-time</span>', amt: '₹1,499', per: 'one-time', points: ['Standard plan ki sab suvidha', 'AdMob account + ad units setup', 'Sahi jagah par ad placement', 'Revenue dashboard walkthrough', '3 app updates every month'] }
+    admob: { name: 'AdMob Plan — Publishing + Ads', price: '₹1,499<span style="font-size:.9rem;color:#42534a;font-weight:600">/month</span>', amt: '₹1,499', per: '/month', points: ['Standard plan ki sab suvidha', 'AdMob account + ad units setup', 'Sahi jagah par ad placement', 'Revenue dashboard walkthrough', '3 app updates every month', 'Hosting included — monthly plan'] }
   };
   var PAY_LINKS = { standard: 'https://rzp.io/rzp/codecrafix-standard', admob: 'https://rzp.io/rzp/codecrafix-admob' };
   var P = PLANS[plan];
@@ -162,28 +169,53 @@
       if (!app) { show('App ka name zaroor bharo.'); return; }
       var types = [];
       document.querySelectorAll('.am-type:checked').forEach(function (c) { types.push(c.value); });
+      var fileInput = document.getElementById('bk-file');
+      var file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+      if (file && file.size > 50 * 1024 * 1024) { show('File 50MB se badi hai — upar Drive link de do, ya file hata kar aage badho (baad me WhatsApp par bhi bhej sakte ho).'); return; }
       var row = {
         user_id: s.user.id, plan: plan, app_name: app,
         package_name: document.getElementById('bk-pkg').value.trim() || null,
         category: document.getElementById('bk-cat').value,
         description: document.getElementById('bk-desc').value.trim() || null,
-        file_links: document.getElementById('bk-links').value.trim() || null,
+        file_links: null,
         admob_email: plan === 'admob' ? (document.getElementById('bk-am-email').value.trim() || null) : null,
         admob_app_id: plan === 'admob' ? (document.getElementById('bk-am-appid').value.trim() || null) : null,
+        admob_pub_id: plan === 'admob' ? (document.getElementById('bk-am-pubid').value.trim() || null) : null,
         admob_ad_types: plan === 'admob' ? types.join(', ') : null,
         status: 'booked', payment_status: 'pending'
       };
-      var btn = document.getElementById('bk-submit'); btn.disabled = true; btn.textContent = 'Details save ho rahi hain…';
-      fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify(row) })
-        .then(function (r) {
-          btn.disabled = false; btn.textContent = 'Proceed to Payment →';
-          if (r.ok) {
-            document.getElementById('step-form').style.display = 'none';
-            document.getElementById('step-pay').style.display = '';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else { show('Details save nahi hui (' + r.status + '). Dobara try karo, ya Contact page se message bhej do.'); }
-        })
-        .catch(function () { btn.disabled = false; btn.textContent = 'Proceed to Payment →'; show('Network error. Dobara try karo.'); });
+      var btn = document.getElementById('bk-submit'); btn.disabled = true;
+      function failBtn(t) { btn.disabled = false; btn.textContent = 'Proceed to Payment →'; show(t); }
+      function postBooking() {
+        btn.textContent = 'Details save ho rahi hain…';
+        fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify(row) })
+          .then(function (r) {
+            btn.disabled = false; btn.textContent = 'Proceed to Payment →';
+            if (r.ok) {
+              document.getElementById('step-form').style.display = 'none';
+              document.getElementById('step-pay').style.display = '';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else { show('Details save nahi hui (' + r.status + '). Dobara try karo, ya Contact page se message bhej do.'); }
+          })
+          .catch(function () { btn.disabled = false; btn.textContent = 'Proceed to Payment →'; show('Network error. Dobara try karo.'); });
+      }
+      var driveLink = document.getElementById('bk-links').value.trim() || null;
+      if (file) {
+        btn.textContent = 'File upload ho rahi hai…';
+        var safe = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        var path = s.user.id + '/' + Date.now() + '-' + safe;
+        var sess = CF_AUTH.getSession();
+        fetch(CF_AUTH.base + '/storage/v1/object/app-files/' + path, { method: 'POST', headers: { apikey: CF_AUTH.key, Authorization: 'Bearer ' + (sess && sess.access_token ? sess.access_token : CF_AUTH.key), 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'false' }, body: file })
+          .then(function (r) { if (!r.ok) { throw new Error(r.status); } return r.json(); })
+          .then(function () {
+            row.file_links = ['storage:' + path, driveLink].filter(Boolean).join(' | ');
+            postBooking();
+          })
+          .catch(function () { failBtn('File upload nahi hui. Drive link use karo, ya file hata kar dobara try karo.'); });
+      } else {
+        row.file_links = driveLink;
+        postBooking();
+      }
     });
   });
 })();
