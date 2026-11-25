@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
 <title>Book Your Service | CodeCrafix</title>
-<meta name="description" content="Book Google Play publishing or the AdMob plan on CodeCrafix. Login, fill your app details and confirm your booking — track it in your dashboard.">
+<meta name="description" content="Book Google Play publishing or the AdMob plan on CodeCrafix. Pay securely online and track your order in your dashboard.">
 <meta name="author" content="Vivek Barman">
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://codecrafix.shop/booking">
@@ -25,21 +25,16 @@
   .plan-sum li::before{content:"✓";position:absolute;left:0;color:#0a7a4b;font-weight:800}
   .switch-plan{margin-top:16px;font-size:.88rem;color:#42534a}
   .switch-plan a{color:#0a7a4b;font-weight:600}
-  .bk-form .field{margin-bottom:15px}
-  .bk-form label{display:block;font-weight:600;font-size:.88rem;color:#0b1220;margin-bottom:6px}
-  .bk-form input,.bk-form select,.bk-form textarea{width:100%;padding:12px 14px;border:1.5px solid #d8e4dc;border-radius:11px;font-size:.96rem;font-family:Inter,sans-serif;color:#0b1220;background:#ffffff}
-  .bk-form input:focus,.bk-form select:focus,.bk-form textarea:focus{outline:none;border-color:#0a7a4b;box-shadow:0 0 0 3px rgba(10,122,75,.14)}
-  .bk-form textarea{min-height:96px;resize:vertical}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .admob-box{border:1.5px solid #bde8cd;background:#f4fbf6;border-radius:15px;padding:18px;margin:6px 0 16px}
-  .admob-box h4{font-family:Poppins,Inter,sans-serif;color:#0a7a4b;font-size:.98rem;margin-bottom:10px}
-  .checks{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
-  .checks label{display:flex;align-items:center;gap:7px;font-weight:500;font-size:.9rem;color:#33463b}
-  .checks input{width:auto}
-  .pay-note{border:1px solid #f3ddab;background:#fffaf0;border-radius:13px;padding:14px 16px;color:#7a5b00;font-size:.9rem;line-height:1.6;margin-bottom:18px}
-  .form-msg{border-radius:11px;padding:12px 14px;font-size:.9rem;margin-bottom:15px;display:none}
-  .form-msg.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
-  .form-msg.ok{display:block;background:#ecfdf3;border:1px solid #bbe9c9;color:#065f46}
+  .pay-amount{display:flex;align-items:baseline;gap:8px;margin:4px 0 6px}
+  .pay-amount .amt{font-size:2.1rem;font-weight:800;color:#0b1220}
+  .pay-amount .per{color:#42534a;font-weight:600;font-size:.92rem}
+  .pay-points{list-style:none;margin:14px 0 20px;padding:0}
+  .pay-points li{color:#33463b;font-size:.94rem;padding:5px 0 5px 26px;position:relative;line-height:1.55}
+  .pay-points li::before{content:"✓";position:absolute;left:0;color:#0a7a4b;font-weight:800}
+  .pay-btn{display:block;width:100%;text-align:center;padding:16px;font-size:1.05rem}
+  .pay-btn[disabled]{opacity:.55;pointer-events:none}
+  .pay-trust{margin-top:14px;text-align:center;color:#42534a;font-size:.85rem;line-height:1.6}
+  .pay-note{border:1px solid #bde8cd;background:#f4fbf6;border-radius:13px;padding:14px 16px;color:#14532d;font-size:.9rem;line-height:1.6;margin-top:18px}
 </style>
 </head>
 <body>
@@ -47,9 +42,9 @@
 <main>
   <section class="book-wrap">
     <div class="section-head" style="max-width:720px;margin:0 auto 40px;text-align:center">
-      <span class="eyebrow">📋 Book Your Service</span>
-      <h2>App details bhardo, booking confirm</h2>
-      <p>Jo details abhi nahi hain, wo baad me bhi de sakte ho — main cheezein abhi bhar do, booking tumhare dashboard me save ho jayegi.</p>
+      <span class="eyebrow">💳 Book Your Service</span>
+      <h2>Payment karo, booking confirm</h2>
+      <p>Pay button dabate hi Razorpay ki secure payment page khulegi. Payment hote hi tum seedha apne dashboard me pahunch jaoge — booking wahan order ke roop me dikhegi.</p>
     </div>
     <div class="book-grid">
       <div class="book-card plan-sum">
@@ -59,38 +54,17 @@
         <p class="switch-plan" id="plan-switch"></p>
       </div>
       <div class="book-card">
-        <h3>📱 Your app details</h3>
-        <div class="pay-note">💳 <b>Payment ki jankari:</b> online payment link jald hi jud raha hai. Abhi booking <b>bina payment ke confirm</b> ho jayegi — hamari team 24 ghante ke andar tumse sampark karke aage ki process samjha degi.</div>
-        <div class="form-msg" id="bk-msg"></div>
-        <form class="bk-form" id="bk-form" novalidate>
-          <div class="two">
-            <div class="field"><label for="bk-app">App name *</label><input id="bk-app" type="text" placeholder="e.g. Kirana Billing App" required></div>
-            <div class="field"><label for="bk-pkg">Package name (applicationId)</label><input id="bk-pkg" type="text" placeholder="e.g. com.yourname.app"></div>
-          </div>
-          <div class="two">
-            <div class="field"><label for="bk-cat">App category</label>
-              <select id="bk-cat"><option>Utility / Tool</option><option>Game</option><option>Business</option><option>Education</option><option>Entertainment</option><option>Shopping</option><option>Other</option></select></div>
-            <div class="field"><label for="bk-links">App file / screenshot links</label><input id="bk-links" type="text" placeholder="Google Drive link (AAB, icon, screenshots)"></div>
-          </div>
-          <div class="field"><label for="bk-desc">App ke baare me short me</label><textarea id="bk-desc" placeholder="App kya karta hai, kis ke liye hai — 2-3 line me"></textarea></div>
-          <div class="admob-box" id="admob-box" style="display:none">
-            <h4>📢 AdMob details (sirf AdMob plan ke liye)</h4>
-            <div class="two">
-              <div class="field"><label for="bk-am-email">AdMob account email</label><input id="bk-am-email" type="email" placeholder="AdMob wala Gmail"></div>
-              <div class="field"><label for="bk-am-appid">AdMob App ID (agar hai to)</label><input id="bk-am-appid" type="text" placeholder="ca-app-pub-xxxx~yyyy"></div>
-            </div>
-            <div class="field" style="margin-bottom:0"><label>Kaun se ads chahiye?</label>
-              <div class="checks">
-                <label><input type="checkbox" class="am-type" value="Banner" checked> Banner</label>
-                <label><input type="checkbox" class="am-type" value="Interstitial" checked> Interstitial</label>
-                <label><input type="checkbox" class="am-type" value="Rewarded"> Rewarded</label>
-                <label><input type="checkbox" class="am-type" value="App Open"> App Open</label>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit" id="bk-submit" style="width:100%;padding:14px;font-size:1rem" disabled>Confirm Booking</button>
-          <p style="margin-top:12px;font-size:.82rem;color:#61766a;text-align:center">Booking ke baad status apne <a href="dashboard.html" style="color:#0a7a4b;font-weight:600">dashboard</a> me kabhi bhi dekh sakte ho.</p>
-        </form>
+        <h3>💳 Payment</h3>
+        <div class="pay-amount"><span class="amt" id="pay-amt">₹799</span><span class="per" id="pay-per">/month</span></div>
+        <ul class="pay-points">
+          <li>UPI, cards, net banking aur wallets — sab chalega</li>
+          <li>Payment ke turant baad dashboard me redirect</li>
+          <li>Booking tumhare dashboard me <b>order</b> ke roop me dikhegi</li>
+          <li>Payment ke baad hamari team 24 ghante ke andar sampark karke app ki details legi</li>
+        </ul>
+        <a class="btn btn-primary pay-btn" id="pay-btn" href="#" disabled>Pay Now</a>
+        <p class="pay-trust">🔒 100% secure payment by <b>Razorpay</b><br>Payment page par apna wahi email/mobile use karo jo yahan login hai.</p>
+        <div class="pay-note">✅ Payment successful hote hi is page par wapas aane ki zaroorat nahi — tum seedha dashboard me pahunch jaoge, aur tumhari booking wahan order me jud jayegi.</div>
       </div>
     </div>
   </section>
@@ -104,46 +78,23 @@
   var plan = new URLSearchParams(location.search).get('plan') === 'admob' ? 'admob' : 'standard';
   try { if (!new URLSearchParams(location.search).get('plan') && sessionStorage.getItem('cf_book_plan')) { plan = sessionStorage.getItem('cf_book_plan'); } } catch (e) {}
   var PLANS = {
-    standard: { name: 'Standard — Play Publishing', price: '₹799<span style="font-size:.9rem;color:#42534a;font-weight:600">/month</span>', points: ['App live within 3 days', 'No $25 console fee for you', 'Listing, screenshots & ASO included', '1 app update every month', 'Personal reply within 24 hours'] },
-    admob: { name: 'AdMob Plan — Publishing + Ads', price: '₹1,499<span style="font-size:.9rem;color:#42534a;font-weight:600"> one-time</span>', points: ['Standard plan ki sab suvidha', 'AdMob account + ad units setup', 'Sahi jagah par ad placement', 'Revenue dashboard walkthrough', '3 app updates every month'] }
+    standard: { name: 'Standard — Play Publishing', price: '₹799<span style="font-size:.9rem;color:#42534a;font-weight:600">/month</span>', amt: '₹799', per: '/month', points: ['App live within 3 days', 'No $25 console fee for you', 'Listing, screenshots & ASO included', '1 app update every month', 'Personal reply within 24 hours'] },
+    admob: { name: 'AdMob Plan — Publishing + Ads', price: '₹1,499<span style="font-size:.9rem;color:#42534a;font-weight:600"> one-time</span>', amt: '₹1,499', per: 'one-time', points: ['Standard plan ki sab suvidha', 'AdMob account + ad units setup', 'Sahi jagah par ad placement', 'Revenue dashboard walkthrough', '3 app updates every month'] }
   };
+  var PAY_LINKS = { standard: 'https://rzp.io/rzp/codecrafix-standard', admob: 'https://rzp.io/rzp/codecrafix-admob' };
   var P = PLANS[plan];
   document.getElementById('plan-name').textContent = P.name;
   document.getElementById('plan-price').innerHTML = P.price;
   document.getElementById('plan-points').innerHTML = P.points.map(function (x) { return '<li>' + x + '</li>'; }).join('');
   document.getElementById('plan-switch').innerHTML = plan === 'admob' ? 'Sirf publishing chahiye? <a href="booking.html?plan=standard">Standard plan lo →</a>' : 'Ads bhi setup karwane hain? <a href="booking.html?plan=admob">AdMob plan lo →</a>';
-  document.getElementById('admob-box').style.display = plan === 'admob' ? '' : 'none';
-  var msg = document.getElementById('bk-msg');
-  function show(t, ok) { msg.textContent = t; msg.className = 'form-msg ' + (ok ? 'ok' : 'err'); }
+  document.getElementById('pay-amt').textContent = P.amt;
+  document.getElementById('pay-per').textContent = P.per;
+  var btn = document.getElementById('pay-btn');
+  btn.textContent = 'Pay ' + P.amt + ' — Book Now';
   CF_AUTH.ensure().then(function (s) {
     if (!s || !s.user) { try { sessionStorage.setItem('cf_book_plan', plan); } catch (e) {} location.replace('login.html?next=booking.html'); return; }
-    document.getElementById('bk-submit').disabled = false;
-    document.getElementById('bk-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      var app = document.getElementById('bk-app').value.trim();
-      if (!app) { show('App ka name zaroor bharo.'); return; }
-      var types = [];
-      document.querySelectorAll('.am-type:checked').forEach(function (c) { types.push(c.value); });
-      var row = {
-        user_id: s.user.id, plan: plan, app_name: app,
-        package_name: document.getElementById('bk-pkg').value.trim() || null,
-        category: document.getElementById('bk-cat').value,
-        description: document.getElementById('bk-desc').value.trim() || null,
-        file_links: document.getElementById('bk-links').value.trim() || null,
-        admob_email: plan === 'admob' ? (document.getElementById('bk-am-email').value.trim() || null) : null,
-        admob_app_id: plan === 'admob' ? (document.getElementById('bk-am-appid').value.trim() || null) : null,
-        admob_ad_types: plan === 'admob' ? types.join(', ') : null,
-        status: 'booked', payment_status: 'pending'
-      };
-      var btn = document.getElementById('bk-submit'); btn.disabled = true; btn.textContent = 'Booking ho rahi hai…';
-      fetch(CF_AUTH.base + '/rest/v1/bookings', { method: 'POST', headers: Object.assign({}, CF_AUTH.headers(), { Prefer: 'return=minimal' }), body: JSON.stringify(row) })
-        .then(function (r) {
-          btn.disabled = false; btn.textContent = 'Confirm Booking';
-          if (r.ok) { show('🎉 Booking confirm ho gayi! Dashboard me dekh sakte ho. Hamari team 24 ghante me sampark karegi.', true); document.getElementById('bk-form').reset(); setTimeout(function () { location.href = 'dashboard.html'; }, 1600); }
-          else { r.text().then(function (t) { show('Booking save nahi hui (' + r.status + '). Dobara try karo, ya Contact page se message bhej do.'); }); }
-        })
-        .catch(function () { btn.disabled = false; btn.textContent = 'Confirm Booking'; show('Network error. Dobara try karo.'); });
-    });
+    btn.href = PAY_LINKS[plan];
+    btn.removeAttribute('disabled');
   });
 })();
 </script>
