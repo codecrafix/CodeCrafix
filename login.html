@@ -15,8 +15,14 @@
 <link rel="stylesheet" href="assets/css/style.css?v=20261004d">
 <link rel="stylesheet" href="assets/css/theme-v2.css?v=20261125h">
 <style>
-  .auth-wrap{min-height:78vh;display:flex;align-items:center;justify-content:center;padding:64px 20px;background:linear-gradient(180deg,#f2faf5,#ffffff)}
-  .auth-card{background:#ffffff;border:1px solid #e3efe7;border-radius:22px;box-shadow:0 30px 60px rgba(6,40,24,.10);max-width:460px;width:100%;padding:40px 38px;text-align:center}
+  .auth-wrap{min-height:84vh;display:flex;align-items:center;justify-content:center;padding:64px 20px;background:radial-gradient(1000px 520px at 50% -10%,rgba(34,197,94,.25),transparent 60%),linear-gradient(180deg,#050a07,#0a140d)}
+  .auth-card{background:#ffffff;border:1px solid #1d2b21;border-radius:22px;box-shadow:0 34px 80px rgba(0,0,0,.55),0 0 0 1px rgba(74,222,128,.14);max-width:460px;width:100%;padding:40px 38px;text-align:center}
+  .auth-card .mini-h{font-family:Poppins,Inter,sans-serif;font-size:1.05rem;color:#0b1220;margin-bottom:10px;text-align:left}
+  .auth-card .mini-p{color:#42534a;font-size:.9rem;line-height:1.55;margin-bottom:16px;text-align:left}
+  .auth-card .field{margin-bottom:15px;text-align:left}
+  .auth-card .field label{display:block;font-weight:600;font-size:.88rem;color:#0b1220;margin-bottom:6px}
+  .auth-card .field input{width:100%;padding:12px 14px;border:1.5px solid #d8e4dc;border-radius:11px;font-size:.96rem;font-family:Inter,sans-serif;color:#0b1220;background:#ffffff}
+  .auth-card .field input:focus{outline:none;border-color:#0a7a4b;box-shadow:0 0 0 3px rgba(10,122,75,.14)}
   .auth-card img{width:56px;height:56px}
   .auth-card h1{font-family:Poppins,Inter,sans-serif;font-size:1.65rem;font-weight:700;color:#0b1220;margin:14px 0 6px}
   .auth-card .sub{color:#42534a;font-size:.95rem;line-height:1.55;margin-bottom:26px}
@@ -47,7 +53,9 @@
       <img src="assets/img/logo.svg" alt="CodeCrafix">
       <h1>Welcome to CodeCrafix</h1>
       <p class="sub">Login to book services, track your apps and manage everything from your own dashboard.</p>
-      <button type="button" class="btn-google" id="btn-google">
+      <div id="auth-main">
+      <div id="gbtn" style="display:flex;justify-content:center;min-height:44px"></div>
+      <button type="button" class="btn-google" id="btn-google" style="display:none">
         <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34.3 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34.3 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
         Continue with Google
       </button>
@@ -61,8 +69,25 @@
         <div class="field" id="f-name" style="display:none"><label for="au-name">Your name</label><input id="au-name" type="text" placeholder="e.g. Aarav Mehta" autocomplete="name"></div>
         <div class="field"><label for="au-email">Email</label><input id="au-email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
         <div class="field"><label for="au-pass">Password</label><input id="au-pass" type="password" placeholder="Minimum 6 characters" autocomplete="current-password" required></div>
+        <p style="text-align:right;margin:-6px 0 12px"><a href="#" id="forgot-link" style="color:#0a7a4b;font-weight:600;font-size:.86rem;text-decoration:none">Forgot password?</a></p>
         <button class="btn btn-primary btn-block" type="submit" id="auth-submit" style="width:100%;padding:14px;font-size:1rem">Login</button>
       </form>
+      </div><!-- /auth-main -->
+      <div class="auth-msg" id="panel-msg"></div>
+      <div id="forgot-panel" style="display:none">
+        <div class="mini-h">Password reset karo</div>
+        <p class="mini-p">Apne account wala email daalo — hum tumhe ek password reset link bhejenge. Link par click karke naya password set kar lena.</p>
+        <div class="field"><label for="fg-email">Email</label><input id="fg-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+        <button class="btn btn-primary btn-block" type="button" id="fg-send" style="width:100%;padding:13px">Send reset link</button>
+        <p style="margin-top:14px;text-align:left"><a href="#" id="fg-back" style="color:#0a7a4b;font-weight:600;font-size:.88rem;text-decoration:none">← Back to login</a></p>
+      </div>
+      <div id="reset-panel" style="display:none">
+        <div class="mini-h">Naya password set karo</div>
+        <p class="mini-p">Tumhara reset link mil gaya hai. Ab apna naya password set karo.</p>
+        <div class="field"><label for="rs-pass">New password</label><input id="rs-pass" type="password" placeholder="Kam se kam 6 characters" autocomplete="new-password"></div>
+        <div class="field"><label for="rs-pass2">Confirm new password</label><input id="rs-pass2" type="password" placeholder="Wahi password dobara" autocomplete="new-password"></div>
+        <button class="btn btn-primary btn-block" type="button" id="rs-save" style="width:100%;padding:13px">Save new password</button>
+      </div>
       <p class="auth-note">By continuing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.<br>Only Contact and Reviews work without an account — everything else needs a free login.</p>
     </div>
   </section>
@@ -82,6 +107,9 @@
     return /^[a-z0-9\-]+\.html$/i.test(n) ? n : 'dashboard.html';
   }
   function show(text, ok) { msg.textContent = text; msg.className = 'auth-msg ' + (ok ? 'ok' : 'err'); }
+  var panelMsg = document.getElementById('panel-msg');
+  function show2(text, ok) { panelMsg.textContent = text; panelMsg.className = 'auth-msg ' + (ok ? 'ok' : 'err'); }
+  var resetMode = new URLSearchParams(location.search).get('mode') === 'reset';
   function setMode(m) {
     mode = m;
     document.getElementById('tab-login').classList.toggle('on', m === 'login');
@@ -93,8 +121,17 @@
   document.getElementById('tab-login').addEventListener('click', function () { setMode('login'); });
   document.getElementById('tab-signup').addEventListener('click', function () { setMode('signup'); });
   if (new URLSearchParams(location.search).get('mode') === 'signup') { setMode('signup'); }
-  if (window.CF_AUTH && CF_AUTH.user()) { location.replace(nextUrl()); }
-  window.CF_ON_AUTH = function () { location.replace(nextUrl()); };
+  if (window.CF_AUTH && CF_AUTH.user() && !resetMode) { location.replace(nextUrl()); }
+  window.CF_ON_AUTH = function () { if (!resetMode) { location.replace(nextUrl()); } };
+  if (resetMode) {
+    document.getElementById('auth-main').style.display = 'none';
+    if (window.CF_AUTH) {
+      CF_AUTH.ensure().then(function (s) {
+        if (s && s.user) { document.getElementById('reset-panel').style.display = ''; }
+        else { document.getElementById('forgot-panel').style.display = ''; show2('Reset link expire ho gaya hai ya invalid hai. Neeche apna email daalkar naya reset link mangao.'); }
+      });
+    }
+  }
   /* Google login via Google Identity Services: the sign-in popup opens from
      codecrafix.shop with our own Google client, so Google shows "CodeCrafix"
      (not the Supabase project address). The ID token is exchanged with
@@ -124,21 +161,63 @@
       })
       .catch(function () { show('Network error. Dobara try karo.'); });
   }
-  document.getElementById('btn-google').addEventListener('click', function () {
-    if (!window.google || !google.accounts || !google.accounts.id) { oldGoogleFlow(); return; }
-    function openPrompt() {
-      google.accounts.id.prompt(function (n) {
-        if (n.isNotDisplayed() || n.isSkippedMoment()) { oldGoogleFlow(); }
-      });
-    }
-    if (gisReady) { openPrompt(); return; }
+  /* Official Google button (renderButton): clicking it opens Google's own
+     popup from codecrafix.shop — the popup shows "CodeCrafix", never the
+     Supabase address. The hidden fallback button uses the classic flow. */
+  document.getElementById('btn-google').addEventListener('click', function () { oldGoogleFlow(); });
+  function gisFallback() { document.getElementById('btn-google').style.display = ''; }
+  function initGIS() {
     var bytes = new Uint8Array(16); crypto.getRandomValues(bytes);
     rawNonce = Array.prototype.map.call(bytes, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
     sha256hex(rawNonce).then(function (hashed) {
-      google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: onGoogleCredential, nonce: hashed, auto_select: false, cancel_on_tap_outside: true });
-      gisReady = true;
-      openPrompt();
-    }).catch(oldGoogleFlow);
+      try {
+        google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: onGoogleCredential, nonce: hashed, auto_select: false });
+        google.accounts.id.renderButton(document.getElementById('gbtn'), { theme: 'outline', size: 'large', text: 'continue_with', shape: 'rectangular', width: 360 });
+        gisReady = true;
+      } catch (e) { gisFallback(); }
+    }).catch(gisFallback);
+  }
+  var gisTries = 0;
+  (function waitGIS() {
+    if (window.google && google.accounts && google.accounts.id) { initGIS(); return; }
+    if (++gisTries > 30) { gisFallback(); return; }
+    setTimeout(waitGIS, 150);
+  })();
+  /* Forgot password: request a reset email, and save the new password when
+     the user returns through the email link (login.html?mode=reset). */
+  document.getElementById('forgot-link').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('fg-email').value = document.getElementById('au-email').value.trim();
+    document.getElementById('auth-main').style.display = 'none';
+    document.getElementById('forgot-panel').style.display = '';
+  });
+  document.getElementById('fg-back').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('forgot-panel').style.display = 'none';
+    document.getElementById('auth-main').style.display = '';
+    panelMsg.className = 'auth-msg'; panelMsg.textContent = '';
+  });
+  document.getElementById('fg-send').addEventListener('click', function () {
+    var email = document.getElementById('fg-email').value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) { show2('Sahi email daalo.'); return; }
+    var b = document.getElementById('fg-send'); b.disabled = true; b.textContent = 'Bhej rahe hain…';
+    fetch(BASE + '/auth/v1/recover?redirect_to=' + encodeURIComponent(location.origin + '/login.html?mode=reset'), { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function () { b.disabled = false; b.textContent = 'Send reset link'; show2('Agar ye email registered hai to reset link bhej diya gaya hai. Apna email kholo, link par click karo aur naya password set karo.', true); })
+      .catch(function () { b.disabled = false; b.textContent = 'Send reset link'; show2('Network error. Dobara try karo.'); });
+  });
+  document.getElementById('rs-save').addEventListener('click', function () {
+    var p1 = document.getElementById('rs-pass').value, p2 = document.getElementById('rs-pass2').value;
+    if (p1.length < 6) { show2('Password kam se kam 6 characters ka ho.'); return; }
+    if (p1 !== p2) { show2('Dono password match nahi ho rahe.'); return; }
+    var b = document.getElementById('rs-save'); b.disabled = true; b.textContent = 'Save ho raha hai…';
+    fetch(BASE + '/auth/v1/user', { method: 'PUT', headers: CF_AUTH.headers(), body: JSON.stringify({ password: p1 }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        b.disabled = false; b.textContent = 'Save new password';
+        if (d && d.id) { show2('Password badal gaya! Dashboard par ja rahe hain…', true); setTimeout(function () { location.replace('dashboard.html'); }, 900); }
+        else { show2((d && (d.error_description || d.msg || d.message)) || 'Password save nahi hua. Dobara try karo.'); }
+      })
+      .catch(function () { b.disabled = false; b.textContent = 'Save new password'; show2('Network error. Dobara try karo.'); });
   });
   document.getElementById('auth-form').addEventListener('submit', function (e) {
     e.preventDefault();
