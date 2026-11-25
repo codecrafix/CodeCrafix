@@ -52,6 +52,8 @@ body{background:#070b09}
       <button class="filter-btn active" data-t="dash" type="button">&#128202; Dashboard</button>
       <button class="filter-btn" data-t="products" type="button">&#128230; Products</button>
       <button class="filter-btn" data-t="orders" type="button">&#128179; Orders</button>
+      <button class="filter-btn" data-t="bookings" type="button">&#129534; Bookings</button>
+      <button class="filter-btn" data-t="users" type="button">&#128101; Users</button>
       <button class="filter-btn" data-t="inbox" type="button">&#128236; Inbox</button>
       <button class="filter-btn" data-t="reviews" type="button">&#11088; Reviews</button>
       <button class="filter-btn" data-t="tutorials" type="button">&#127916; Tutorials</button>
@@ -140,7 +142,7 @@ body{background:#070b09}
   $('#tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-t]'); if (b) { go(b.getAttribute('data-t')); } });
   function show() {
     var v = $('#view'); v.onclick = null; v.innerHTML = '<div class="empty-state">Loading…</div>';
-    ({ dash: vDash, products: vProducts, orders: vOrders, inbox: vInbox, reviews: vReviews, tutorials: vTutorials, blog: vBlog, settings: vSettings })[tab]().catch(function (er) { v.innerHTML = '<div class="form-msg err">' + esc(er.message) + '</div>'; });
+    ({ dash: vDash, products: vProducts, orders: vOrders, bookings: vBookings, users: vUsers, inbox: vInbox, reviews: vReviews, tutorials: vTutorials, blog: vBlog, settings: vSettings })[tab]().catch(function (er) { v.innerHTML = '<div class="form-msg err">' + esc(er.message) + '</div>'; });
   }
 
   /* ---------- dashboard ---------- */
@@ -149,16 +151,19 @@ body{background:#070b09}
     return Promise.all([
       q('products?select=id,is_published'), q('orders?select=amount_inr,status'), q('contact_messages?select=id&is_read=eq.false'),
       q('custom_orders?select=id&is_read=eq.false'), q('app_submissions?select=id&is_read=eq.false'), q('reviews?select=id&status=eq.pending'),
-      q('newsletter_subscribers?select=id'), q('tutorials?select=id'), q('blog_posts?select=id')
+      q('newsletter_subscribers?select=id'), q('tutorials?select=id'), q('blog_posts?select=id'),
+      q('bookings?select=id,plan,payment_status'), q('profiles?select=id')
     ]).then(function (r) {
       var paid = r[1].filter(function (o) { return o.status === 'paid'; }), rev = paid.reduce(function (a, o) { return a + Number(o.amount_inr); }, 0);
       var live = r[0].filter(function (p) { return p.is_published; }).length;
       var inbox = r[2].length + r[3].length + r[4].length;
+      var bkPend = r[9].filter(function (b) { return b.payment_status !== 'paid'; }).length;
       var card = function (n, label, t, alert) { return '<div class="card' + (alert && n > 0 ? ' alert' : '') + '" data-go="' + t + '"><b>' + n + '</b>' + label + '</div>'; };
       $('#view').innerHTML = '<h2 class="mb-1">Needs your attention</h2><div class="stat">' +
-        card(r[5].length, 'reviews waiting for approval', 'reviews', true) + card(inbox, 'new messages / requests', 'inbox', true) + '</div>' +
+        card(r[5].length, 'reviews waiting for approval', 'reviews', true) + card(inbox, 'new messages / requests', 'inbox', true) + card(bkPend, 'bookings waiting for payment', 'bookings', true) + '</div>' +
         '<h2 class="mb-1">Overview</h2><div class="stat">' +
         card(r[0].length, 'products (' + live + ' live)', 'products') + card(paid.length, 'paid orders', 'orders') + '<div class="card" data-go="orders"><b>' + money(rev) + '</b>revenue</div>' +
+        card(r[9].length, 'service bookings', 'bookings') + card(r[10].length, 'registered users', 'users') +
         card(r[6].length, 'newsletter subscribers', 'inbox') + card(r[7].length, 'tutorials', 'tutorials') + card(r[8].length, 'blog posts', 'blog') + '</div>';
       $('#view').onclick = function (e) { var c = e.target.closest('[data-go]'); if (c) { go(c.getAttribute('data-go')); } };
     });
@@ -254,6 +259,68 @@ body{background:#070b09}
         var body = { status: s.value }; if (s.value === 'paid') { body.paid_at = new Date().toISOString(); }
         api('/rest/v1/orders?id=eq.' + s.getAttribute('data-os'), { method: 'PATCH', body: body }).then(show).catch(function (er) { alert(er.message); show(); });
       };
+    });
+  }
+
+  /* ---------- bookings (website service bookings) ---------- */
+  function vBookings() {
+    return Promise.all([
+      api('/rest/v1/bookings?select=*&order=created_at.desc&limit=200'),
+      api('/rest/v1/profiles?select=id,email,full_name,phone').catch(function () { return []; })
+    ]).then(function (res) {
+      var l = res[0], profs = {};
+      res[1].forEach(function (p) { profs[p.id] = p; });
+      var PRICE = { standard: 799, admob: 1499 };
+      var paid = l.filter(function (b) { return b.payment_status === 'paid'; });
+      var rev = paid.reduce(function (a, b) { return a + (PRICE[b.plan] || 0); }, 0);
+      var pend = l.filter(function (b) { return b.payment_status !== 'paid'; }).length;
+      var STS = ['booked', 'in-progress', 'published', 'completed', 'cancelled'];
+      $('#view').innerHTML = '<div class="stat"><div class="card"><b>' + paid.length + '</b>paid bookings</div><div class="card"><b>' + money(rev) + '</b>booking revenue</div><div class="card"><b>' + pend + '</b>payment pending</div><div class="card"><b>' + l.length + '</b>total bookings</div></div>' +
+        (l.map(function (b) {
+          var u = profs[b.user_id] || {};
+          var plan = b.plan === 'admob' ? 'Publishing + AdMob &middot; ' + money(1499) + '/mo' : 'Standard Publishing &middot; ' + money(799) + '/mo';
+          var admob = b.plan === 'admob' ? '<p class="kv"><b>AdMob:</b> ' + esc(b.admob_email || '-') + (b.admob_app_id ? ' &middot; App ID: ' + esc(b.admob_app_id) : '') + (b.admob_pub_id ? ' &middot; Pub ID: ' + esc(b.admob_pub_id) : '') + (b.admob_ad_types ? ' &middot; Ads: ' + esc(b.admob_ad_types) : '') + '</p>' : '';
+          return '<div class="card item"><div class="grow"><h3>' + esc(b.app_name || 'App details pending') + '</h3>' +
+            '<div class="mt-1"><span class="pill2">' + plan + '</span> <span class="pill2 ' + (b.payment_status === 'paid' ? '' : 'warn') + '">' + esc(b.payment_status || 'pending') + '</span> <span class="pill2">' + esc(b.status || 'booked') + '</span></div>' +
+            '<p class="kv"><b>User:</b> ' + esc(u.full_name || '') + ' &lt;' + esc(u.email || b.user_id) + '&gt;' + (u.phone ? ' &middot; ' + esc(u.phone) : '') + '</p>' +
+            (b.package_name ? '<p class="kv"><b>Package:</b> ' + esc(b.package_name) + '</p>' : '') +
+            (b.category ? '<p class="kv"><b>Category:</b> ' + esc(b.category) + '</p>' : '') +
+            (b.description && b.description.indexOf('RZP:') !== 0 ? '<p class="kv"><b>Details:</b> ' + esc(b.description) + '</p>' : '') +
+            (b.file_links ? '<p class="kv"><b>Files:</b> ' + esc(b.file_links) + '</p>' : '') + admob +
+            '<p class="kv"><b>Booked:</b> ' + new Date(b.created_at).toLocaleString() + '</p>' +
+            '<div class="acts"><select class="select" data-bs="' + b.id + '" style="max-width:170px">' + STS.map(function (s) { return '<option' + (s === b.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>' +
+            '<button class="btn btn-danger btn-sm" data-bx="' + b.id + '" type="button">Delete</button></div></div></div>';
+        }).join('') || '<div class="empty-state">No bookings yet.</div>');
+      $('#view').onchange = function (e) {
+        var s = e.target.closest('[data-bs]'); if (!s) { return; }
+        if (!confirm('Change booking status to \u201C' + s.value + '\u201D?')) { show(); return; }
+        api('/rest/v1/bookings?id=eq.' + s.getAttribute('data-bs'), { method: 'PATCH', body: { status: s.value } }).then(show).catch(function (er) { alert(er.message); show(); });
+      };
+      $('#view').onclick = function (e) {
+        var b = e.target.closest('[data-bx]'); if (!b) { return; }
+        if (confirm('Delete this booking?')) { api('/rest/v1/bookings?id=eq.' + b.getAttribute('data-bx'), { method: 'DELETE' }).then(show).catch(fail); }
+      };
+    });
+  }
+
+  /* ---------- users (registered profiles) ---------- */
+  function vUsers() {
+    return Promise.all([
+      api('/rest/v1/profiles?select=*&order=created_at.desc&limit=300'),
+      api('/rest/v1/bookings?select=user_id').catch(function () { return []; })
+    ]).then(function (res) {
+      var l = res[0], counts = {};
+      res[1].forEach(function (b) { counts[b.user_id] = (counts[b.user_id] || 0) + 1; });
+      $('#view').innerHTML = '<div class="bar"><h2>Registered users (' + l.length + ')</h2></div>' +
+        (l.map(function (p) {
+          return '<div class="card item"><div class="grow"><h3>' + esc(p.full_name || '(no name)') + '</h3>' +
+            '<p class="kv"><b>Email:</b> ' + esc(p.email || '') + '</p>' +
+            (p.phone ? '<p class="kv"><b>Phone:</b> ' + esc(p.phone) + '</p>' : '') +
+            (p.address ? '<p class="kv"><b>Address:</b> ' + esc(p.address) + '</p>' : '') +
+            '<p class="kv"><b>Bookings:</b> ' + (counts[p.id] || 0) + ' &middot; <b>Joined:</b> ' + new Date(p.created_at).toLocaleString() + '</p>' +
+            (p.email ? '<div class="acts"><a class="btn btn-outline btn-sm" href="mailto:' + esc(p.email) + '">Email user</a></div>' : '') +
+            '</div></div>';
+        }).join('') || '<div class="empty-state">No users yet.</div>');
     });
   }
 
