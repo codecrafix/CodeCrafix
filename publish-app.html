@@ -286,6 +286,10 @@
     .feat-card ul li{font-size:.7rem;padding-left:14px;margin-bottom:6px;line-height:1.45}
     .feat-card ul li::before{width:5px;height:5px;top:.45em}
   }
+
+  /* ===== Benefits v6: photos fully visible, not cropped strips ===== */
+  .feat-card .fimg img{height:auto;aspect-ratio:16/10;object-position:center 38%}
+  @media(max-width:900px){.feat-card .fimg img{height:auto;aspect-ratio:1/1;object-position:center 38%}}
 </style>
 </head>
 <body>
