@@ -401,20 +401,35 @@
 (function(){
   var sec=document.getElementById('testimonials'); if(!sec) return;
   var CFG=window.CODECRAFIX_CONFIG||{}; var SHOW=CFG.showSampleContent!==false;
-  var seed=(window.CODECRAFIX_REVIEWS||[]).filter(function(r){return !r.sample||SHOW;});
-  var stored=[]; try{ stored=JSON.parse(localStorage.getItem('cf_reviews_v1')||'[]'); }catch(e){}
-  var list=seed.concat(stored.filter(function(r){return r.status==='approved';}));
-  list=list.filter(function(r){return (+r.rating||0)>=4;});
-  list.sort(function(a,b){return (b.rating-a.rating)||(String(b.message||'').length-String(a.message||'').length);});
-  list=list.slice(0,3);
-  if(!list.length){ return; }
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function stars(n){var s='';for(var i=0;i<5;i++){s+=(i<n?'\u2605':'\u2606');}return s;}
   function ini(n){return String(n||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w.charAt(0).toUpperCase();}).join('');}
-  document.getElementById('cf-testimonials-grid').innerHTML=list.map(function(r){
-    return '<article class="tst-card"><div class="qmark">&ldquo;</div><div class="stars">'+stars(+r.rating||5)+'</div><p>'+esc(r.message)+'</p><div class="tst-who"><span class="avatar">'+esc(ini(r.name))+'</span><div><b>'+esc(r.name)+'</b><span>'+esc(r.role||'Verified customer')+'</span></div></div></article>';
-  }).join('');
-  sec.style.display='';
+  function render(list){
+    list=list.filter(function(r){return (+r.rating||0)>=4;});
+    list.sort(function(a,b){return (b.rating-a.rating)||(String(b.message||'').length-String(a.message||'').length);});
+    list=list.slice(0,3);
+    if(!list.length){ return; }
+    document.getElementById('cf-testimonials-grid').innerHTML=list.map(function(r){
+      return '<article class="tst-card"><div class="qmark">&ldquo;</div><div class="stars">'+stars(+r.rating||5)+'</div><p>'+esc(r.message)+'</p><div class="tst-who"><span class="avatar">'+esc(ini(r.name))+'</span><div><b>'+esc(r.name)+'</b><span>'+esc(r.role||'Verified customer')+'</span></div></div></article>';
+    }).join('');
+    sec.style.display='';
+  }
+  function localList(){
+    var seed=(window.CODECRAFIX_REVIEWS||[]).filter(function(r){return !r.sample||SHOW;});
+    var stored=[]; try{ stored=JSON.parse(localStorage.getItem('cf_reviews_v1')||'[]'); }catch(e){}
+    return seed.concat(stored.filter(function(r){return r.status==='approved';}));
+  }
+  var SB=CFG.supabase||{};
+  if(SB.url && SB.anonKey && window.fetch){
+    fetch(SB.url.replace(/\/$/,'')+'/rest/v1/reviews?select=id,name,role,rating,message,created_at&status=eq.approved&order=created_at.desc&limit=30',{headers:{apikey:SB.anonKey,Authorization:'Bearer '+SB.anonKey}})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(rows){
+      var seen={}, merged=[];
+      rows.concat(localList()).forEach(function(r){ var k=String(r.name||'')+'|'+String(r.message||''); if(!seen[k]){ seen[k]=1; merged.push(r);} });
+      render(merged);
+    })
+    .catch(function(){ render(localList()); });
+  } else { render(localList()); }
 })();
 </script>
 </body>
