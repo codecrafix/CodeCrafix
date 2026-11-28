@@ -203,12 +203,14 @@ function renderPartners(docs){
     if(d.videoPath){
       html += `<div class="meta" style="margin-top:8px">Verification video (Supabase object path):<br><code>${esc(d.videoPath)}</code>
         <button class="btn btn-ghost btn-small" type="button" data-copy="${esc(d.videoPath)}">Copy</button>
-        <div class="small">Private bucket 'partner-verifications' — video Supabase Dashboard se khulega.</div></div>`;
+        <a class="btn btn-green btn-small" href="https://supabase.com/dashboard/project/luccpfzrxhsezzmnbzsg/storage/buckets/partner-verifications" target="_blank" rel="noopener" style="text-decoration:none">▶ Video dekho</a>
+        <div class="small">Private bucket 'partner-verifications' — 'Video dekho' se Supabase khulega, wahan is file par tap karke video chalega/download hoga.</div></div>`;
     }
     if(d.panImagePath){
       html += `<div class="meta" style="margin-top:8px">PAN image (Supabase object path):<br><code>${esc(d.panImagePath)}</code>
         <button class="btn btn-ghost btn-small" type="button" data-copy="${esc(d.panImagePath)}">Copy</button>
-        <div class="small">Private bucket 'partner-verifications' — image Supabase Dashboard se khulegi.</div></div>`;
+        <a class="btn btn-green btn-small" href="https://supabase.com/dashboard/project/luccpfzrxhsezzmnbzsg/storage/buckets/partner-verifications" target="_blank" rel="noopener" style="text-decoration:none">🖼 PAN dekho</a>
+        <div class="small">Private bucket 'partner-verifications' — 'PAN dekho' se Supabase khulega, wahan is file par tap karke image khulegi.</div></div>`;
     }
     // Defensive extras if a parallel track adds these fields
     if(d.panNumber) html += `<div class="meta" style="margin-top:6px">PAN: <code>${esc(d.panNumber)}</code></div>`;
