@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dil Se — Admin</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f4f5f7;color:#1c1c22}
+  header{background:#12121a;color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0;font-size:20px;letter-spacing:.2px}
+  header .sub{color:#b9b9c7;font-size:12.5px;margin-top:3px}
+  .btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;font-size:13.5px}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn-primary{background:#6d28d9;color:#fff}
+  .btn-green{background:#15803d;color:#fff}
+  .btn-red{background:#dc2626;color:#fff}
+  .btn-ghost{background:#fff;color:#222;border:1px solid #d6d6de}
+  .btn-small{padding:6px 10px;font-size:12.5px;border-radius:8px}
+  main{max-width:1080px;margin:0 auto;padding:22px 16px 48px}
+  .card{background:#fff;border:1px solid #e4e4ea;border-radius:16px;padding:18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card h2{margin:0 0 4px;font-size:17px}
+  .card .hint{color:#6b6b78;font-size:12.5px;margin:0 0 14px}
+  .row-card{border:1px solid #e7e7ee;border-radius:12px;padding:14px;margin-bottom:10px;background:#fcfcfd}
+  .row-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .name{font-weight:800;font-size:15px}
+  .meta{color:#55555f;font-size:13px;line-height:1.55;word-break:break-word}
+  .meta code{background:#f0f0f4;padding:1px 6px;border-radius:6px;font-size:12px;word-break:break-all}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:800;text-transform:capitalize}
+  .badge-pending{background:#fef3c7;color:#92400e}
+  .badge-approved,.badge-paid{background:#dcfce7;color:#166534}
+  .badge-rejected{background:#fee2e2;color:#991b1b}
+  .badge-other{background:#e5e7eb;color:#374151}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  .error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:14px;white-space:pre-wrap;word-break:break-word}
+  .notice{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:14px}
+  .empty,.loading{color:#777783;font-size:13.5px;padding:18px;text-align:center;border:1px dashed #d9d9e0;border-radius:12px}
+  .hidden{display:none!important}
+  #loginBox{text-align:center;padding:36px 18px}
+  #loginBox p{color:#55555f}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .small{font-size:12px;color:#777783}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Dil Se — Admin</h1>
+    <div class="sub">Partner Applications &amp; Withdraw Requests — sirf authorised admin ke liye</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <span id="userInfo" class="small" style="color:#d6d6e2"></span>
+    <button id="signOutBtn" class="btn btn-ghost hidden" type="button">Sign out</button>
+  </div>
+</header>
+
+<main>
+  <!-- Login -->
+  <section id="loginBox" class="card">
+    <h2>Admin Login</h2>
+    <p>Google account se sign in karo. Sirf <strong>codecrafix.official@gmail.com</strong> ko access milega.</p>
+    <button id="signInBtn" class="btn btn-primary" type="button">Sign in with Google</button>
+    <div id="loginError" class="error hidden" style="margin-top:16px;text-align:left"></div>
+  </section>
+
+  <!-- Access denied -->
+  <section id="deniedBox" class="card hidden">
+    <h2 style="color:#991b1b">Access Denied</h2>
+    <p id="deniedText" class="meta">This account is not authorised for the Dil Se admin dashboard.</p>
+    <p class="meta">Aap sign out kar diye gaye hain. Sahi admin account se dobara sign in karo.</p>
+  </section>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden">
+    <div id="globalError" class="error hidden"></div>
+
+    <!-- Section A -->
+    <section class="card">
+      <div class="toolbar">
+        <div>
+          <h2>Partner Applications</h2>
+          <p class="hint">Collection: <code>partnerInterest</code> · Pending pehle dikhte hain · Approve / Reject se app me status badalta hai</p>
+        </div>
+        <button class="btn btn-ghost btn-small" type="button" data-refresh="partners">Refresh</button>
+      </div>
+      <div id="partnersError" class="error hidden"></div>
+      <div id="partnersLoading" class="loading">Loading partner applications…</div>
+      <div id="partnersEmpty" class="empty hidden">Abhi koi partner application nahi hai.</div>
+      <div id="partnersList"></div>
+    </section>
+
+    <!-- Section B -->
+    <section class="card">
+      <div class="toolbar">
+        <div>
+          <h2>Withdraw Requests</h2>
+          <p class="hint">Collection: <code>withdrawRequests</code> · Amount ₹ (rupees) me hai · Pending pehle dikhte hain · Payment karne ke baad Paid mark karo</p>
+        </div>
+        <button class="btn btn-ghost btn-small" type="button" data-refresh="withdraws">Refresh</button>
+      </div>
+      <div id="withdrawsError" class="error hidden"></div>
+      <div id="withdrawsLoading" class="loading">Loading withdraw requests…</div>
+      <div id="withdrawsEmpty" class="empty hidden">Abhi koi withdraw request nahi hai.</div>
+      <div id="withdrawsList"></div>
+    </section>
+
+    <p class="small">Note: Verification videos / PAN images private Supabase bucket <code>partner-verifications</code> me hain — private objects Supabase Dashboard se hi khulenge. Neeche sirf unka object path dikhta hai, Copy button se copy kar sakte ho.</p>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+// ============================================================
+// CONFIG — Parent: fill apiKey + appId after registering the
+// Web app in Firebase Console (Project: dilse-c7e77).
+// Values verified from android/app/google-services.json:
+//   project_id / project_number: dilse-c7e77 / 771664190939
+//   storage_bucket: dilse-c7e77.firebasestorage.app
+//   Android appId pattern: 1:771664190939:android:... (Web appId will differ)
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyAFMeY0AincvqMDp5s5-PULHtfG6ZgovKY",
+  authDomain: "dilse-c7e77.firebaseapp.com",
+  projectId: "dilse-c7e77",
+  storageBucket: "dilse-c7e77.firebasestorage.app",
+  messagingSenderId: "771664190939",
+  appId: "1:771664190939:web:7faa439927996c9b1b5bfe"
+};
+
+const ADMIN_EMAIL = "codecrafix.official@gmail.com";
+
+// Verified status strings from the app code (do not change casually):
+// partnerInterest.status: 'pending' | 'approved' | 'rejected'
+// withdrawRequests.status: 'pending' | 'paid' | 'rejected'  ('paid' = app shows "Paid ✓")
+const PARTNER_APPROVED = "approved";
+const PARTNER_REJECTED = "rejected";
+const WITHDRAW_PAID = "paid";
+
+const $ = (id) => document.getElementById(id);
+const loginBox = $("loginBox"), deniedBox = $("deniedBox"), dashboard = $("dashboard");
+
+function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function fmtDate(v){
+  if(!v) return "";
+  try{
+    if(typeof v.toDate === "function") return v.toDate().toLocaleString("en-IN");
+    if(typeof v.seconds === "number") return new Date(v.seconds*1000).toLocaleString("en-IN");
+    if(v instanceof Date) return v.toLocaleString("en-IN");
+    const d = new Date(v); return isNaN(d) ? String(v) : d.toLocaleString("en-IN");
+  }catch(e){ return ""; }
+}
+function badgeClass(status){
+  const s = String(status||"pending").toLowerCase();
+  if(s==="pending") return "badge-pending";
+  if(s==="approved") return "badge-approved";
+  if(s==="paid") return "badge-paid";
+  if(s==="rejected") return "badge-rejected";
+  return "badge-other";
+}
+function statusRank(status){ return String(status||"pending").toLowerCase()==="pending" ? 0 : 1; }
+function showError(el, err){
+  if(!el) return;
+  el.textContent = "Firestore error: " + (err && err.message ? err.message : String(err)) +
+    "\nAgar 'Missing or insufficient permissions' hai to Firestore rules me admin access add hona baki hai — page theek hai, rules block kar rahe hain.";
+  el.classList.remove("hidden");
+}
+async function copyText(text, btn){
+  try{ await navigator.clipboard.writeText(text); const old=btn.textContent; btn.textContent="Copied ✓"; setTimeout(()=>btn.textContent=old,1400); }
+  catch(e){ prompt("Copy karo:", text); }
+}
+
+let app, auth, db;
+try{
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+}catch(e){
+  $("loginError").textContent = "Firebase init error: " + e.message + " — apiKey/appId placeholders bhare gaye hain ya nahi, check karo.";
+  $("loginError").classList.remove("hidden");
+}
+
+let unsubPartners = null, unsubWithdraws = null;
+function stopListeners(){ if(unsubPartners) unsubPartners(); if(unsubWithdraws) unsubWithdraws(); unsubPartners=unsubWithdraws=null; }
+
+function renderPartners(docs){
+  const list = $("partnersList");
+  $("partnersLoading").classList.add("hidden");
+  docs.sort((a,b)=> statusRank(a.data().status)-statusRank(b.data().status));
+  $("partnersEmpty").classList.toggle("hidden", docs.length!==0);
+  list.innerHTML = "";
+  docs.forEach(snap=>{
+    const d = snap.data() || {};
+    const status = d.status || "pending";
+    const div = document.createElement("div"); div.className="row-card";
+    let html = `<div class="row-top"><div><div class="name">${esc(d.name||"(no name)")}</div>
+      <div class="meta">${esc(d.email||"")}<br>UID: <code>${esc(snap.id)}</code>`;
+    const created = fmtDate(d.createdAt || d.updatedAt);
+    if(created) html += `<br>Date: ${esc(created)}`;
+    html += `</div></div><span class="badge ${badgeClass(status)}">${esc(status)}</span></div>`;
+    if(d.videoPath){
+      html += `<div class="meta" style="margin-top:8px">Verification video (Supabase object path):<br><code>${esc(d.videoPath)}</code>
+        <button class="btn btn-ghost btn-small" type="button" data-copy="${esc(d.videoPath)}">Copy</button>
+        <div class="small">Private bucket 'partner-verifications' — video Supabase Dashboard se khulega.</div></div>`;
+    }
+    if(d.panImagePath){
+      html += `<div class="meta" style="margin-top:8px">PAN image (Supabase object path):<br><code>${esc(d.panImagePath)}</code>
+        <button class="btn btn-ghost btn-small" type="button" data-copy="${esc(d.panImagePath)}">Copy</button>
+        <div class="small">Private bucket 'partner-verifications' — image Supabase Dashboard se khulegi.</div></div>`;
+    }
+    // Defensive extras if a parallel track adds these fields
+    if(d.panNumber) html += `<div class="meta" style="margin-top:6px">PAN: <code>${esc(d.panNumber)}</code></div>`;
+    html += `<div class="actions">
+      <button class="btn btn-green btn-small" type="button" data-partner-action="approved" data-id="${esc(snap.id)}" ${status==="approved"?"disabled":""}>Approve karo</button>
+      <button class="btn btn-red btn-small" type="button" data-partner-action="rejected" data-id="${esc(snap.id)}" ${status==="rejected"?"disabled":""}>Reject karo</button>
+    </div>`;
+    div.innerHTML = html;
+    list.appendChild(div);
+  });
+  list.querySelectorAll("[data-copy]").forEach(b=> b.addEventListener("click", ()=>copyText(b.getAttribute("data-copy"), b)));
+  list.querySelectorAll("[data-partner-action]").forEach(b=> b.addEventListener("click", async ()=>{
+    const newStatus = b.getAttribute("data-partner-action")==="approved" ? PARTNER_APPROVED : PARTNER_REJECTED;
+    if(!confirm(`Status '${newStatus}' set karna hai?`)) return;
+    b.disabled = true;
+    try{ await updateDoc(doc(db,"partnerInterest", b.getAttribute("data-id")), { status: newStatus }); }
+    catch(e){ showError($("partnersError"), e); b.disabled=false; }
+  }));
+}
+
+function renderWithdraws(docs){
+  const list = $("withdrawsList");
+  $("withdrawsLoading").classList.add("hidden");
+  docs.sort((a,b)=> statusRank(a.data().status)-statusRank(b.data().status));
+  $("withdrawsEmpty").classList.toggle("hidden", docs.length!==0);
+  list.innerHTML = "";
+  docs.forEach(snap=>{
+    const d = snap.data() || {};
+    const status = d.status || "pending";
+    const isPaid = String(status).toLowerCase() === WITHDRAW_PAID;
+    const div = document.createElement("div"); div.className="row-card";
+    let html = `<div class="row-top"><div><div class="name">₹${esc(d.amount ?? "")}</div>
+      <div class="meta">UID: <code>${esc(d.uid||"")}</code>`;
+    if(d.name) html += `<br>Name: ${esc(d.name)}`;
+    if(d.email) html += `<br>Email: ${esc(d.email)}`;
+    html += `<br>UPI: <code>${esc(d.upiId||"")}</code>`;
+    const created = fmtDate(d.ts || d.createdAt);
+    if(created) html += `<br>Date: ${esc(created)}`;
+    html += `</div></div><span class="badge ${badgeClass(status)}">${esc(status)}</span></div>`;
+    html += `<div class="actions">
+      <button class="btn btn-green btn-small" type="button" data-withdraw-paid="${esc(snap.id)}" ${isPaid?"disabled":""}>${isPaid ? "Paid ✓" : "Paid — Success mark karo"}</button>
+      ${d.upiId ? `<button class="btn btn-ghost btn-small" type="button" data-copy="${esc(d.upiId)}">Copy UPI</button>` : ""}
+    </div>`;
+    div.innerHTML = html;
+    list.appendChild(div);
+  });
+  list.querySelectorAll("[data-copy]").forEach(b=> b.addEventListener("click", ()=>copyText(b.getAttribute("data-copy"), b)));
+  list.querySelectorAll("[data-withdraw-paid]").forEach(b=> b.addEventListener("click", async ()=>{
+    if(!confirm("Payment sach me bhej diya hai? Status 'paid' ho jayega aur app me user ko 'Paid ✓' dikhega.")) return;
+    b.disabled = true;
+    try{ await updateDoc(doc(db,"withdrawRequests", b.getAttribute("data-withdraw-paid")), { status: WITHDRAW_PAID }); }
+    catch(e){ showError($("withdrawsError"), e); b.disabled=false; }
+  }));
+}
+
+function startListeners(){
+  stopListeners();
+  $("partnersLoading").classList.remove("hidden");
+  $("withdrawsLoading").classList.remove("hidden");
+  unsubPartners = onSnapshot(collection(db,"partnerInterest"),
+    snap => { $("partnersError").classList.add("hidden"); renderPartners(snap.docs); },
+    err => { $("partnersLoading").classList.add("hidden"); showError($("partnersError"), err); });
+  unsubWithdraws = onSnapshot(collection(db,"withdrawRequests"),
+    snap => { $("withdrawsError").classList.add("hidden"); renderWithdraws(snap.docs); },
+    err => { $("withdrawsLoading").classList.add("hidden"); showError($("withdrawsError"), err); });
+}
+
+document.querySelectorAll("[data-refresh]").forEach(btn=> btn.addEventListener("click", async ()=>{
+  const kind = btn.getAttribute("data-refresh");
+  try{
+    if(kind==="partners"){ const s = await getDocs(collection(db,"partnerInterest")); renderPartners(s.docs); }
+    else { const s = await getDocs(collection(db,"withdrawRequests")); renderWithdraws(s.docs); }
+  }catch(e){ showError(kind==="partners" ? $("partnersError") : $("withdrawsError"), e); }
+}));
+
+$("signInBtn").addEventListener("click", async ()=>{
+  $("loginError").classList.add("hidden");
+  try{ await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch(e){ $("loginError").textContent = "Sign-in error: " + e.message; $("loginError").classList.remove("hidden"); }
+});
+$("signOutBtn").addEventListener("click", async ()=>{ stopListeners(); await signOut(auth); });
+
+if(auth){
+  onAuthStateChanged(auth, async (user)=>{
+    if(!user){
+      stopListeners();
+      loginBox.classList.remove("hidden"); deniedBox.classList.add("hidden"); dashboard.classList.add("hidden");
+      $("signOutBtn").classList.add("hidden"); $("userInfo").textContent=""; return;
+    }
+    if((user.email||"").toLowerCase() !== ADMIN_EMAIL){
+      stopListeners();
+      loginBox.classList.add("hidden"); dashboard.classList.add("hidden"); deniedBox.classList.remove("hidden");
+      $("deniedText").textContent = `Access denied for ${user.email || "this account"}. Only ${ADMIN_EMAIL} is authorised. You have been signed out.`;
+      $("signOutBtn").classList.add("hidden"); $("userInfo").textContent="";
+      await signOut(auth);
+      return;
+    }
+    // Authorised admin
+    loginBox.classList.add("hidden"); deniedBox.classList.add("hidden"); dashboard.classList.remove("hidden");
+    $("signOutBtn").classList.remove("hidden");
+    $("userInfo").textContent = user.email;
+    startListeners();
+  });
+}
+</script>
+</body>
+</html>
